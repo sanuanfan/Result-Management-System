@@ -1,6 +1,6 @@
 import React from 'react'
 
-function HomStudent() {
+function AdminDashboard() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ function HomStudent() {
   )
 }
 
-export default HomStudent
+export default AdminDashboard
