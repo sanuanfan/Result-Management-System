@@ -57,7 +57,7 @@
 }
 
 .logo{
-    background-image: url('D:\Git Upload\Result-Management-System\frontend\src\Screens\Admin\assets\Screenshot 2024-08-26 225239.png');
+    background-image: url('..\assets\Screenshot 2024-08-26 225239.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

@@ -59,11 +59,11 @@
 }
 
 .user input:focus {
-    border-bottom-color: #007bff;
+    border-bottom-color: orangered;
 }
 
 .user input:focus+#icon {
-    color: #007bff;
+    color: orangered;
 }
 
 .form {
@@ -84,6 +84,6 @@
     border-radius: 5px;
    color: white;
    font-weight: 700;
-   background: linear-gradient(90deg,#00c6ff, #007bff );
+   background: linear-gradient(70deg,#ff5151, rgb(255, 0, 0) );
    cursor: pointer;
 }

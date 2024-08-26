@@ -7,7 +7,7 @@ function Login() {
       <div className='left-container'></div>
       <div className='right-container'>
         <div className="sub">
-          <h2>Get Exclusive access to Admin Dashboard</h2>
+          <h2>Get Secured access to Admin Dashboard</h2>
           <form action="">
             <div className='form'>
               <div className='user'>
