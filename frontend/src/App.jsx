@@ -4,6 +4,8 @@ import 'boxicons/css/boxicons.min.css';
 import Login from './Screens/Login/Login'
 import HomeStudent from './Screens/Student/HomeStudent'
 import AdminDashboard from './Screens/Admin/AdminDashboard'
+import 'boxicons/css/boxicons.min.css';
+
 
 function App() {
 
