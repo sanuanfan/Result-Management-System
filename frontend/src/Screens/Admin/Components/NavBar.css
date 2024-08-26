@@ -2,7 +2,6 @@
     background-color: black;
     width: 100%;
     height: 100vh;
-    /* display: flex; */
     font-family: 'Lato', sans-serif;
     font-size: 13px;
        
@@ -12,7 +11,6 @@
     background-color: #171a1f;
     display: flex;
     flex-direction: column;
-    /* justify-content: flex-start; */
     align-items: center;
     width: 100px;
     height: 100vh;
@@ -45,7 +43,6 @@
 }
 .nav-content:hover i{
     color: orangered;
-   /* padding-left:30px ; */
 }
 .nav-content a{
     display: flex;
@@ -70,7 +67,6 @@
     position: fixed;
     bottom: 40px;
     background-color: aliceblue;
-    /* background-image: url(''); */
     background-repeat: no-repeat;
     background-position: center;
     width: 55px;
@@ -81,7 +77,6 @@
 .bottom-bar{
     width: 94%;
     height: 80px;
-    /* background-color: #262a33; */
     position: fixed;
      bottom: 35px;
     margin-left: 100px;
@@ -90,33 +85,7 @@
     align-items: center;
 }
 
-/* .btm-content{
-    width: 210px;
-    height: 30px;
-    background-color: aliceblue; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color:#414753;
-    font-size: 16px;
-    
-} */
-/* .btm-content a{
-    text-decoration: none;
-    color:#414753;
-    font-size: 16px;
-} */
-/* .btm-content i{
-    padding-top: 5px;
-    padding-right: 5px;
-    font-size: 20px;
-    position: relative;
-    top: 1px;
-} */
-/* .btm-content:hover{
-    color: #e1bebe;
-    border-bottom: 3px solid #e1bebe;
-} */
+
 
 .btm-content {
     display: inline-flex;
@@ -134,24 +103,24 @@
     bottom: 0;
     width: 0;
     height: 2px;
-    background-color: #e1bebe; /* Blue color for the bottom border */
+    background-color: #e1bebe; 
     transition: width 0.3s;
   }
   
   .btm-content:hover::after {
-    width: 100%; /* Full width on hover */
+    width: 100%; 
   }
   
   .btm-content i {
-    margin-right: 8px; /* Space between icon and text */
+    margin-right: 8px; 
     transition: color 0.3s;
   }
   
   .btm-content:hover i {
-    color: #e1bebe; /* Change icon color on hover */
+    color: #e1bebe;
   }
   .btm-content:hover  {
-    color: #e1bebe; /* Change icon color on hover */
+    color: #e1bebe; 
   }
   @media only screen and (max-width:1032px){
     .btm-container{
