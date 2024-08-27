@@ -1,0 +1,45 @@
+.main-div{
+    width: 70%;
+    height: 450px;
+    /* background-color: rgb(225, 121, 121); */
+   position: fixed;
+   top: 70px;
+   left: 160px;
+   
+}
+p {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: white;
+    font-family: 'Lato', sans-serif;
+  }
+  
+.student-table {
+    font-family: 'Lato', sans-serif;
+    width: 100%;
+    height: 300px;
+    border-collapse: collapse;
+    overflow: hidden;
+    color: white;
+    border: 1px solid  #171a1f;
+    
+  }
+  .student-table th, .student-table td {
+    padding: 15px;
+    text-align: center;
+    text-align: left;
+    
+  }
+  .student-table th {
+    background-color: #171a1f;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 14px;
+    overflow: hidden;
+
+  }
+  
+  .student-table tr:hover {
+    background-color: #171a1f;
+  }
+    
