@@ -14,7 +14,6 @@ h3{
 .nav-bar{
     height: 8%;
     width: 100%;
-    /* background-color: #171a1f; */
 }
 .sub-container{
     width: 100%;
@@ -63,17 +62,16 @@ h3{
     border-radius: 5px;
 }
 .logos{
-    background-image: url('../Admin/assets/Screenshot\ 2024-08-26\ 225239.png');
+    background-image: url('../assets/Logo11.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    width: 40px;
-    height: 40px;
-    border-radius:50%;
+    width: 120px;
+    height: 45px;
     position: fixed;
-    /* background-color: rgb(70, 69, 69); */
-    left: 20px;
-    top: 10px;
+    left: 37px;
+    background-size: contain;
+    top: 2px;
 }
 .search i{
     position: absolute;
