@@ -90,6 +90,7 @@ h3{
     background-color:orangered ;
     color: white;
     cursor: pointer;
+    border: none;
 }
 .search-btn:hover{
     background-image: linear-gradient(to right, #e75f20 0%, rgb(255, 38, 0) 100%);
