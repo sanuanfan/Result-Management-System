@@ -7,7 +7,7 @@ function Assessment() {
     <div>
         <NavBar  activeSection="assessment">
           <div className="assessment-main">
-            <p>Assessment Score</p>
+            <p>Assessment Marks</p>
             <table className='assessment-table'>
               <tr>
                 <th>Student Name</th>

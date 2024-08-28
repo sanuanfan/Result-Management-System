@@ -7,7 +7,7 @@ function Attendance() {
     <div>
       <NavBar activeSection="attendance">
      <div className="container-main">
-      <p>Attendance Data</p>
+      <p>Attendance Marks</p>
       <table className='attendance-table'>
         <tr>
           <th>Student Name</th>
