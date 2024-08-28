@@ -56,7 +56,7 @@
 }
 
 .logo{
-    background-image: url('/frontend/src/Screens/assets/Screenshot\ 2024-08-26\ 225239.png');
+    background-image: url('../assets/logoAdmin.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

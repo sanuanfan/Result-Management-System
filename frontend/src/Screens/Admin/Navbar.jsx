@@ -1,6 +1,5 @@
 import React,{useRef} from 'react'
-import '../Components/NavBar.css'
-
+import './NavBar.css'
 function NavBar({children, activeSection}) {
     const fileInputRef = useRef(null)
     const handleOnClick = ()=>{
@@ -16,15 +15,14 @@ function NavBar({children, activeSection}) {
                 Upload</button>
             <div className='side-bar'>
                 
-                    <div className='logo'></div>
-
+                    <div className='logo' ></div>
                     <div className={`nav-content ${activeSection === 'dashboard' ? 'active' : ''}`}><i class='bx bxs-dashboard'></i>Dashboard</div>
-                   <div className={`nav-content ${activeSection === 'attendence' ? 'active' : ''}`}> <i class='bx bx-calendar-check'></i>Attendence</div>
-                   <div className={`nav-content ${activeSection === 'review' ? 'active' : ''}`}> <i class='bx bx-code-block'></i>Review</div>
-                   <div className={`nav-content ${activeSection === 'assessment' ? 'active' : ''}`} ><i class='bx bx-edit' ></i>Assessment</div>
-                   <div className={`nav-content ${activeSection === 'submission' ? 'active' : ''}`}><i class='bx bx-upload' ></i>Submission</div>
-                   <div className={`nav-content ${activeSection === 'linkedin' ? 'active' : ''}`}><i class='bx bxl-linkedin-square' ></i>LinkedIn</div>
-                   <div className='nav-content' id='avatar'></div>
+                    <div className={`nav-content ${activeSection === 'attendence' ? 'active' : ''}`}> <i class='bx bx-calendar-check'></i>Attendence</div>
+                    <div className={`nav-content ${activeSection === 'review' ? 'active' : ''}`}> <i class='bx bx-code-block'></i>Review</div>
+                    <div className={`nav-content ${activeSection === 'assessment' ? 'active' : ''}`} ><i class='bx bx-edit' ></i>Assessment</div>
+                    <div className={`nav-content ${activeSection === 'submission' ? 'active' : ''}`}><i class='bx bx-upload' ></i>Submission</div>
+                    <div className={`nav-content ${activeSection === 'linkedin' ? 'active' : ''}`}><i class='bx bxl-linkedin-square' ></i>LinkedIn</div>
+                    <div className='nav-content' id='avatar'></div>
             </div>
             {children}
             <div className='btm-container'>
