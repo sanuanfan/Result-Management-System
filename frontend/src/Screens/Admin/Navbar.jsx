@@ -27,11 +27,11 @@ function NavBar({children, activeSection}) {
             {children}
             <div className='btm-container'>
             <div className='bottom-bar'>
-               <div className='btm-content'><i class='bx bx-calendar-check'></i>Attendence Marks</div>
-                <div className='btm-content'><i class='bx bx-code-block'></i>Project Review Marks</div>
-                <div className='btm-content'><i class='bx bx-edit' ></i>Assessment Marks</div>
-                <div className='btm-content'><i class='bx bx-upload' ></i>Project Submission Marks</div>
-                <div className='btm-content'><i class='bx bxl-linkedin-square' ></i>LinkedIn Post Marks</div>
+               <div  className={`btm-content ${activeSection === 'attendance' ? 'active' : ''}`}><i class='bx bx-calendar-check'></i>Attendence Marks</div>
+                <div className={`btm-content ${activeSection === 'review' ? 'active' : ''}`}><i class='bx bx-code-block'></i>Project Review Marks</div>
+                <div className={`btm-content ${activeSection === 'assessment' ? 'active' : ''}`}><i class='bx bx-edit' ></i>Assessment Marks</div>
+                <div className={`btm-content ${activeSection === 'submission' ? 'active' : ''}`}><i class='bx bx-upload' ></i>Project Submission Marks</div>
+                <div className={`btm-content ${activeSection === 'linkedin' ? 'active' : ''}`}><i class='bx bxl-linkedin-square' ></i>LinkedIn Post Marks</div>
             </div>
             </div>
 

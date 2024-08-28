@@ -1,11 +1,11 @@
 import React from 'react'
 import NavBar from '../Navbar'
-import '../Project/Review.css'
+import './Submission.css'
 
-function Review() {
+function Assessment() {
   return (
     <div>
-        <NavBar activeSection="review">
+        <NavBar  activeSection="assessment">
 
         </NavBar>
       
@@ -13,4 +13,4 @@ function Review() {
   )
 }
 
-export default Review
+export default Assessment

@@ -2,7 +2,7 @@ import React from 'react'
 import '../Attendance/Attendance.css'
 import NavBar from '../Navbar'
 
-function Attendence() {
+function Attendance() {
   return (
     <div>
       <NavBar activeSection="attendance">
@@ -120,4 +120,4 @@ function Attendence() {
   )
 }
 
-export default Attendence
+export default Attendance

@@ -159,5 +159,12 @@
   }
   
   .nav-content.active i {
-    color: #e74c3c; /* Change icon color to match the active state */
+    color: #e74c3c; 
   }
+  .bottom-bar .btm-content.active {
+    border-bottom: 2px solid #e1bebe;
+    color: #e1bebe;
+  }
+  .bottom-bar .btm-content.active::after {
+    width: 0; 
+}
