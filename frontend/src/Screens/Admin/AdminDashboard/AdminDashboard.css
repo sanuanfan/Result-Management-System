@@ -1,13 +1,13 @@
 .main-div{
-    width: 80%;
-    height: 450px;
+    width: 75%;
+    /* height: 450px; */
     /* background-color: rgb(225, 121, 121); */
    position: fixed;
    top: 70px;
    left: 160px;
    
 }
-p {
+.main-div p {
     margin-bottom: 20px;
     font-size: 24px;
     color: white;

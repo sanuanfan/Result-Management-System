@@ -7,7 +7,7 @@ function AdminRoutes() {
   return (
     <div>
             <Routes>
-                <Route path='home' element={<AdminDashboard />} />
+                <Route path='admin-home' element={<AdminDashboard />} />
                 <Route path='attendance' element={<Attendence />}/>
             </Routes>
     </div>

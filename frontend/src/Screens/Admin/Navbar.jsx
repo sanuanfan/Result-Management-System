@@ -17,7 +17,7 @@ function NavBar({children, activeSection}) {
                 
                     <div className='logo' ></div>
                     <div className={`nav-content ${activeSection === 'dashboard' ? 'active' : ''}`}><i class='bx bxs-dashboard'></i>Dashboard</div>
-                    <div className={`nav-content ${activeSection === 'attendence' ? 'active' : ''}`}> <i class='bx bx-calendar-check'></i>Attendence</div>
+                    <div className={`nav-content ${activeSection === 'attendance' ? 'active' : ''}`}> <i class='bx bx-calendar-check'></i>Attendence</div>
                     <div className={`nav-content ${activeSection === 'review' ? 'active' : ''}`}> <i class='bx bx-code-block'></i>Review</div>
                     <div className={`nav-content ${activeSection === 'assessment' ? 'active' : ''}`} ><i class='bx bx-edit' ></i>Assessment</div>
                     <div className={`nav-content ${activeSection === 'submission' ? 'active' : ''}`}><i class='bx bx-upload' ></i>Submission</div>
