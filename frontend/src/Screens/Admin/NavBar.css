@@ -76,6 +76,7 @@
     width: 45px;
     height: 45px; 
     border-radius:50%;
+    border: 3px solid #e1bebe;
 
 }
 .bottom-bar{
