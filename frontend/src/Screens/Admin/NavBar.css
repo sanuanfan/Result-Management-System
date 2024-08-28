@@ -54,25 +54,27 @@
     color: white;  
    
 }
+.logo i{
+  font-size: 64px;
+  color: orangered;
+}
 
 .logo{
-    background-image: url('../assets/logoAdmin.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
     width: 55px;
     height: 55px;
-    border-radius:50%;
-    margin-top: 30px;
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #avatar{
     position: absolute;
     bottom: 40px;
-    background-color: aliceblue;
+    background-color: rgb(216, 87, 32);
     background-repeat: no-repeat;
     background-position: center;
-    width: 55px;
-    height: 55px; 
+    width: 45px;
+    height: 45px; 
     border-radius:50%;
 
 }

@@ -40,7 +40,7 @@ function NavBar({children, activeSection}) {
                 Upload</button>
             <div className='side-bar'>
                 
-                    <div className='logo' ></div>
+                    <div className='logo' ><i class='bx bxs-graduation' ></i></div>
                     <div className={`nav-content ${activeSection === 'dashboard' ? 'active' : ''}`} onClick={gotoHome} ><i class='bx bxs-dashboard'></i>Dashboard</div>
                     <div className={`nav-content ${activeSection === 'attendance' ? 'active' : ''}`} onClick={gotoAttendance}> <i class='bx bx-calendar-check'></i>Attendence</div>
                     <div className={`nav-content ${activeSection === 'review' ? 'active' : ''}`}  onClick={gotoReview}> <i class='bx bx-code-block'></i>Review</div>
