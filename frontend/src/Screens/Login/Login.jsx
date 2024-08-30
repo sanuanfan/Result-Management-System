@@ -3,15 +3,15 @@ import '../Login/Login.css';
 import axios from 'axios';
 
 function Login() {
-  const [userName, setUserName] = useState('');
+  const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      console.log(userName, password);
-      const res = await axios.post('http://localhost:5000/login', { userName, password });
-
+      console.log(username, password);
+      const res = await axios.post('http://localhost:5000/login', { username, password });
+      
       if (res.data.message === 'success') {
         window.location.href = '/admin/home';
       } else {
@@ -19,9 +19,9 @@ function Login() {
       }
     } catch (err) {
       console.log('Login error:', err.response ? err.response.data.message : err.message);
-      alert('An error occurred. Please try again.');
     }
   };
+  
 
   return (
     <div className='maincontainer'>
