@@ -27,8 +27,8 @@ mongoose.connect(process.env.URI)
   
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
-        console.log('Invalid credentials');
-        return res.status(400).json({ message: 'Invalid credentials' });
+        console.log('Incorrect password');
+        return res.status(400).json({ message: 'Incorrect password' });
       }
   
       console.log('Login successful');

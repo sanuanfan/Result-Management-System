@@ -15,10 +15,21 @@ function Login() {
       if (res.data.message === 'success') {
         window.location.href = '/admin/home';
       } else {
-        alert('Invalid credentials');
+        alert('Login Failed');
       }
     } catch (err) {
-      console.log('Login error:', err.response ? err.response.data.message : err.message);
+      if (err.response) {
+        const message = err.response.data.message;
+        if (message === 'User not found') {
+          alert('User not found');
+        } else if (message === 'Incorrect password') {
+          alert('Password incorrect');
+        } else {
+          alert('Login error');
+        }
+      } else {
+        alert('Server error');
+      }
     }
   };
   
