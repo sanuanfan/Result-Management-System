@@ -8,6 +8,7 @@ function Review() {
       <NavBar activeSection="review">
         <div className="review-main">
           <p>Project Review Marks</p>
+          <div className="tab">
           <table className='review-table'>
             <thead>
               <tr>
@@ -26,6 +27,30 @@ function Review() {
                 <td>AI Chatbot</td>
                 <td>85</td>
                 <td>Excellent work</td>
+                <td><button className='edit-btn'>Edit</button></td>
+              </tr>
+              <tr>
+                <td>Bob Smith</td>
+                <td>1002</td>
+                <td>Data Visualization Tool</td>
+                <td>78</td>
+                <td>Good effort</td>
+                <td><button className='edit-btn'>Edit</button></td>
+              </tr>
+              <tr>
+                <td>Bob Smith</td>
+                <td>1002</td>
+                <td>Data Visualization Tool</td>
+                <td>78</td>
+                <td>Good effort</td>
+                <td><button className='edit-btn'>Edit</button></td>
+              </tr>
+              <tr>
+                <td>Bob Smith</td>
+                <td>1002</td>
+                <td>Data Visualization Tool</td>
+                <td>78</td>
+                <td>Good effort</td>
                 <td><button className='edit-btn'>Edit</button></td>
               </tr>
               <tr>
@@ -86,6 +111,7 @@ function Review() {
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
       </NavBar>
     </div>

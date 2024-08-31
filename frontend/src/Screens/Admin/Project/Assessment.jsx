@@ -8,6 +8,7 @@ function Assessment() {
       <NavBar activeSection="assessment">
         <div className="assessment-main">
           <p>Assessment Marks</p>
+          <div className="tab">
           <table className='assessment-table'>
             <thead>
               <tr>
@@ -77,6 +78,30 @@ function Assessment() {
                 <td><button className='edit-btn'>Edit</button></td>
               </tr>
               <tr>
+                <td>Grace Lee</td>
+                <td>2007</td>
+                <td>77</td>
+                <td>80</td>
+                <td>157</td>
+                <td><button className='edit-btn'>Edit</button></td>
+              </tr>
+              <tr>
+                <td>Grace Lee</td>
+                <td>2007</td>
+                <td>77</td>
+                <td>80</td>
+                <td>157</td>
+                <td><button className='edit-btn'>Edit</button></td>
+              </tr>
+              <tr>
+                <td>Grace Lee</td>
+                <td>2007</td>
+                <td>77</td>
+                <td>80</td>
+                <td>157</td>
+                <td><button className='edit-btn'>Edit</button></td>
+              </tr>
+              <tr>
                 <td>Henry Adams</td>
                 <td>2008</td>
                 <td>90</td>
@@ -86,6 +111,7 @@ function Assessment() {
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
       </NavBar>
     </div>

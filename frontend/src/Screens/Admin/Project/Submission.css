@@ -1,41 +1,45 @@
-/* Submission.css */
-.submission-main{
-    color: white;
-    position: fixed;
-    left: 160px;
-    top: 70px;
-    width: 75%;
+.submission-main {
+  color: white;
+  position: fixed;
+  left: 160px;
+  top: 70px;
+  width: 75%;
+  height: 60%;
 }
-.submission-main p {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: white;
-    font-family: 'Lato', sans-serif;
-  }
-  .submission-table {
-    font-family: 'Lato', sans-serif;
-    width: 100%;
-    height: 400px;
-    border-collapse: collapse;
-    overflow: hidden;
-    color: white;
-    border: 1px solid  #171a1f;
-    
-  }
-  .submission-table th, .submission-table td {
-    padding: 15px;
-    text-align: left;
-    
-  }
-  .submission-table th {
-    background-color: #171a1f;
-    font-weight: bold;
-    letter-spacing: 1px;
-    font-size: 14px;
-    overflow: hidden;
 
-  }
-  
-  .submission-table tr:hover {
-    background-color: #171a1f;
-  }
+.submission-main p {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: white;
+  font-family: 'Lato', sans-serif;
+}
+
+.submission-table {
+  font-family: 'Lato', sans-serif;
+  width: max-content; 
+  border-collapse: collapse;
+  color: white;
+  border: 1px solid #171a1f;
+  border-top: none;
+  width: 100%;
+}
+
+.submission-table th,
+.submission-table td {
+  padding: 15px;
+  text-align: left;
+}
+
+.submission-table th {
+  background-color: #171a1f;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-size: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.submission-table tr:hover {
+  background-color: #171a1f;
+}

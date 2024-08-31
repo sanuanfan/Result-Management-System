@@ -8,6 +8,7 @@ function AdminDashboard() {
       <NavBar activeSection="dashboard">
         <div className="main-div">
           <p>List Of Students</p>
+          <div className="tab">
           <table className="student-table">
             <thead>
               <tr>
@@ -34,6 +35,18 @@ function AdminDashboard() {
                 <td>620</td>
               </tr>
               <tr>
+                <td>Michael Johnson</td>
+                <td>1013</td>
+                <td>Mobile App Development</td>
+                <td>85%</td>
+                <td>480</td>
+              </tr><tr>
+                <td>Michael Johnson</td>
+                <td>1013</td>
+                <td>Mobile App Development</td>
+                <td>85%</td>
+                <td>480</td>
+              </tr><tr>
                 <td>Michael Johnson</td>
                 <td>1013</td>
                 <td>Mobile App Development</td>
@@ -75,8 +88,16 @@ function AdminDashboard() {
                 <td>91%</td>
                 <td>600</td>
               </tr>
+              <tr>
+                <td>Jane Smith</td>
+                <td>1012</td>
+                <td>Data Science</td>
+                <td>95%</td>
+                <td>620</td>
+              </tr>
             </tbody>
           </table>
+        </div>
         </div>
       </NavBar>
     </div>

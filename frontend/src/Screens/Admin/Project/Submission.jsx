@@ -8,6 +8,7 @@ function Submission() {
       <NavBar activeSection="submission">
         <div className="submission-main">
           <p>Project Submission Marks</p>
+          <div className="tab">
           <table className='submission-table'>
             <thead>
               <tr>
@@ -95,6 +96,7 @@ function Submission() {
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
       </NavBar>
     </div>
