@@ -8,6 +8,7 @@ function Attendance() {
       <NavBar activeSection="attendance">
         <div className="container-main">
           <p>Attendance Marks</p>
+          <div className="table-div">
           <table className='attendance-table'>
             <thead>
               <tr>
@@ -102,8 +103,29 @@ function Attendance() {
                 <td>50%</td>
                 <td className='centre-btn'><button className='edit-btn'><i className='bx bxs-edit-alt'></i>Edit</button></td>
               </tr>
+              <tr>
+                <td>Jane Smith</td>
+                <td>1012</td>
+                <td>Present</td>
+                <td>Present</td>
+                <td>Present</td>
+                <td>Present</td>
+                <td>100%</td>
+                <td className='centre-btn'><button className='edit-btn'><i className='bx bxs-edit-alt'></i>Edit</button></td>
+              </tr>
+              <tr>
+                <td>Jane Smith</td>
+                <td>1012</td>
+                <td>Present</td>
+                <td>Present</td>
+                <td>Present</td>
+                <td>Present</td>
+                <td>100%</td>
+                <td className='centre-btn'><button className='edit-btn'><i className='bx bxs-edit-alt'></i>Edit</button></td>
+              </tr>
             </tbody>
           </table>
+          </div>
         </div>
       </NavBar>
     </div>
