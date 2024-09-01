@@ -1,3 +1,4 @@
+/* LinkedIn.css */
 .linkedin-main {
   color: white;
   position: fixed;
@@ -6,6 +7,14 @@
   width: 75%;
   height: 60%;
 }
+
+.linkedin-main p {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: white;
+  font-family: 'Lato', sans-serif;
+}
+
 .tab {
   width: 100%;
   height: auto;
@@ -13,19 +22,10 @@
   overflow-y: auto;
   overflow-x: auto;
   border: 1px solid #171a1f;
-
 }
 
 .tab::-webkit-scrollbar {
   display: none;
-}
-
-
-.linkedin-main p {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: white;
-  font-family: 'Lato', sans-serif;
 }
 
 .linkedin-table {
@@ -55,4 +55,67 @@
 
 .linkedin-table tr:hover {
   background-color: #171a1f;
+}
+
+.edit-btn {
+  background-color: orangered;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 50px;
+  height: 20px;
+  border-radius: 2px;
+  margin-left: 5px;
+}
+
+.edit-card-linkedin {
+  background-color: #171a1f;
+  padding: 10px;
+  border: 1px solid #2c2f33;
+  border-radius: 5px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  position: absolute; 
+  z-index: 1000; 
+  height: 320px;
+  width: 300px;
+  align-items: center;
+}
+
+.edit-card-linkedin form {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-card-linkedin input[type="text"],
+.edit-card-linkedin input[type="date"],
+.edit-card-linkedin input[type="number"],
+.edit-card-linkedin textarea {
+  background-color: #1e1e1e;
+  color: white;
+  border: 1px solid #1e1e1e;
+  padding: 10px;
+  border-radius: 3px;
+  width: 90%;
+  margin-bottom: 15px;
+}
+
+.edit-card-linkedin textarea {
+  height: 100px;
+}
+
+.edit-card-linkedin button {
+  background-color: orangered;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.cancel-btn {
+  background-color: #6c757d;
+  margin-left: 10px;
 }

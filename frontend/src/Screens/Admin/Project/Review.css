@@ -14,7 +14,6 @@
   overflow-y: auto;
   overflow-x: auto;
   border: 1px solid #171a1f;
-
 }
 
 .tab::-webkit-scrollbar {
@@ -30,12 +29,11 @@
 
 .review-table {
   font-family: 'Lato', sans-serif;
-  width: max-content;
+  width: 100%;
   border-collapse: collapse;
   color: white;
   border: 1px solid #171a1f;
   border-top: none;
-  width: 100%;
 }
 
 .review-table th,
@@ -57,3 +55,57 @@
 .review-table tr:hover {
   background-color: #171a1f;
 }
+
+.edit-btn {
+  background-color: orangered;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 50px;
+  height: 20px;
+  border-radius: 2px;
+  margin-left: 5px;
+}
+
+.edit-card {
+  background-color: #171a1f;
+  padding: 10px;
+  border: 1px solid #2c2f33;
+  border-radius: 5px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: absolute; 
+  z-index: 1000; 
+  height: 200px;
+  width: 300px;
+  align-items: center;
+}
+
+.edit-card input[type="text"],
+.edit-card input[type="number"] {
+  background-color: #2c2f33;
+  color: white;
+  border: 1px solid #2c2f33;
+  padding: 5px;
+  border-radius: 3px;
+  width: 95%; 
+  height: 20px;
+}
+
+.confirm-btn {
+  background-color: orangered;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
+#error-message1 {
+  color: red;
+  font-size: 10px;
+  margin: 0;
+}
+

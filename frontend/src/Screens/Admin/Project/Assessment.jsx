@@ -1,8 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NavBar from '../Navbar';
 import './Assessment.css';
 
 function Assessment() {
+  const [data, setData] = useState([
+    { id: 1, studentName: 'Alice Johnson', studentId: '2001', date: '2024-07-22', assessmentType: 'First Assessment', score: 160 },
+    { id: 2, studentName: 'Bob Smith', studentId: '2002', date: '2024-07-22', assessmentType: 'Second Assessment', score: 142 },
+    { id: 3, studentName: 'Charlie Brown', studentId: '2003', date: '2024-07-22', assessmentType: 'First Assessment', score: 172 },
+    // Add more rows as needed
+  ]);
+
+  const [editingRow, setEditingRow] = useState(null);
+  const [formData, setFormData] = useState({ date: '', assessmentType: '', score: '' });
+  const [error, setError] = useState('');
+
+  const handleEditClick = (row) => {
+    setEditingRow(row);
+    setFormData({ 
+      date: row.date, 
+      assessmentType: row.assessmentType, 
+      score: row.score 
+    });
+    setError('');
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleConfirmClick = () => {
+    const { date, assessmentType, score } = formData;
+
+    // Validate input
+    if (!date || !assessmentType || score === '') {
+      setError('All fields are required.');
+      return;
+    }
+    if (score < 0 || score > 100) {
+      setError('Score must be between 0 and 100.');
+      return;
+    }
+
+    setData(data.map(row => row.id === editingRow.id ? { ...row, ...formData } : row));
+    setEditingRow(null);
+    setError('');
+  };
+
   return (
     <div>
       <NavBar activeSection="assessment">
@@ -14,101 +58,51 @@ function Assessment() {
                 <tr>
                   <th>Student Name</th>
                   <th>Student Id</th>
-                  <th>First Attempt</th>
-                  <th>Second Attempt</th>
-                  <th>Total Score</th>
+                  <th>Date</th>
+                  <th>Assessment Type</th>
+                  <th>Score</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Alice Johnson</td>
-                  <td>2001</td>
-                  <td>75</td>
-                  <td>85</td>
-                  <td>160</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Bob Smith</td>
-                  <td>2002</td>
-                  <td>68</td>
-                  <td>74</td>
-                  <td>142</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Charlie Brown</td>
-                  <td>2003</td>
-                  <td>82</td>
-                  <td>90</td>
-                  <td>172</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>David Green</td>
-                  <td>2004</td>
-                  <td>70</td>
-                  <td>78</td>
-                  <td>148</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Eva White</td>
-                  <td>2005</td>
-                  <td>85</td>
-                  <td>88</td>
-                  <td>173</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Frank Black</td>
-                  <td>2006</td>
-                  <td>60</td>
-                  <td>65</td>
-                  <td>125</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Grace Lee</td>
-                  <td>2007</td>
-                  <td>77</td>
-                  <td>80</td>
-                  <td>157</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Grace Lee</td>
-                  <td>2007</td>
-                  <td>77</td>
-                  <td>80</td>
-                  <td>157</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Grace Lee</td>
-                  <td>2007</td>
-                  <td>77</td>
-                  <td>80</td>
-                  <td>157</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Grace Lee</td>
-                  <td>2007</td>
-                  <td>77</td>
-                  <td>80</td>
-                  <td>157</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Henry Adams</td>
-                  <td>2008</td>
-                  <td>90</td>
-                  <td>92</td>
-                  <td>182</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
+                {data.map(row => (
+                  <tr key={row.id}>
+                    <td>{row.studentName}</td>
+                    <td>{row.studentId}</td>
+                    <td>{row.date}</td>
+                    <td>{row.assessmentType}</td>
+                    <td>{row.score}</td>
+                    <td>
+                      <button className='edit-btn' onClick={() => handleEditClick(row)}>Edit</button>
+                      {editingRow && editingRow.id === row.id && (
+                        <div className='edit-card'>
+                          <input 
+                            type="date" 
+                            name="date" 
+                            value={formData.date} 
+                            onChange={handleInputChange} 
+                          />
+                          <input 
+                            type="text" 
+                            name="assessmentType" 
+                            value={formData.assessmentType} 
+                            onChange={handleInputChange} 
+                            placeholder="Assessment Type" 
+                          />
+                          <input 
+                            type="number" 
+                            name="score" 
+                            value={formData.score} 
+                            onChange={handleInputChange} 
+                            placeholder="Score" 
+                          />
+                          {error && <p id='error-message1'>{error}</p>}
+                          <button className='confirm-btn' onClick={handleConfirmClick}>Confirm</button>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

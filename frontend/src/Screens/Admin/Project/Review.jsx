@@ -1,8 +1,62 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NavBar from '../Navbar';
 import '../Project/Review.css';
 
 function Review() {
+  const [data, setData] = useState([
+    { id: 1, studentName: 'Alice Johnson', studentId: '1001', projectName: 'AI Chatbot', projectMarks: 85, remarks: 'Excellent work' },
+    { id: 2, studentName: 'Bob Smith', studentId: '1002', projectName: 'Data Visualization Tool', projectMarks: 78, remarks: 'Good effort' },
+    { id: 3, studentName: 'Charlie Brown', studentId: '1003', projectName: 'Web Scraper', projectMarks: 90, remarks: 'Highly impressive' },
+    // Add more rows as needed
+  ]);
+
+  const [editingRow, setEditingRow] = useState(null);
+  const [formData, setFormData] = useState({ projectName: '', projectMarks: '', remarks: '' });
+  const [error, setError] = useState('');
+  const [emptyFieldError, setEmptyFieldError] = useState('');
+
+  const handleEditClick = (row) => {
+    setEditingRow(row);
+    setFormData({ 
+      projectName: row.projectName, 
+      projectMarks: row.projectMarks, 
+      remarks: row.remarks 
+    });
+    setError('');
+    setEmptyFieldError('');
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'projectMarks') {
+      if (value < 0 || value > 100) {
+        setError('Project Marks must be between 0 and 100.');
+      } else {
+        setError('');
+      }
+    }
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleConfirmClick = () => {
+    const { date, assessmentType, score } = formData;
+
+    // Validate input
+    if (!date || !assessmentType || score === '') {
+      setError('All fields are required.');
+      return;
+    }
+    if (score < 0 || score > 100) {
+      setError('Score must be between 0 and 100.');
+      return;
+    }
+
+    setData(data.map(row => row.id === editingRow.id ? { ...row, ...formData } : row));
+    setEditingRow(null);
+    setError('');
+    setEmptyFieldError('');
+  };
+
   return (
     <div>
       <NavBar activeSection="review">
@@ -21,94 +75,48 @@ function Review() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Alice Johnson</td>
-                  <td>1001</td>
-                  <td>AI Chatbot</td>
-                  <td>85</td>
-                  <td>Excellent work</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Bob Smith</td>
-                  <td>1002</td>
-                  <td>Data Visualization Tool</td>
-                  <td>78</td>
-                  <td>Good effort</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Bob Smith</td>
-                  <td>1002</td>
-                  <td>Data Visualization Tool</td>
-                  <td>78</td>
-                  <td>Good effort</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Bob Smith</td>
-                  <td>1002</td>
-                  <td>Data Visualization Tool</td>
-                  <td>78</td>
-                  <td>Good effort</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Bob Smith</td>
-                  <td>1002</td>
-                  <td>Data Visualization Tool</td>
-                  <td>78</td>
-                  <td>Good effort</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Charlie Brown</td>
-                  <td>1003</td>
-                  <td>Web Scraper</td>
-                  <td>90</td>
-                  <td>Highly impressive</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>David Green</td>
-                  <td>1004</td>
-                  <td>Mobile App</td>
-                  <td>82</td>
-                  <td>Well-designed</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Eva White</td>
-                  <td>1005</td>
-                  <td>Secure Messaging App</td>
-                  <td>88</td>
-                  <td>Great security features</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Frank Black</td>
-                  <td>1006</td>
-                  <td>Task Manager</td>
-                  <td>76</td>
-                  <td>Needs improvement</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Grace Lee</td>
-                  <td>1007</td>
-                  <td>Weather App</td>
-                  <td>80</td>
-                  <td>Accurate forecasts</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Henry Adams</td>
-                  <td>1008</td>
-                  <td>Expense Tracker</td>
-                  <td>72</td>
-                  <td>Functional but basic</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
+                {data.map(row => (
+                  <tr key={row.id}>
+                    <td>{row.studentName}</td>
+                    <td>{row.studentId}</td>
+                    <td>{row.projectName}</td>
+                    <td>{row.projectMarks}</td>
+                    <td>{row.remarks}</td>
+                    <td>
+                      <button className='edit-btn' onClick={() => handleEditClick(row)}>Edit</button>
+                      {editingRow && editingRow.id === row.id && (
+                        <div className='edit-card'>
+                          <input 
+                            type="text" 
+                            name="projectName" 
+                            value={formData.projectName} 
+                            onChange={handleInputChange} 
+                            placeholder="Project Name" 
+                          />
+                          <input 
+                            type="number" 
+                            name="projectMarks" 
+                            value={formData.projectMarks} 
+                            onChange={handleInputChange} 
+                            placeholder="Project Marks" 
+                            min="0" 
+                            max="100" 
+                          />
+                          
+                          <input 
+                            type="text" 
+                            name="remarks" 
+                            value={formData.remarks} 
+                            onChange={handleInputChange} 
+                            placeholder="Remarks" 
+                          />
+                           {error && <p id='error-message1'>{error}</p>}
+                          <button className='confirm-btn' onClick={handleConfirmClick}>Confirm</button>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

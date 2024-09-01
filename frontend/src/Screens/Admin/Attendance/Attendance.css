@@ -5,6 +5,7 @@
   top: 70px;
   width: 75%;
   height: 60%;
+  /* overflow-x: scroll; */
 }
 
 .tab {
@@ -14,12 +15,13 @@
   overflow-y: auto;
   overflow-x: auto;
   border: 1px solid #171a1f;
-
+  margin-right: 20px;
 }
 
 .tab::-webkit-scrollbar {
   display: none;
 }
+
 p {
   margin-bottom: 20px;
   font-size: 24px;
@@ -50,7 +52,6 @@ p {
   position: sticky;
   top: 0;
   z-index: 2;
-
 }
 
 .attendance-table tr:hover {
@@ -66,4 +67,43 @@ p {
   height: 20px;
   border-radius: 2px;
   margin-left: 5px;
+}
+
+/* New styles for the edit form */
+.edit-form {
+  background-color: #171a1f;
+  border: 1px solid #171a1f;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  z-index: 3; 
+}
+
+.edit-form label {
+  color: white;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.edit-form input[type="radio"] {
+  margin-right: 5px;
+  accent-color: orangered;
+}
+
+.confirm-btn {
+  background-color: rgb(85, 83, 82);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+.confirm-btn:hover {
+  background-color: orangered;
 }

@@ -1,8 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NavBar from '../Navbar';
-import '../Project/Submission.css';
+import './Submission.css';
 
 function Submission() {
+  const [data, setData] = useState([
+    { id: 1, studentName: 'Alice Johnson', studentId: '3001', projectTitle: 'AI Chatbot', submissionDate: '2024-08-10', marks: 90, comments: 'Excellent implementation and functionality' },
+    { id: 2, studentName: 'Bob Smith', studentId: '3002', projectTitle: 'Data Visualization Tool', submissionDate: '2024-08-12', marks: 85, comments: 'Good use of libraries and clean UI' },
+    // Add more rows as needed
+  ]);
+
+  const [editingRow, setEditingRow] = useState(null);
+  const [formData, setFormData] = useState({ projectTitle: '', submissionDate: '', marks: '', comments: '' });
+  const [error, setError] = useState('');
+
+  const handleEditClick = (row) => {
+    setEditingRow(row);
+    setFormData({ 
+      projectTitle: row.projectTitle, 
+      submissionDate: row.submissionDate, 
+      marks: row.marks, 
+      comments: row.comments 
+    });
+    setError('');
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleConfirmClick = () => {
+    const { projectTitle, submissionDate, marks, comments } = formData;
+
+    // Validate input
+    if (!projectTitle || !submissionDate || marks === '' || !comments) {
+      setError('All fields are required.');
+      return;
+    }
+    if (marks < 0 || marks > 100) {
+      setError('Marks must be between 0 and 100.');
+      return;
+    }
+
+    setData(data.map(row => row.id === editingRow.id ? { ...row, ...formData } : row));
+    setEditingRow(null);
+    setError('');
+  };
+
   return (
     <div>
       <NavBar activeSection="submission">
@@ -22,96 +66,53 @@ function Submission() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Alice Johnson</td>
-                  <td>3001</td>
-                  <td>AI Chatbot</td>
-                  <td>2024-08-10</td>
-                  <td>90</td>
-                  <td>Excellent implementation and functionality</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Bob Smith</td>
-                  <td>3002</td>
-                  <td>Data Visualization Tool</td>
-                  <td>2024-08-12</td>
-                  <td>85</td>
-                  <td>Good use of libraries and clean UI</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Charlie Brown</td>
-                  <td>3003</td>
-                  <td>Web Scraper</td>
-                  <td>2024-08-14</td>
-                  <td>92</td>
-                  <td>Highly functional with extensive features</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>David Green</td>
-                  <td>3004</td>
-                  <td>Mobile App</td>
-                  <td>2024-08-16</td>
-                  <td>78</td>
-                  <td>Well-designed but needs more testing</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Eva White</td>
-                  <td>3005</td>
-                  <td>Secure Messaging App</td>
-                  <td>2024-08-18</td>
-                  <td>88</td>
-                  <td>Great security features and user experience</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Frank Black</td>
-                  <td>3006</td>
-                  <td>Task Manager</td>
-                  <td>2024-08-20</td>
-                  <td>72</td>
-                  <td>Functional but lacks some features</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Grace Lee</td>
-                  <td>3007</td>
-                  <td>Weather App</td>
-                  <td>2024-08-22</td>
-                  <td>80</td>
-                  <td>Accurate forecasts and good design</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Henry Adams</td>
-                  <td>3008</td>
-                  <td>Expense Tracker</td>
-                  <td>2024-08-24</td>
-                  <td>75</td>
-                  <td>Functional but could use a more polished UI</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Grace Lee</td>
-                  <td>3007</td>
-                  <td>Weather App</td>
-                  <td>2024-08-22</td>
-                  <td>80</td>
-                  <td>Accurate forecasts and good design</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
-                <tr>
-                  <td>Henry Adams</td>
-                  <td>3008</td>
-                  <td>Expense Tracker</td>
-                  <td>2024-08-24</td>
-                  <td>75</td>
-                  <td>Functional but could use a more polished UI</td>
-                  <td><button className='edit-btn'>Edit</button></td>
-                </tr>
+                {data.map(row => (
+                  <tr key={row.id}>
+                    <td>{row.studentName}</td>
+                    <td>{row.studentId}</td>
+                    <td>{row.projectTitle}</td>
+                    <td>{row.submissionDate}</td>
+                    <td>{row.marks}</td>
+                    <td>{row.comments}</td>
+                    <td>
+                      <button className='edit-btn' onClick={() => handleEditClick(row)}>Edit</button>
+                      {editingRow && editingRow.id === row.id && (
+                        <div className='edit-card-submission'>
+                          <input 
+                            type="text" 
+                            name="projectTitle" 
+                            value={formData.projectTitle} 
+                            onChange={handleInputChange} 
+                            placeholder="Project Title" 
+                          />
+                          <input 
+                            type="date" 
+                            name="submissionDate" 
+                            value={formData.submissionDate} 
+                            onChange={handleInputChange} 
+                          />
+                          <input 
+                            type="number" 
+                            name="marks" 
+                            value={formData.marks} 
+                            onChange={handleInputChange} 
+                            placeholder="Marks Awarded" 
+                          />
+                          <textarea 
+                            name="comments" 
+                            value={formData.comments} 
+                            onChange={handleInputChange} 
+                            placeholder="Comments" 
+                            className='textarea' 
+                          />
+                          {error && <p id='error-message'>{error}</p>}
+                          <button className='confirm-btn' onClick={handleConfirmClick}>Confirm</button>
+                          {/* <button className='cancel-btn' onClick={() => setEditingRow(null)}>Cancel</button> */}
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
