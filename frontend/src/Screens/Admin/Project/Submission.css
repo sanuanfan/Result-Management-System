@@ -13,6 +13,19 @@
   color: white;
   font-family: 'Lato', sans-serif;
 }
+.tab {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: auto;
+  border: 1px solid #171a1f;
+
+}
+
+.tab::-webkit-scrollbar {
+  display: none;
+}
 
 .submission-table {
   font-family: 'Lato', sans-serif;

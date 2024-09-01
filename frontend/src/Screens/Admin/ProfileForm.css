@@ -1,0 +1,104 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    color: white;
+  }
+  
+  .modal-content {
+    background: #171a1f;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    max-width: 90%;
+    position: absolute;
+    bottom: 100px;
+    left: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    /* background: #f5f5f5; */
+    color: orangered;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size:20px;
+    font-weight: 600;
+  }
+  
+  .add-student-form div {
+    /* margin-bottom: 15px; */
+  }
+  
+  .file-upload {
+    margin-top: 10px;
+  }
+  
+  button[type="submit"] {
+    background: orangered;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+  
+  }
+  .input-container{
+    margin-bottom: 15px;
+  }
+  .input-container input{
+    width: 250px;
+    height: 25px;
+    border-radius:5px ;
+    padding: 5px;
+    border: none;
+  
+  }
+  .input-container-two{
+    margin-bottom: 8px;
+  }
+  .input-container-two input{
+    width: 250px;
+    height: 25px;
+    border-radius:5px ;
+    padding: 5px;
+    border: none;
+
+  }
+  
+  .eye-icon{
+    position: absolute;
+    right: 50px;
+    top: 95px;
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    transform: translateY(-50%);
+    font-size: 18px;
+
+  }
+  .eye{
+    position: absolute;
+    right: 50px;
+    top: 145px;
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    transform: translateY(-50%);
+    font-size: 18px;
+
+  }

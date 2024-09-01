@@ -103,6 +103,26 @@ function LinkedIn() {
                   <td>Engaging content</td>
                   <td><button className='edit-btn'>Edit</button></td>
                 </tr>
+                <tr>
+                  <td>James Miller</td>
+                  <td>107</td>
+                  <td>Blockchain Project</td>
+                  <td><a href="https://linkedin.com/post/99887" target="_blank" rel="noopener noreferrer">Post Link</a></td>
+                  <td>85.30</td>
+                  <td>2024-08-22</td>
+                  <td>Good visibility</td>
+                  <td><button className='edit-btn'>Edit</button></td>
+                </tr>
+                <tr>
+                  <td>Alice Johnson</td>
+                  <td>108</td>
+                  <td>AR Game</td>
+                  <td><a href="https://linkedin.com/post/77654" target="_blank" rel="noopener noreferrer">Post Link</a></td>
+                  <td>87.60</td>
+                  <td>2024-08-25</td>
+                  <td>Engaging content</td>
+                  <td><button className='edit-btn'>Edit</button></td>
+                </tr>
               </tbody>
             </table>
           </div>

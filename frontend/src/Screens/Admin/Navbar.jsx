@@ -1,10 +1,14 @@
-import React, { useRef } from 'react'
+import React, { useRef,useState} from 'react'
 import './NavBar.css'
 import { useNavigate } from 'react-router-dom'
+import ProfileForm from './ProfileForm';
+
 
 
 
 function NavBar({ children, activeSection }) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
 
     const navigate = useNavigate()
     const fileInputRef = useRef(null)
@@ -35,6 +39,14 @@ function NavBar({ children, activeSection }) {
         navigate('/')
     }
 
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
     return (
         <div>
             <div className='main-container'>
@@ -51,7 +63,8 @@ function NavBar({ children, activeSection }) {
                     <div className={`nav-content ${activeSection === 'assessment' ? 'active' : ''}`} onClick={gotoAssessment}><i className='bx bx-edit' ></i>Assessment</div>
                     <div className={`nav-content ${activeSection === 'submission' ? 'active' : ''}`} onClick={gotoSubmission}><i className='bx bx-upload' ></i>Submission</div>
                     <div className={`nav-content ${activeSection === 'linkedin' ? 'active' : ''}`} onClick={gotoLinkedIn}><i className='bx bxl-linkedin-square' ></i>LinkedIn</div>
-                    <div className='nav-content' id='avatar'></div>
+                    <div className='avatar' onClick={handleOpenModal}><i className='bx bxs-cog' ></i></div>
+                    <ProfileForm isOpen={isModalOpen} onClose={handleCloseModal}/>
                 </div>
                 {children}
                 <div className='btm-container'>

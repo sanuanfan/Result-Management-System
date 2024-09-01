@@ -94,6 +94,24 @@ function Submission() {
                   <td>Functional but could use a more polished UI</td>
                   <td><button className='edit-btn'>Edit</button></td>
                 </tr>
+                <tr>
+                  <td>Grace Lee</td>
+                  <td>3007</td>
+                  <td>Weather App</td>
+                  <td>2024-08-22</td>
+                  <td>80</td>
+                  <td>Accurate forecasts and good design</td>
+                  <td><button className='edit-btn'>Edit</button></td>
+                </tr>
+                <tr>
+                  <td>Henry Adams</td>
+                  <td>3008</td>
+                  <td>Expense Tracker</td>
+                  <td>2024-08-24</td>
+                  <td>75</td>
+                  <td>Functional but could use a more polished UI</td>
+                  <td><button className='edit-btn'>Edit</button></td>
+                </tr>
               </tbody>
             </table>
           </div>
