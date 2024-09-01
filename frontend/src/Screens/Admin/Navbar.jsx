@@ -31,6 +31,9 @@ function NavBar({ children, activeSection }) {
     const gotoLinkedIn = () => {
         navigate('/admin/linkedin')
     }
+    const logOut = () =>{
+        navigate('/')
+    }
 
     return (
         <div>
@@ -38,7 +41,8 @@ function NavBar({ children, activeSection }) {
                 <button className="upload-btn" onClick={handleOnClick}>
                     <input type="file" style={{ display: 'none' }} ref={fileInputRef} />
                     Upload</button>
-                <div className='side-bar'>
+                    <button className='logout-btn' onClick={logOut}>Logout</button>
+            <div className='side-bar'>
 
                     <div className='logo' ><i className='bx bxs-graduation' ></i></div>
                     <div className={`nav-content ${activeSection === 'dashboard' ? 'active' : ''}`} onClick={gotoHome} ><i className='bx bxs-dashboard'></i>Dashboard</div>

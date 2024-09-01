@@ -147,12 +147,12 @@
 }
 
 .upload-btn {
-  width: 130px;
-  height: 35px;
+  width: 100px;
+  height: 30px;
   background-color: orangered;
   color: white;
   position: absolute;
-  right: 36px;
+  right: 145px;
   top: 25px;
   display: flex;
   justify-content: center;
@@ -187,4 +187,23 @@
 
 .bottom-bar .btm-content.active::after {
   width: 0;
+}
+
+.logout-btn{
+  width: 100px;
+  height: 30px;
+  background-color: orangered;
+  color: white;
+  position: absolute;
+  right: 35px;
+  top: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  border: none;
+
+}
+.logout-btn:hover {
+  cursor: pointer;
 }
