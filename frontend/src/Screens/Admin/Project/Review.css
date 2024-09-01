@@ -6,13 +6,15 @@
   width: 75%;
   height: 60%;
 }
+
 .tab {
   width: 100%;
   height: 100%;
-  overflow-y: auto; 
-  overflow-x: auto; 
+  overflow-y: auto;
+  overflow-x: auto;
 }
-.tab::-webkit-scrollbar{
+
+.tab::-webkit-scrollbar {
   display: none;
 }
 

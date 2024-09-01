@@ -11,7 +11,7 @@ function Login() {
     try {
       console.log(username, password);
       const res = await axios.post('http://localhost:5000/login', { username, password });
-      
+
       if (res.data.message === 'success') {
         window.location.href = '/admin/home';
       } else {
@@ -32,7 +32,7 @@ function Login() {
       }
     }
   };
-  
+
 
   return (
     <div className='maincontainer'>

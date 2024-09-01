@@ -10,12 +10,12 @@
 .table-div {
   width: 100%;
   height: 100%;
-  overflow-y: auto; 
-  overflow-x: auto; 
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
 .table-div::-webkit-scrollbar {
-  display: block; 
+  display: block;
 }
 
 .assessment-main p {
@@ -27,7 +27,7 @@
 
 .assessment-table {
   font-family: 'Lato', sans-serif;
-  width: 100%; 
+  width: 100%;
   border-collapse: collapse;
   color: white;
   border: 1px solid #171a1f;
@@ -53,6 +53,7 @@
 .assessment-table tr:hover {
   background-color: #171a1f;
 }
+
 .edit-btn {
   background-color: orangered;
   color: white;

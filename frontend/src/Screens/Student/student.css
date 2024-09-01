@@ -1,25 +1,29 @@
-.main-container{
+.main-container {
     width: 100%;
     height: 100vh;
     background-color: black;
     font-family: 'Lato', sans-serif;
 
 }
-h3{
+
+h3 {
     color: white;
     font-size: 22px;
     font-family: 'Lato', sans-serif;
 
 }
-.nav-bar{
+
+.nav-bar {
     height: 8%;
     width: 100%;
 }
-.sub-container{
+
+.sub-container {
     width: 100%;
     height: 92%;
 }
-.mini-container{
+
+.mini-container {
     margin-left: 90px;
     background-color: rgb(0, 0, 0);
     height: 100%;
@@ -28,9 +32,12 @@ h3{
     padding-top: 20px;
 
 }
-.search{
+
+.search {
     position: relative;
-}.download{
+}
+
+.download {
     width: 120px;
     height: 30px;
     background-color: orangered;
@@ -44,12 +51,13 @@ h3{
     color: white;
     cursor: pointer;
 }
-.download:hover{
+
+.download:hover {
     background-image: linear-gradient(to right, #e75f20 0%, rgb(255, 38, 0) 100%);
     transition: .5s ease;
 }
 
-.search input{
+.search input {
     width: 20%;
     padding: 7px 0px 8px 40px;
     font-size: 15px;
@@ -61,7 +69,8 @@ h3{
     color: white;
     border-radius: 5px;
 }
-.logos{
+
+.logos {
     background-image: url('../assets/Logo11.jpg');
     background-size: cover;
     background-repeat: no-repeat;
@@ -73,7 +82,8 @@ h3{
     background-size: contain;
     top: 6px;
 }
-.search i{
+
+.search i {
     position: absolute;
     left: 10px;
     top: 50%;
@@ -82,24 +92,28 @@ h3{
     font-size: 20px;
     transition: color 0.3s,
 }
-.search-btn{
+
+.search-btn {
     height: 34px;
     width: 90px;
     margin-left: 8px;
     border-radius: 5px;
-    background-color:orangered ;
+    background-color: orangered;
     color: white;
     cursor: pointer;
     border: none;
 }
-.search-btn:hover{
+
+.search-btn:hover {
     background-image: linear-gradient(to right, #e75f20 0%, rgb(255, 38, 0) 100%);
     transition: .5s ease;
 }
-.table-left{
+
+.table-left {
     width: 80%;
 }
-.mark{
+
+.mark {
     color: white;
     font-size: 20px;
     font-weight: 300;
@@ -115,56 +129,55 @@ h3{
     align-items: center;
     font-family: 'Lato', sans-serif;
 
-  }
-  .table-container h3{
+}
+
+.table-container h3 {
     color: white;
     font-size: 30px;
-  }
-  
-  .result-table {
+}
+
+.result-table {
     width: 100%;
     border-collapse: collapse;
     color: #fff;
-    border: 1px solid  #171a1f;
+    border: 1px solid #171a1f;
     border-radius: 5px;
 
-  }
-  
-  .result-table th,
-  .result-table td {
+}
+
+.result-table th,
+.result-table td {
     padding: 12px 15px;
     text-align: left;
     height: 23px;
-  }
-  
-  .result-table th {
+}
+
+.result-table th {
     background-color: #171a1f;
     font-weight: 600;
 
-  }
-  
-  .result-table tr:hover {
+}
+
+.result-table tr:hover {
     background-color: #171a1f;
 
-  }
-  
-  .result-table td {
+}
+
+.result-table td {
     font-weight: 200;
     color: #c9c8c8;
-  }
-  
-  @media only screen and (max-width:780px){
-    
-    .mini-container{
+}
+
+@media only screen and (max-width:780px) {
+
+    .mini-container {
         margin-left: 25px;
     }
-    
-  }
-  @media only screen and (max-width:770px){
-    .table-container{
+
+}
+
+@media only screen and (max-width:770px) {
+    .table-container {
         display: block;
     }
-  }
-
-
-  
+}

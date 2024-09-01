@@ -24,7 +24,8 @@
   border-top: none;
 }
 
-.linkedin-table th, .linkedin-table td {
+.linkedin-table th,
+.linkedin-table td {
   padding: 15px;
   text-align: left;
 }

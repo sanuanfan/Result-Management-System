@@ -68,22 +68,24 @@
 
 .form {
     height: 150px;
-    display:flex;
+    display: flex;
     justify-content: space-evenly;
     flex-direction: column;
 }
-.button{
+
+.button {
     align-items: flex-end;
     justify-content: center;
     display: flex;
     height: 50%;
 }
-.button input{
+
+.button input {
     width: 120px;
     height: 40px;
     border-radius: 5px;
-   color: white;
-   font-weight: 700;
-   background: linear-gradient(70deg,#ff5151, rgb(255, 0, 0) );
-   cursor: pointer;
+    color: white;
+    font-weight: 700;
+    background: linear-gradient(70deg, #ff5151, rgb(255, 0, 0));
+    cursor: pointer;
 }

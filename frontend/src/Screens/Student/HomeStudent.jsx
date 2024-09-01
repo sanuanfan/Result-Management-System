@@ -15,12 +15,12 @@ function HomeStudent() {
   return (
     <div className='main-container'>
       <div className="nav-bar">
-      <div className='logos'></div>
-      <div className="download">
-        Download
+        <div className='logos'></div>
+        <div className="download">
+          Download
+        </div>
       </div>
-      </div>
-      
+
       <div className="sub-container">
         <div className="mini-container">
           <h3>Mark Display</h3>
@@ -55,14 +55,14 @@ function HomeStudent() {
                 </tbody>
               </table>
             </div>
-            
+
           </div>
           <div className="review">
-            
+
           </div>
           <div className="mark">
-              <h3>Grand Total : 130</h3>
-            </div>
+            <h3>Grand Total : 130</h3>
+          </div>
         </div>
       </div>
 
