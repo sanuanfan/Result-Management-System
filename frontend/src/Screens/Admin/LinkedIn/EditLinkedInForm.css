@@ -18,6 +18,9 @@
     width: 400px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .close-button-linkedin {
@@ -37,6 +40,7 @@ h2 {
 
 .edit-form-linkedin {
     width: 100%;
+  margin-left: 10px;
 }
 
 .input-container-linkedin {
@@ -75,7 +79,7 @@ h2 {
     cursor: pointer;
     width: 45%;
     margin-top: 10px;
-    margin-left: 108px;
+    margin-left: 102px;
 
 }
 /* 

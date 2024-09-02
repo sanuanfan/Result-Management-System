@@ -54,7 +54,6 @@ function NavBar({ children, activeSection }) {
     const handleToggleSidebar = () => {
         setIsSidebarVisible(!isSidebarVisible);
     };
-
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth > 770) {

@@ -225,7 +225,7 @@
   align-items: center;
   cursor: pointer;
   z-index: 1000;
-  transition: opacity 0.3s ease;
+  /* transition: opacity 0.3s ease; */
 }
 
 .toggle-arrow.hidden {
@@ -256,7 +256,7 @@
     display: block;
     transform: rotate(180deg);
     position: fixed;
-    left: 5%;
+    left: 9%;
 
   }
 
@@ -272,12 +272,17 @@
     margin-left: 0;
   }
   .side-bar{
-    width: 10%;
-    display: inline;
+    width: 15%; 
+    display: flex;
+    align-items: center;
+
   }
-  .side-bar p{
-    display: none;
+  .nav-content.active{
+    border-left: 1px solid #e74c3c;
+
   }
+
+ 
   .nav-content{
     width: 100%;
   }
@@ -294,10 +299,16 @@
 .avatar{
   width: 30px;
   height: 30px;
+  
 }
 .nav-content{
   margin-top: 3px;
 }
+.nav-content p {
+  font-size: 10px;
+
+}
+
 
 }
 
