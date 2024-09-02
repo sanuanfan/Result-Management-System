@@ -1,3 +1,5 @@
+/* Review.css */
+
 .review-main {
   color: white;
   position: fixed;
@@ -79,33 +81,33 @@
   position: absolute; 
   z-index: 1000; 
   height: 200px;
-  width: 300px;
-  align-items: center;
+  width: 200px;
+  left: 0; /* Adjust as needed for your layout */
 }
 
-.edit-card input[type="text"],
-.edit-card input[type="number"] {
+.edit-card input {
   background-color: #2c2f33;
+  border: 1px solid #3a3d42;
   color: white;
-  border: 1px solid #2c2f33;
   padding: 5px;
   border-radius: 3px;
-  width: 95%; 
-  height: 20px;
 }
 
 .confirm-btn {
-  background-color: orangered;
+  background-color: #008CBA;
   color: white;
   border: none;
   cursor: pointer;
   padding: 5px 10px;
   border-radius: 3px;
+  align-self: flex-end;
 }
 
+/* Error Message Styling */
 #error-message1 {
   color: red;
-  font-size: 10px;
+  font-size: 12px;
   margin: 0;
+  padding: 0;
 }
 

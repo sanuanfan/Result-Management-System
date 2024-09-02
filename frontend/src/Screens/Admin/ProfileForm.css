@@ -41,9 +41,6 @@
     font-weight: 600;
   }
   
-  .file-upload {
-    margin-top: 10px;
-  }
   
   button[type="submit"] {
     background: orangered;
@@ -83,7 +80,7 @@
     right: 50px;
     top: 95px;
     cursor: pointer;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     transform: translateY(-50%);
     font-size: 18px;
 
@@ -93,7 +90,7 @@
     right: 50px;
     top: 145px;
     cursor: pointer;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     transform: translateY(-50%);
     font-size: 18px;
 

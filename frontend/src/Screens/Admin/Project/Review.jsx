@@ -1,29 +1,30 @@
 import React, { useState } from 'react';
 import NavBar from '../Navbar';
 import '../Project/Review.css';
+import EditForm from './EditReview';
 
 function Review() {
   const [data, setData] = useState([
     { id: 1, studentName: 'Alice Johnson', studentId: '1001', projectName: 'AI Chatbot', projectMarks: 85, remarks: 'Excellent work' },
     { id: 2, studentName: 'Bob Smith', studentId: '1002', projectName: 'Data Visualization Tool', projectMarks: 78, remarks: 'Good effort' },
     { id: 3, studentName: 'Charlie Brown', studentId: '1003', projectName: 'Web Scraper', projectMarks: 90, remarks: 'Highly impressive' },
-    // Add more rows as needed
   ]);
 
   const [editingRow, setEditingRow] = useState(null);
-  const [formData, setFormData] = useState({ projectName: '', projectMarks: '', remarks: '' });
+  const [formData, setFormData] = useState({ projectName: '', projectMarks: '', remarks: '',studentName:'' });
   const [error, setError] = useState('');
-  const [emptyFieldError, setEmptyFieldError] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleEditClick = (row) => {
     setEditingRow(row);
-    setFormData({ 
-      projectName: row.projectName, 
-      projectMarks: row.projectMarks, 
-      remarks: row.remarks 
+    setFormData({
+      projectName: row.projectName,
+      projectMarks: row.projectMarks,
+      remarks: row.remarks,
+      studentName: row.studentName
     });
+    setIsModalOpen(true);
     setError('');
-    setEmptyFieldError('');
   };
 
   const handleInputChange = (e) => {
@@ -39,22 +40,23 @@ function Review() {
   };
 
   const handleConfirmClick = () => {
-    const { date, assessmentType, score } = formData;
-
-    // Validate input
-    if (!date || !assessmentType || score === '') {
+    if (!formData.projectName || !formData.projectMarks || formData.remarks === '') {
       setError('All fields are required.');
       return;
     }
-    if (score < 0 || score > 100) {
-      setError('Score must be between 0 and 100.');
+    if (formData.projectMarks < 0 || formData.projectMarks > 100) {
+      setError('Project Marks must be between 0 and 100.');
       return;
     }
 
     setData(data.map(row => row.id === editingRow.id ? { ...row, ...formData } : row));
+    setIsModalOpen(false);
     setEditingRow(null);
     setError('');
-    setEmptyFieldError('');
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -84,36 +86,6 @@ function Review() {
                     <td>{row.remarks}</td>
                     <td>
                       <button className='edit-btn' onClick={() => handleEditClick(row)}>Edit</button>
-                      {editingRow && editingRow.id === row.id && (
-                        <div className='edit-card'>
-                          <input 
-                            type="text" 
-                            name="projectName" 
-                            value={formData.projectName} 
-                            onChange={handleInputChange} 
-                            placeholder="Project Name" 
-                          />
-                          <input 
-                            type="number" 
-                            name="projectMarks" 
-                            value={formData.projectMarks} 
-                            onChange={handleInputChange} 
-                            placeholder="Project Marks" 
-                            min="0" 
-                            max="100" 
-                          />
-                          
-                          <input 
-                            type="text" 
-                            name="remarks" 
-                            value={formData.remarks} 
-                            onChange={handleInputChange} 
-                            placeholder="Remarks" 
-                          />
-                           {error && <p id='error-message1'>{error}</p>}
-                          <button className='confirm-btn' onClick={handleConfirmClick}>Confirm</button>
-                        </div>
-                      )}
                     </td>
                   </tr>
                 ))}
@@ -121,6 +93,14 @@ function Review() {
             </table>
           </div>
         </div>
+        <EditForm 
+          isOpen={isModalOpen} 
+          onClose={handleCloseModal} 
+          formData={formData} 
+          onInputChange={handleInputChange} 
+          onConfirmClick={handleConfirmClick} 
+          error={error}
+        />
       </NavBar>
     </div>
   );
