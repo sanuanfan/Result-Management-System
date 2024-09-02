@@ -69,31 +69,34 @@
 
 /* Edit Card */
 .edit-card {
-  background-color: #171a1f;
-  padding: 10px;
+  background-color: #2c2f33; /* Dark background similar to modal */
+  padding: 20px; /* More padding for spacious look */
   border: 1px solid #2c2f33;
-  border-radius: 5px;
-  margin-top: 10px;
+  border-radius: 10px; /* Rounded corners */
   display: flex;
   flex-direction: column;
   gap: 10px;
-  position: absolute; 
-  z-index: 1000; 
-  height: 200px;
-  width: 300px;
-  justify-content: space-evenly;
+  position: fixed; /* Use fixed for positioning it in the center */
+  z-index: 1000;
+  height: auto; /* Adjust height to fit content */
+  width: 350px; /* Wider to match modal size */
+  justify-content: space-between;
   align-items: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the modal */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
 }
 
 .edit-card input[type="text"],
-.edit-card input[type="number"] {
+.edit-card input[type="number"],
+.edit-card input[type="date"] {
   background-color: #2c2f33;
   color: white;
-  border: 1px solid #2c2f33;
-  padding: 5px;
-  border-radius: 3px;
-  width: 95%; 
-  height: 20px;
+  border: 1px solid #444; /* Subtle border for inputs */
+  padding: 10px;
+  border-radius: 5px; /* Rounded input fields */
+  width: 100%; /* Full width inputs */
 }
 
 .confirm-btn {
@@ -101,31 +104,16 @@
   color: white;
   border: none;
   cursor: pointer;
-  padding: 5px 10px;
-  border-radius: 3px;
+  padding: 10px 20px; /* Bigger button for better interaction */
+  border-radius: 5px;
+  font-weight: bold;
+  width: 100px; /* Fixed width for consistency */
+  align-self: center; /* Center the button horizontally */
 }
 
 #error-message1 {
   color: red;
-  font-size: 10px;
+  font-size: 12px;
   margin: 0;
-}
-/* Style the date input field */
-.edit-card input[type="date"] {
-  background-color: #2c2f33;
-  color: white;
-  border: 1px solid #2c2f33;
-  padding: 5px;
-  border-radius: 3px;
-  width: 95%;
-  height: 25px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.edit-card input[type="date"]:focus {
-  border: 1px solid orangered,
-  
-  /* outli: none, */
-  /* box-sh: 0 0 5px rgba(255, 87, 34, 0.5) */
+  text-align: center; /* Center the error message */
 }

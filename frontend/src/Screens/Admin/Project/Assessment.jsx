@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
 import NavBar from '../Navbar';
 import './Assessment.css';
+import EditAssessmentForm from './EditAssessment';
 
 function Assessment() {
   const [data, setData] = useState([
     { id: 1, studentName: 'Alice Johnson', studentId: '2001', date: '2024-07-22', assessmentType: 'First Assessment', score: 160 },
     { id: 2, studentName: 'Bob Smith', studentId: '2002', date: '2024-07-22', assessmentType: 'Second Assessment', score: 142 },
     { id: 3, studentName: 'Charlie Brown', studentId: '2003', date: '2024-07-22', assessmentType: 'First Assessment', score: 172 },
-    // Add more rows as needed
   ]);
 
   const [editingRow, setEditingRow] = useState(null);
-  const [formData, setFormData] = useState({ date: '', assessmentType: '', score: '' });
+  const [formData, setFormData] = useState({  name:'',date: '', assessmentType: '', score: '' });
   const [error, setError] = useState('');
 
   const handleEditClick = (row) => {
     setEditingRow(row);
     setFormData({ 
+      name: row.studentName,
       date: row.date, 
       assessmentType: row.assessmentType, 
       score: row.score 
@@ -43,6 +44,11 @@ function Assessment() {
     }
 
     setData(data.map(row => row.id === editingRow.id ? { ...row, ...formData } : row));
+    setEditingRow(null);
+    setError('');
+  };
+
+  const handleCloseModal = () => {
     setEditingRow(null);
     setError('');
   };
@@ -75,30 +81,14 @@ function Assessment() {
                     <td>
                       <button className='edit-btn' onClick={() => handleEditClick(row)}>Edit</button>
                       {editingRow && editingRow.id === row.id && (
-                        <div className='edit-card'>
-                          <input 
-                            type="date" 
-                            name="date" 
-                            value={formData.date} 
-                            onChange={handleInputChange} 
-                          />
-                          <input 
-                            type="text" 
-                            name="assessmentType" 
-                            value={formData.assessmentType} 
-                            onChange={handleInputChange} 
-                            placeholder="Assessment Type" 
-                          />
-                          <input 
-                            type="number" 
-                            name="score" 
-                            value={formData.score} 
-                            onChange={handleInputChange} 
-                            placeholder="Score" 
-                          />
-                          {error && <p id='error-message1'>{error}</p>}
-                          <button className='confirm-btn' onClick={handleConfirmClick}>Confirm</button>
-                        </div>
+                        <EditAssessmentForm
+                          isOpen={true}
+                          onClose={handleCloseModal}
+                          formData={formData}
+                          onInputChange={handleInputChange}
+                          onConfirmClick={handleConfirmClick}
+                          error={error}
+                        />
                       )}
                     </td>
                   </tr>

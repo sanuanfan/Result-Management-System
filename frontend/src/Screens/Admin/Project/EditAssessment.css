@@ -1,4 +1,4 @@
-.modal-overlay-review {
+.modal-overlay-assessment {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,22 +11,20 @@
     z-index: 1000;
 }
 
-.modal-content-review {
+.modal-content-assessment {
     background-color: #2c2f33;
     padding: 20px;
     border-radius: 10px;
     width: 400px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     position: relative;
-    /* display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center; */
 }
-.edit-form-review{
+
+.edit-form-assessment {
     width: 100%;
 }
-.close-button-review {
+
+.close-button-assessment {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -41,25 +39,24 @@ h2 {
     text-align: center;
 }
 
-.input-container-review {
+.input-container-assessment {
     margin-bottom: 15px;
 }
-.input-container-review-last{
+.input-container-assessment-last{
     margin-bottom: 8px;
 
 }
 
-.modal-content-review input {
+.modal-content-assessment input {
     width: 95%;
     padding: 10px;
     border-radius: 5px;
-    /* border: 1px solid #ccc; */
     border: none;
     background-color: #1e2124;
     color: white;
 }
 
-.modal-content-review button {
+.modal-content-assessment button {
     width: 150px;
     padding: 10px;
     background-color: orangered;
@@ -70,14 +67,16 @@ h2 {
     font-size: 16px;
     margin-left: 130px;
     margin-top: 10px;
-
 }
 
-.modal-content-review button:disabled {
+.modal-content-assessment button:disabled {
     background-color: gray;
     cursor: not-allowed;
 }
-#disable{
-    border: none;
-    cursor: not-allowed;
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin: 0;
+    text-align: center;
 }

@@ -14,7 +14,7 @@ const EditForm = ({ isOpen, onClose, formData, onInputChange, onConfirmClick, er
                 <div className='input-container-review'>
                         <input
                             type="text"
-                            name="projectName"
+                            name="name"
                             value={formData.studentName}
                             onChange={onInputChange}
                             placeholder="Project Name"
@@ -45,7 +45,7 @@ const EditForm = ({ isOpen, onClose, formData, onInputChange, onConfirmClick, er
                             required
                         />
                     </div>
-                    <div className='input-container-review'>
+                    <div className='input-container-review-last'>
                         <input
                             type="text"
                             name="remarks"

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import NavBar from '../Navbar';
 import './LinkedIn.css';
+import EditLinkedInForm from './EditLinkedInForm';
 
 function LinkedIn() {
   const [data, setData] = useState([
@@ -10,12 +11,13 @@ function LinkedIn() {
   ]);
 
   const [editingRow, setEditingRow] = useState(null);
-  const [formData, setFormData] = useState({ projectTitle: '', postDate: '', postScore: '', postLink: '', remarks: '' });
+  const [formData, setFormData] = useState({name:'', projectTitle: '', postDate: '', postScore: '', postLink: '', remarks: '' });
   const [error, setError] = useState('');
 
   const handleEditClick = (row) => {
     setEditingRow(row);
     setFormData({ 
+      name:row.studentName,
       projectTitle: row.projectTitle, 
       postDate: row.postDate, 
       postScore: row.postScore, 
@@ -44,6 +46,11 @@ function LinkedIn() {
     }
 
     setData(data.map(row => row.id === editingRow.id ? { ...row, ...formData } : row));
+    setEditingRow(null);
+    setError('');
+  };
+
+  const handleCloseModal = () => {
     setEditingRow(null);
     setError('');
   };
@@ -80,47 +87,14 @@ function LinkedIn() {
                     <td>
                       <button className='edit-btn' onClick={() => handleEditClick(row)}>Edit</button>
                       {editingRow && editingRow.id === row.id && (
-                        <div className='edit-card-linkedin'>
-                          <input 
-                            type="text" 
-                            name="projectTitle" 
-                            value={formData.projectTitle} 
-                            onChange={handleInputChange} 
-                            placeholder="Project Title" 
-                          />
-                          <input 
-                            type="date" 
-                            name="postDate" 
-                            value={formData.postDate} 
-                            onChange={handleInputChange} 
-                          />
-                          <input 
-                            type="number" 
-                            name="postScore" 
-                            value={formData.postScore} 
-                            onChange={handleInputChange} 
-                            placeholder="Post Score" 
-                          />
-                          <input 
-                            type="text" 
-                            name="postLink" 
-                            value={formData.postLink} 
-                            onChange={handleInputChange} 
-                            placeholder="LinkedIn Post Link" 
-                          />
-                          <textarea 
-                            name="remarks" 
-                            value={formData.remarks} 
-                            onChange={handleInputChange} 
-                            placeholder="Remarks" 
-                          />
-                          {error && <p id='error-message1'>{error}</p>}
-                          <div>
-                          <button className='confirm-btn' onClick={handleConfirmClick}>Confirm</button>
-                          <button className='cancel-btn' onClick={() => setEditingRow(null)}>Cancel</button>
-                          </div>
-                         
-                        </div>
+                        <EditLinkedInForm
+                          isOpen={true}
+                          onClose={handleCloseModal}
+                          formData={formData}
+                          onInputChange={handleInputChange}
+                          onConfirmClick={handleConfirmClick}
+                          error={error}
+                        />
                       )}
                     </td>
                   </tr>

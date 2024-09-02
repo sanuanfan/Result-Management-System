@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import NavBar from '../Navbar';
 import './Submission.css';
+import EditSubmissionForm from './EditSubissionForm';
 
 function Submission() {
   const [data, setData] = useState([
@@ -10,12 +11,13 @@ function Submission() {
   ]);
 
   const [editingRow, setEditingRow] = useState(null);
-  const [formData, setFormData] = useState({ projectTitle: '', submissionDate: '', marks: '', comments: '' });
+  const [formData, setFormData] = useState({name:'', projectTitle: '', submissionDate: '', marks: '', comments: '' });
   const [error, setError] = useState('');
 
   const handleEditClick = (row) => {
     setEditingRow(row);
     setFormData({ 
+      name:row.studentName,
       projectTitle: row.projectTitle, 
       submissionDate: row.submissionDate, 
       marks: row.marks, 
@@ -43,6 +45,11 @@ function Submission() {
     }
 
     setData(data.map(row => row.id === editingRow.id ? { ...row, ...formData } : row));
+    setEditingRow(null);
+    setError('');
+  };
+
+  const handleCloseModal = () => {
     setEditingRow(null);
     setError('');
   };
@@ -77,38 +84,14 @@ function Submission() {
                     <td>
                       <button className='edit-btn' onClick={() => handleEditClick(row)}>Edit</button>
                       {editingRow && editingRow.id === row.id && (
-                        <div className='edit-card-submission'>
-                          <input 
-                            type="text" 
-                            name="projectTitle" 
-                            value={formData.projectTitle} 
-                            onChange={handleInputChange} 
-                            placeholder="Project Title" 
-                          />
-                          <input 
-                            type="date" 
-                            name="submissionDate" 
-                            value={formData.submissionDate} 
-                            onChange={handleInputChange} 
-                          />
-                          <input 
-                            type="number" 
-                            name="marks" 
-                            value={formData.marks} 
-                            onChange={handleInputChange} 
-                            placeholder="Marks Awarded" 
-                          />
-                          <textarea 
-                            name="comments" 
-                            value={formData.comments} 
-                            onChange={handleInputChange} 
-                            placeholder="Comments" 
-                            className='textarea' 
-                          />
-                          {error && <p id='error-message'>{error}</p>}
-                          <button className='confirm-btn' onClick={handleConfirmClick}>Confirm</button>
-                          {/* <button className='cancel-btn' onClick={() => setEditingRow(null)}>Cancel</button> */}
-                        </div>
+                        <EditSubmissionForm
+                          isOpen={true}
+                          onClose={handleCloseModal}
+                          formData={formData}
+                          onInputChange={handleInputChange}
+                          onConfirmClick={handleConfirmClick}
+                          error={error}
+                        />
                       )}
                     </td>
                   </tr>
