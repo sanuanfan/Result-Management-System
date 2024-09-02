@@ -1,57 +1,65 @@
+// ProfileForm.jsx
 import React, { useState } from 'react';
-import './ProfileForm.css'; // Create a CSS file to style the modal
+import './ProfileForm.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-const ProfileForm = ({ isOpen, onClose }) => {
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [newPasswordVisible, setNewPasswordVisible] = useState(false);
-    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        if (isPasswordMatching) {
-            alert('Password successfully changed!');
-            onClose();
-        }
-    };
-
-    const isPasswordMatching = newPassword === confirmPassword && newPassword !== '';
+const ProfileForm = ({ isOpen, onClose, onConfirmClick, formData, onInputChange, error }) => {
+    const [showPassword, setShowPassword] = useState({ newPassword: false, confirmPassword: false });
 
     if (!isOpen) return null;
 
-    return (
-        <div className="modal-overlay">
-            <div className="modal-content">
-                <div className="close-button" onClick={onClose}>X</div>
-                <h2>Change Password</h2>
-                <form className="add-student-form" onSubmit={handleSubmit}>
-                    <div className='input-container'>
-                        <input
-                            type={newPasswordVisible ? 'text' : 'password'}
-                            placeholder="New Password" required
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)} />
-                        <div className='eye-icon' onClick={() => setNewPasswordVisible(!newPasswordVisible)}>
-                            {newPasswordVisible ? <FaEye /> : <FaEyeSlash />}
-                        </div>
-                    </div>
-                    <div className='input-container-two'>
-                        <input
-                            type={confirmPasswordVisible ? 'text' : 'password'}
-                            placeholder="Confirm Password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            required />
-                        <div className='eye' onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}>
-                            {confirmPasswordVisible ? <FaEye /> : <FaEyeSlash />}
-                        </div>
-                    </div>
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onConfirmClick();
+    };
 
-                    {!isPasswordMatching && confirmPassword && (
-                        <p style={{ color: 'red', margin: '0px', fontSize: '12px' }}>Passwords do not match.</p>
-                    )}
-                    <button type="submit" disabled={!isPasswordMatching}>Submit</button>
+    const togglePasswordVisibility = (field) => {
+        setShowPassword(prevState => ({
+            ...prevState,
+            [field]: !prevState[field]
+        }));
+    };
+
+    return (
+        <div className="modal-overlay-profile">
+            <div className="modal-content-profile">
+                <div className="close-button-profile" onClick={onClose}>X</div>
+                <h2>Change Password</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="input-container-profile1">
+                        <div className="password-input-wrapper">
+                            <input
+                                type={showPassword.newPassword ? "text" : "password"}
+                                id="newPassword"
+                                name="newPassword"
+                                value={formData.newPassword}
+                                onChange={onInputChange}
+                                required
+                                placeholder='New Password'
+                            />
+                            <span className="password-toggle" onClick={() => togglePasswordVisibility('newPassword')}>
+                                {showPassword.newPassword ? <FaEye /> :<FaEyeSlash /> }
+                            </span>
+                        </div>
+                    </div>
+                    <div className="input-container-profile-2">
+                        <div className="password-input-wrapper">
+                            <input
+                                type={showPassword.confirmPassword ? "text" : "password"}
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={onInputChange}
+                                required
+                                placeholder='Confirm Password'
+                            />
+                            <span className="password-toggle" onClick={() => togglePasswordVisibility('confirmPassword')}>
+                                {showPassword.confirmPassword ?   <FaEye />:<FaEyeSlash />}
+                            </span>
+                        </div>
+                    </div>
+                    {error && <p className="error-message-profile" style={{ color: 'red', margin: '0px', fontSize: '12px' }}>{error}</p>}
+                    <button type="submit">Confirm</button>
                 </form>
             </div>
         </div>

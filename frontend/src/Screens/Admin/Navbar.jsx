@@ -1,18 +1,19 @@
-import React, { useRef, useState, useEffect } from 'react';
-import './NavBar.css';
+import React, { useState, useEffect, useRef } from 'react';
+import './NavBar.css'; // Import the CSS file for styling
+import ProfileForm from './ProfileForm'; // Import the ProfileForm component
 import { useNavigate } from 'react-router-dom';
-import ProfileForm from './ProfileForm';
 
 function NavBar({ children, activeSection }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSidebarVisible, setIsSidebarVisible] = useState(window.innerWidth > 770);
+    const [formData, setFormData] = useState({ newPassword: '', confirmPassword: '' });
+    const [error, setError] = useState('');
 
     const navigate = useNavigate();
     const fileInputRef = useRef(null);
 
     const handleOnClick = () => {
         fileInputRef.current.click();
-        console.log('div clicked');
     };
 
     const gotoHome = () => {
@@ -45,20 +46,49 @@ function NavBar({ children, activeSection }) {
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+        document.body.classList.add('modal-open'); // Add class to disable background interaction
     };
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
+        document.body.style.overflow = ''; // Re-enable scrolling
+        document.body.classList.remove('modal-open'); // Remove class to re-enable background interaction
     };
 
     const handleToggleSidebar = () => {
         setIsSidebarVisible(!isSidebarVisible);
     };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleConfirmClick = () => {
+        const { newPassword, confirmPassword } = formData;
+    
+        if (newPassword !== confirmPassword) {
+            setError('Passwords do not match.');
+            return;
+        }
+    
+        setError('');
+    
+        alert('Password reset successful!');
+    
+        setFormData({ newPassword: '', confirmPassword: '' });
+    
+        handleCloseModal();
+    };
+    
+    
+
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth > 770) {
                 setIsSidebarVisible(true);
-            } else if (window.innerWidth <= 770) {
+            } else {
                 setIsSidebarVisible(false);
             }
         };
@@ -98,35 +128,22 @@ function NavBar({ children, activeSection }) {
                     <div className='avatar' onClick={handleOpenModal}>
                         <i className='bx bxs-cog'></i>
                     </div>
-                    <ProfileForm isOpen={isModalOpen} onClose={handleCloseModal} />
                 </div>
                 {children}
-                <div className='btm-container'>
-                    <div className='bottom-bar'>
-                        <div className={`btm-content ${activeSection === 'attendance' ? 'active' : ''}`} onClick={gotoAttendance}>
-                            <i className='bx bx-calendar-check'></i> Attendance Marks
-                        </div>
-                        <div className={`btm-content ${activeSection === 'review' ? 'active' : ''}`} onClick={gotoReview}>
-                            <i className='bx bx-code-block'></i> Project Review Marks
-                        </div>
-                        <div className={`btm-content ${activeSection === 'assessment' ? 'active' : ''}`} onClick={gotoAssessment}>
-                            <i className='bx bx-edit'></i> Assessment Marks
-                        </div>
-                        <div className={`btm-content ${activeSection === 'submission' ? 'active' : ''}`} onClick={gotoSubmission}>
-                            <i className='bx bx-upload'></i> Project Submission Marks
-                        </div>
-                        <div className={`btm-content ${activeSection === 'linkedin' ? 'active' : ''}`} onClick={gotoLinkedIn}>
-                            <i className='bx bxl-linkedin-square'></i> LinkedIn Post Marks
-                        </div>
-                    </div>
-                </div>
-                <div
-                    className={`toggle-arrow ${!isSidebarVisible ? '' : 'visible'}`}
-                    onClick={handleToggleSidebar}
-                >
-                    <i className='bx bx-chevron-right'></i>
-                </div>
+                {isModalOpen && (
+                    <ProfileForm 
+                        isOpen={isModalOpen} 
+                        onClose={handleCloseModal} 
+                        formData={formData}
+                        onInputChange={handleInputChange}
+                        onConfirmClick={handleConfirmClick}
+                        error={error}
+                    />
+                )}
             </div>
+            <button className="sidebar-toggle-btn" onClick={handleToggleSidebar}>
+                {isSidebarVisible ? <i className='bx bx-left-arrow-alt'></i> : <i className='bx bx-right-arrow-alt'></i>}
+            </button>
         </div>
     );
 }
