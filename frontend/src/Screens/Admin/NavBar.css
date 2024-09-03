@@ -162,6 +162,13 @@
 .btm-content:hover {
   color: #e1bebe;
 }
+.bottom-bar .btm-content.active {
+  border-bottom: 2px solid #e1bebe;
+  color: #e1bebe;
+}
+.bottom-bar .btm-content.active::after {
+  width: 0; 
+}
 
 .upload-btn {
   width: 100px;
