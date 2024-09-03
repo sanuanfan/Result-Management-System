@@ -8,6 +8,10 @@ function AdminDashboard() {
       <NavBar activeSection="dashboard">
         <div className="main-div">
           <p>List Of Students</p>
+          <div className='search-bar'>
+            <input type="text" placeholder='Search by ID' />
+            <i className='bx bx-search-alt' id='search-icon'></i>
+          </div>
           <div className="tab">
             <table className="student-table">
               <thead>
