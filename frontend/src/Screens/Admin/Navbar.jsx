@@ -130,6 +130,16 @@ function NavBar({ children, activeSection }) {
                     </div>
                 </div>
                 {children}
+                <div className='btm-container'>
+            <div className='bottom-bar'>
+               <div  className={`btm-content ${activeSection === 'attendance' ? 'active' : ''}`} onClick={gotoAttendance}><i class='bx bx-calendar-check'></i>Attendence Marks</div>
+                <div className={`btm-content ${activeSection === 'review' ? 'active' : ''}`}  onClick={gotoReview}><i class='bx bx-code-block'></i>Project Review Marks</div>
+                <div className={`btm-content ${activeSection === 'assessment' ? 'active' : ''}`}  onClick={gotoAssessment}><i class='bx bx-edit' ></i>Assessment Marks</div>
+                <div className={`btm-content ${activeSection === 'submission' ? 'active' : ''}`} onClick={gotoSubmission}><i class='bx bx-upload' ></i>Project Submission Marks</div>
+                <div className={`btm-content ${activeSection === 'linkedin' ? 'active' : ''}`} onClick={gotoLinkedIn}><i class='bx bxl-linkedin-square' ></i>LinkedIn Post Marks</div>
+            </div>
+            </div>
+
                 {isModalOpen && (
                     <ProfileForm 
                         isOpen={isModalOpen} 
