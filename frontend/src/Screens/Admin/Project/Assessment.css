@@ -117,3 +117,8 @@
   margin: 0;
   text-align: center; /* Center the error message */
 }
+@media only screen and (max-width:770px) {
+  .assessment-main {
+    left: 16%;
+  }
+}

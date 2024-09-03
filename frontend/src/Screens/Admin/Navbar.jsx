@@ -142,7 +142,7 @@ function NavBar({ children, activeSection }) {
                 )}
             </div>
             <button className="sidebar-toggle-btn" onClick={handleToggleSidebar}>
-                {isSidebarVisible ? <i className='bx bx-left-arrow-alt'></i> : <i className='bx bx-right-arrow-alt'></i>}
+                {isSidebarVisible ? <i className='bx bxs-left-arrow' id='left-btn'></i> : <i className='bx bxs-right-arrow' ></i>}
             </button>
         </div>
     );

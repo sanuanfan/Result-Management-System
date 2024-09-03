@@ -29,7 +29,6 @@
   transform: translateX(0);
 }
 
-/* Navbar items */
 .nav-content {
   position: relative;
   width: 90px;
@@ -85,7 +84,6 @@
   color: #e74c3c;
 }
 
-/* Logo */
 .logo {
   width: 55px;
   height: 55px;
@@ -100,7 +98,6 @@
   color: orangered;
 }
 
-/* Avatar */
 .avatar {
   position: absolute;
   bottom: 40px;
@@ -117,7 +114,6 @@
   cursor: pointer;
 }
 
-/* Bottom bar */
 .bottom-bar {
   width: 94%;
   height: 80px;
@@ -167,7 +163,6 @@
   color: #e1bebe;
 }
 
-/* Upload button */
 .upload-btn {
   width: 100px;
   height: 30px;
@@ -187,7 +182,6 @@
   background-color: darkorange;
 }
 
-/* Logout button */
 .logout-btn {
   width: 100px;
   height: 30px;
@@ -207,69 +201,67 @@
   background-color: darkorange;
 }
 
-/* Toggle arrow */
-.toggle-arrow {
+.sidebar-toggle-btn {
   position: fixed;
-  top: 20px;
-  left: 10px;
   width: 30px;
   height: 30px;
-  /* background-color: orangered; */
-  color: white;
+  background-color: rgb(0, 0, 0,0);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  z-index: 1000;
-  /* transition: opacity 0.3s ease; */
+  border: none;
 }
 
-.toggle-arrow.hidden {
+.sidebar-toggle-btn.hidden {
   opacity: 0;
   visibility: hidden;
   display: block;
   
 }
 
-.toggle-arrow.visible {
+.sidebar-toggle-btn.visible {
   opacity: 1;
   visibility: visible;
 }
 
-.toggle-arrow i {
-  font-size: 30px;
+.sidebar-toggle-btn i {
+  font-size: 15px;
   color: white;
 }
 
-/* Responsive styles */
 @media (max-width: 770px) {
   .side-bar.hidden {
     display: inline;
 
   }
 
-  .toggle-arrow.visible {
+  .sidebar-toggle-btn.visible {
     display: block;
     transform: rotate(180deg);
     position: fixed;
-    left: 9%;
+    left: 13%;
 
   }
 
-  .toggle-arrow {
+  .sidebar-toggle-btn {
     width: 30px;
     position: fixed;
     top: 0px;
     left: 0;
 
   }
+  #left-btn{
+    position: relative;
+    right: 2%;
+  }
 
   .main-container {
     margin-left: 0;
   }
   .side-bar{
-    width: 15%; 
+    width: 13%; 
     display: flex;
     align-items: center;
 
@@ -314,7 +306,7 @@
     display: flex;
   }
 
-  .toggle-arrow {
+  .sidebar-toggle-btn {
     display: none;
   }
 }
