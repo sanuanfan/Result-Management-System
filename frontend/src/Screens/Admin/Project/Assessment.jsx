@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import NavBar from '../Navbar';
 import './Assessment.css';
 import EditAssessmentForm from './EditAssessment';
+import AssessmentUpload from './AssessmentUpload';
 
 function Assessment() {
   const [data, setData] = useState([
@@ -56,8 +57,13 @@ function Assessment() {
   return (
     <div>
       <NavBar activeSection="assessment">
+        <AssessmentUpload />
         <div className="assessment-main">
           <p>Assessment Marks</p>
+          <div className='search-bar'>
+            <input type="text" placeholder='Search by ID' />
+            <i className='bx bx-search-alt' id='search-icon'></i>
+          </div>
           <div className="tab">
             <table className='assessment-table'>
               <thead>

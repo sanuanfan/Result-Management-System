@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import NavBar from '../Navbar';
 import '../Project/Review.css';
 import EditForm from './EditReview';
+import ReviewUpload from './ReviewUpload';
 
 function Review() {
   const [data, setData] = useState([
@@ -62,8 +63,13 @@ function Review() {
   return (
     <div>
       <NavBar activeSection="review">
+        <ReviewUpload />
         <div className="review-main">
           <p>Project Review Marks</p>
+          <div className='search-bar'>
+            <input type="text" placeholder='Search by ID' />
+            <i className='bx bx-search-alt' id='search-icon'></i>
+          </div>
           <div className="tab">
             <table className='review-table'>
               <thead>

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import '../Attendance/Attendance.css';
 import NavBar from '../Navbar';
+import AttendanceUpload from './AttendanceUpload';
+
 
 function Attendance() {
   const [students, setStudents] = useState([
@@ -37,8 +39,14 @@ function Attendance() {
   return (
     <div>
       <NavBar activeSection="attendance" />
+                  <AttendanceUpload />
+                 
       <div className="container-main">
         <p>Attendance Marks</p>
+        <div className='search-bar'>
+            <input type="text" placeholder='Search by ID' />
+            <i className='bx bx-search-alt' id='search-icon'></i>
+          </div>
         <div className="tab">
           <table className='attendance-table'>
             <thead>

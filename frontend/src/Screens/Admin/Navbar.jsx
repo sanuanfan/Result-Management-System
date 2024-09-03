@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './NavBar.css'; // Import the CSS file for styling
 import ProfileForm from './ProfileForm'; // Import the ProfileForm component
 import { useNavigate } from 'react-router-dom';
@@ -10,11 +10,11 @@ function NavBar({ children, activeSection }) {
     const [error, setError] = useState('');
 
     const navigate = useNavigate();
-    const fileInputRef = useRef(null);
+    // const fileInputRef = useRef(null);
 
-    const handleOnClick = () => {
-        fileInputRef.current.click();
-    };
+    // const handleOnClick = () => {
+    //     fileInputRef.current.click();
+    // };
 
     const gotoHome = () => {
         navigate('/admin/home');
@@ -100,10 +100,10 @@ function NavBar({ children, activeSection }) {
     return (
         <div>
             <div className='main-container'>
-                <button className="upload-btn" onClick={handleOnClick}>
+                {/* <button className="upload-btn" onClick={handleOnClick}>
                     <input type="file" style={{ display: 'none' }} ref={fileInputRef} />
                     Upload
-                </button>
+                </button> */}
                 <button className='logout-btn' onClick={logOut}>Logout</button>
                 <div className={`side-bar ${isSidebarVisible ? 'visible' : 'hidden'}`}>
                     <div className='logo'><i className='bx bxs-graduation'></i></div>
@@ -132,11 +132,11 @@ function NavBar({ children, activeSection }) {
                 {children}
                 <div className='btm-container'>
             <div className='bottom-bar'>
-               <div  className={`btm-content ${activeSection === 'attendance' ? 'active' : ''}`} onClick={gotoAttendance}><i class='bx bx-calendar-check'></i>Attendence Marks</div>
-                <div className={`btm-content ${activeSection === 'review' ? 'active' : ''}`}  onClick={gotoReview}><i class='bx bx-code-block'></i>Project Review Marks</div>
-                <div className={`btm-content ${activeSection === 'assessment' ? 'active' : ''}`}  onClick={gotoAssessment}><i class='bx bx-edit' ></i>Assessment Marks</div>
-                <div className={`btm-content ${activeSection === 'submission' ? 'active' : ''}`} onClick={gotoSubmission}><i class='bx bx-upload' ></i>Project Submission Marks</div>
-                <div className={`btm-content ${activeSection === 'linkedin' ? 'active' : ''}`} onClick={gotoLinkedIn}><i class='bx bxl-linkedin-square' ></i>LinkedIn Post Marks</div>
+               <div  className={`btm-content ${activeSection === 'attendance' ? 'active' : ''}`} onClick={gotoAttendance}><i class='bx bx-calendar-check'></i><p>Attendence Marks</p></div>
+                <div className={`btm-content ${activeSection === 'review' ? 'active' : ''}`}  onClick={gotoReview}><i class='bx bx-code-block'></i><p>Project Review Marks</p></div>
+                <div className={`btm-content ${activeSection === 'assessment' ? 'active' : ''}`}  onClick={gotoAssessment}><i class='bx bx-edit' ></i><p>Assessment Marks</p></div>
+                <div className={`btm-content ${activeSection === 'submission' ? 'active' : ''}`} onClick={gotoSubmission}><i class='bx bx-upload' ></i><p>Project Submission Marks</p></div>
+                <div className={`btm-content ${activeSection === 'linkedin' ? 'active' : ''}`} onClick={gotoLinkedIn}><i class='bx bxl-linkedin-square' ></i><p>LinkedIn Post Marks</p></div>
             </div>
             </div>
 

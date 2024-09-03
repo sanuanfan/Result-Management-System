@@ -124,3 +124,20 @@
     left: 16%;
   }
 }
+@media only screen and (max-width:710px) {
+  .linkedin-main  p{
+    margin-bottom: 50px;
+
+  }
+  .search-bar {
+    position: absolute;
+    top:12%;
+    left: 0%;
+
+  
+  }
+  .search-bar input{
+    width: 50%;
+  }
+  
+}

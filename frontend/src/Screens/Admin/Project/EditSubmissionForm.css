@@ -27,11 +27,13 @@
 
 .close-button-submission {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 13px;
+    right: 15px;
     cursor: pointer;
     font-size: 20px;
-    color: white;
+    color: orangered;
+    font-weight: 600;
+    font-family: 'Lato', sans-serif;
 }
 
 h2 {

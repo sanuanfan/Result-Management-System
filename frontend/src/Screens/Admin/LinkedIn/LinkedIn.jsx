@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import NavBar from '../Navbar';
 import './LinkedIn.css';
 import EditLinkedInForm from './EditLinkedInForm';
+import LinkedinUpload from './LinkedinUpload';
 
 function LinkedIn() {
   const [data, setData] = useState([
@@ -58,8 +59,13 @@ function LinkedIn() {
   return (
     <div>
       <NavBar activeSection="linkedin">
+        <LinkedinUpload />
         <div className="linkedin-main">
           <p>LinkedIn Post Marks</p>
+          <div className='search-bar'>
+            <input type="text" placeholder='Search by ID' />
+            <i className='bx bx-search-alt' id='search-icon'></i>
+          </div>
           <div className="tab">
             <table className="linkedin-table">
               <thead>

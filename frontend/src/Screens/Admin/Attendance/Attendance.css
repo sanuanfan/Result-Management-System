@@ -107,6 +107,44 @@ p {
 .confirm-btn:hover {
   background-color: orangered;
 }
+
+.search-bar {
+  position: absolute;
+  top: 7%;
+  right: 0%;
+ 
+
+}
+
+.search-bar input {
+  position: relative;
+  /* width: 20%; */
+   padding: 6px 0px 7px 40px;
+  font-size: 14px;
+  border: none;
+  border: 1px solid #5a5959;
+  outline: none;
+  background-color: black;
+  transition: border-color 0.3s;
+  color: white;
+  border-radius: 5px;
+  width: 295px;
+ 
+  font-weight: 100;
+  
+  
+}
+.search-bar i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #c7c6c6;
+  font-size: 20px;
+  transition: color 0.3s,
+}
+
+
 @media only screen and (max-width:770px) {
   .container-main {
     left: 16%;
@@ -114,4 +152,21 @@ p {
   .edit-form{
     right: 3%;
   }
+}
+@media only screen and (max-width:710px) {
+  .container-main  p{
+    margin-bottom: 50px;
+
+  }
+  .search-bar {
+    position: absolute;
+    top:12%;
+    left: 0%;
+   
+  
+  }
+  .search-bar input{
+    width: 50%;
+  }
+  
 }

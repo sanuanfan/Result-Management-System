@@ -134,6 +134,11 @@
   color: #414753;
   cursor: pointer;
 }
+.btm-content p{
+  font-size: 16px;
+  margin: 0px;
+  color: #414753;
+}
 
 .btm-content::after {
   content: '';
@@ -142,7 +147,7 @@
   bottom: 0;
   width: 0;
   height: 2px;
-  background-color: #e1bebe;
+  background-color: orangered;
   transition: width 0.3s;
 }
 
@@ -158,36 +163,31 @@
 .btm-content:hover i {
   color: #e1bebe;
 }
+.btm-content:hover p {
+  color: #e1bebe;
+}
+
 
 .btm-content:hover {
   color: #e1bebe;
 }
+/* .bottom-bar .btm-content.active i{
+  color: orangered;
+} */
+.bottom-bar .btm-content.active p{
+  color: #e1bebe;
+}
+
+
 .bottom-bar .btm-content.active {
-  border-bottom: 2px solid #e1bebe;
+  border-bottom: 2px solid orangered;
   color: #e1bebe;
 }
 .bottom-bar .btm-content.active::after {
   width: 0; 
+  
 }
 
-.upload-btn {
-  width: 100px;
-  height: 30px;
-  background-color: orangered;
-  color: white;
-  position: absolute;
-  right: 145px;
-  top: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  border: none;
-}
-
-.upload-btn:hover {
-  background-color: darkorange;
-}
 
 .logout-btn {
   width: 100px;
@@ -202,11 +202,10 @@
   align-items: center;
   border-radius: 5px;
   border: none;
+  cursor: pointer;
 }
 
-.logout-btn:hover {
-  background-color: darkorange;
-}
+
 
 .sidebar-toggle-btn {
   position: fixed;

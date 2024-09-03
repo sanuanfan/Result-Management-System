@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import NavBar from '../Navbar';
 import './Submission.css';
 import EditSubmissionForm from './EditSubissionForm';
+import SubmissionUpload from './SubmissionUpload';
 
 function Submission() {
   const [data, setData] = useState([
@@ -57,8 +58,13 @@ function Submission() {
   return (
     <div>
       <NavBar activeSection="submission">
+        <SubmissionUpload />
         <div className="submission-main">
           <p>Project Submission Marks</p>
+          <div className='search-bar'>
+            <input type="text" placeholder='Search by ID' />
+            <i className='bx bx-search-alt' id='search-icon'></i>
+          </div>
           <div className="tab">
             <table className='submission-table'>
               <thead>
