@@ -45,7 +45,10 @@ function Attendance() {
         student._id === updatedStudent._id ? updatedStudent : student
       );
       setStudents(updatedStudents);
-      setFilteredStudents(updatedStudents);
+      const filtered = updatedStudents.filter(student =>
+        student.studentId.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredStudents(filtered);
       setEditingRow(null);
     } catch (error) {
       console.error('Error updating attendance status:', error);
@@ -57,7 +60,7 @@ function Attendance() {
     setSearchTerm(value);
 
     // Filter the students based on the search term
-    const filtered = students.filter(student => 
+    const filtered = students.filter(student =>
       student.studentId.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredStudents(filtered);
