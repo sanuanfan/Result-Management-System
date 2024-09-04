@@ -132,11 +132,11 @@ function NavBar({ children, activeSection }) {
                 {children}
                 <div className='btm-container'>
             <div className='bottom-bar'>
-               <div  className={`btm-content ${activeSection === 'attendance' ? 'active' : ''}`} onClick={gotoAttendance}><i class='bx bx-calendar-check'></i><p>Attendence Marks</p></div>
-                <div className={`btm-content ${activeSection === 'review' ? 'active' : ''}`}  onClick={gotoReview}><i class='bx bx-code-block'></i><p>Project Review Marks</p></div>
-                <div className={`btm-content ${activeSection === 'assessment' ? 'active' : ''}`}  onClick={gotoAssessment}><i class='bx bx-edit' ></i><p>Assessment Marks</p></div>
-                <div className={`btm-content ${activeSection === 'submission' ? 'active' : ''}`} onClick={gotoSubmission}><i class='bx bx-upload' ></i><p>Project Submission Marks</p></div>
-                <div className={`btm-content ${activeSection === 'linkedin' ? 'active' : ''}`} onClick={gotoLinkedIn}><i class='bx bxl-linkedin-square' ></i><p>LinkedIn Post Marks</p></div>
+               <div  className={`btm-content ${activeSection === 'attendance' ? 'active' : ''}`} onClick={gotoAttendance}><i className='bx bx-calendar-check'></i><p>Attendence Marks</p></div>
+                <div className={`btm-content ${activeSection === 'review' ? 'active' : ''}`}  onClick={gotoReview}><i className='bx bx-code-block'></i><p>Project Review Marks</p></div>
+                <div className={`btm-content ${activeSection === 'assessment' ? 'active' : ''}`}  onClick={gotoAssessment}><i className='bx bx-edit' ></i><p>Assessment Marks</p></div>
+                <div className={`btm-content ${activeSection === 'submission' ? 'active' : ''}`} onClick={gotoSubmission}><i className='bx bx-upload' ></i><p>Project Submission Marks</p></div>
+                <div className={`btm-content ${activeSection === 'linkedin' ? 'active' : ''}`} onClick={gotoLinkedIn}><i className='bx bxl-linkedin-square' ></i><p>LinkedIn Post Marks</p></div>
             </div>
             </div>
 
