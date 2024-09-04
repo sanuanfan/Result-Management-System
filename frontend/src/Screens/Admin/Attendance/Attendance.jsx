@@ -72,6 +72,7 @@ useEffect(() => {
         <table className="attendance-table">
             <thead>
               <tr>
+                <th>Sl No </th>
                 <th>Student Name</th>
                 <th>Student Id</th>
                 <th>Date</th>
@@ -82,6 +83,7 @@ useEffect(() => {
             <tbody>
               {students.map((student, index) => (
                 <tr key={index}>
+                  <td>{index +1}</td>
                   <td>{student.studentName}</td>
                   <td>{student.studentId}</td>
                   <td>{new Date(student.Date).toLocaleDateString()}</td>

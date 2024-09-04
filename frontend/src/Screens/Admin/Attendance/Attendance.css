@@ -102,6 +102,7 @@ p {
 .edit-form input[type="radio"] {
   margin-right: 5px;
   accent-color: orangered;
+  cursor: pointer;
 }
 
 .edit-form button{

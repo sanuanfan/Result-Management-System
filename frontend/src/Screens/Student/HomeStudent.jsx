@@ -48,8 +48,8 @@ function HomeStudent() {
                       <td>{row.category}</td>
                       <td>{row.cutOff}</td>
                       <td>{row.marks}</td>
-                      <td>{row.weightage}</td>
-                      <td>{row.remarks}</td>
+                      <td>--</td>
+                      <td>--</td>
                     </tr>
                   ))}
                 </tbody>
