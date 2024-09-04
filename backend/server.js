@@ -1,14 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const User = require('./model/User'); 
 dotenv.config();
+const attendanceRoutes = require('./Routes/AttendanceRoute');
 
 const app = express();
 app.use(cors({ origin: '*' }));
 app.use(express.json());
+app.use('/api/attendances', attendanceRoutes);
 
 mongoose.connect(process.env.URI)
   .then(() => console.log('Connected to database'))

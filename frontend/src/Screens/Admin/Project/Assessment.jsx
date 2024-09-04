@@ -61,7 +61,7 @@ function Assessment() {
         <div className="assessment-main">
           <p>Assessment Marks</p>
           <div className='search-bar'>
-            <input type="text" placeholder='Search by ID' />
+            <input type="text" placeholder='Search by ID' name='studentId'/>
             <i className='bx bx-search-alt' id='search-icon'></i>
           </div>
           <div className="tab">
