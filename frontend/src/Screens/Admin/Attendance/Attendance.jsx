@@ -1,23 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import '../Attendance/Attendance.css';
 import NavBar from '../Navbar';
 import AttendanceUpload from './AttendanceUpload';
+import axios from 'axios';
 
 
 function Attendance() {
-  const [students, setStudents] = useState([
-    { name: 'John Doe', id: 1011, date: '28-08-2024', status: 'Absent' },
-    { name: 'Jane Smith', id: 1012, date: '28-08-2024', status: 'Absent' },
-    { name: 'Michael Johnson', id: 1013, date: '28-08-2024', status: 'Absent' },
-    { name: 'Emily Davis', id: 1014, date: '28-08-2024', status: 'Absent' },
-    { name: 'William Brown', id: 1015, date: '28-08-2024', status: 'Absent' },
-    { name: 'Linda Wilson', id: 1016, date: '28-08-2024', status: 'Absent' },
-    { name: 'James Miller', id: 1017, date: '28-08-2024', status: 'Absent' },
-    { name: 'Olivia Taylor', id: 1018, date: '28-08-2024', status: 'Absent' },
-  ]);
+  const [students, setStudents] = useState([]);
 
   const [editingRow, setEditingRow] = useState(null);
   const [status, setStatus] = useState('');
+
+
+  
+// Fetch attendance data from the backend
+useEffect(() => {
+  const fetchAttendanceData = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/attendances'); // Ensure this matches your backend route
+      setStudents(response.data);
+    } catch (error) {
+      console.error('Error fetching attendance data:', error);
+    }
+  };
+
+  fetchAttendanceData();
+}, []);
+
+
+
 
   const handleEditClick = (index) => {
     setEditingRow(index);
@@ -28,12 +39,22 @@ function Attendance() {
     setStatus(e.target.value);
   };
 
-  const handleConfirmClick = (index) => {
-    const updatedStudents = students.map((student, i) => 
-      i === index ? { ...student, status } : student
-    );
-    setStudents(updatedStudents);
-    setEditingRow(null);
+  const handleConfirmClick = async (index) => {
+    const updatedStudent = { ...students[index], status };
+    
+    try {
+      // Send a PUT request to update the status in the database
+      await axios.put(`http://localhost:5000/api/attendances/${updatedStudent._id}`, { status });
+
+      // Update the state to reflect the change
+      const updatedStudents = students.map((student, i) =>
+        i === index ? updatedStudent : student
+      );
+      setStudents(updatedStudents);
+      setEditingRow(null);
+    } catch (error) {
+      console.error('Error updating attendance status:', error);
+    }
   };
 
   return (
@@ -48,7 +69,7 @@ function Attendance() {
             <i className='bx bx-search-alt' id='search-icon'></i>
           </div>
         <div className="tab">
-          <table className='attendance-table'>
+        <table className="attendance-table">
             <thead>
               <tr>
                 <th>Student Name</th>
@@ -61,15 +82,16 @@ function Attendance() {
             <tbody>
               {students.map((student, index) => (
                 <tr key={index}>
-                  <td>{student.name}</td>
-                  <td>{student.id}</td>
-                  <td>{student.date}</td>
+                  <td>{student.studentName}</td>
+                  <td>{student.studentId}</td>
+                  <td>{new Date(student.Date).toLocaleDateString()}</td>
                   <td>{student.status}</td>
-                  <td className='centre-btn'>
-                    <button 
-                      className='edit-btn' 
-                      onClick={() => handleEditClick(index)}>
-                      <i className='bx bxs-edit-alt'></i>Edit
+                  <td className="centre-btn">
+                    <button
+                      className="edit-btn"
+                      onClick={() => handleEditClick(index)}
+                    >
+                      Edit
                     </button>
                     {editingRow === index && (
                       <div className="edit-form">
@@ -91,9 +113,10 @@ function Attendance() {
                           />
                           Absent
                         </label>
-                        <button 
-                          className='confirm-btn' 
-                          onClick={() => handleConfirmClick(index)}>
+                        <button
+                          className="confirm-btn"
+                          onClick={() => handleConfirmClick(index)}
+                        >
                           Confirm
                         </button>
                       </div>

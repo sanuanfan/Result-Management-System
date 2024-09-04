@@ -83,4 +83,38 @@ router.post('/upload', upload.single('file'), async (req, res) => {
   }
 });
 
+// GET route to fetch all attendance data
+router.get('/', async (req, res) => {
+  try {
+    const attendanceRecords = await attendanceModel.find();
+    res.json(attendanceRecords);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching attendance data', error });
+  }
+});
+
+//Update the Attendance Status
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const updatedAttendance = await attendanceModel.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedAttendance) {
+      return res.status(404).json({ message: 'Attendance record not found' });
+    }
+
+    res.json(updatedAttendance);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating attendance status', error });
+  }
+});
+
+
+
 module.exports = router;

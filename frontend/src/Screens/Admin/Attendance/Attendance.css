@@ -15,6 +15,7 @@
   overflow-x: auto;
   border: 1px solid #171a1f;
   margin-right: 20px;
+  position: absolute;
 }
 
 .tab::-webkit-scrollbar {
@@ -62,25 +63,33 @@ p {
   color: white;
   border: none;
   cursor: pointer;
-  width: 50px;
+  width: 40px;
   height: 20px;
   border-radius: 2px;
   margin-left: 5px;
+  position: relative;
+}
+.centre-btn{
+  width: 160px;
 }
 
 .edit-form {
-  background-color: #171a1f;
+  background-color: #35373b;
   border: 1px solid #171a1f;
   padding: 10px;
-  margin-top: 5px;
+  margin-top: -20px;
+  margin-right: 9px;
   border-radius: 4px;
   display: flex;
   align-items: center;
   gap: 10px;
-  position: absolute;
   z-index: 3; 
   flex-direction: column;
   position:absolute;
+  right: 0%;
+  
+ 
+  
 
 }
 
@@ -149,9 +158,10 @@ p {
   .container-main {
     left: 16%;
   }
-  .edit-form{
-    right: 3%;
+  .tab{
+    left: 0%;
   }
+
 }
 @media only screen and (max-width:710px) {
   .container-main  p{
@@ -169,4 +179,18 @@ p {
     width: 50%;
   }
   
+}
+
+@media only screen and (max-width:510px) {
+  .edit-form {
+    position: absolute;
+    right: 0%;
+  }
+
+}
+@media only screen and (max-width:400px) {
+  .edit-form {
+    position: absolute;
+    right: -28%;  }
+
 }
