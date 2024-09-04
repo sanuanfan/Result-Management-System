@@ -1,8 +1,22 @@
 import React from 'react';
 import './EditAssessment.css'; // Create a CSS file to style the modal
 
+// Helper functions to handle date formatting
+const formatDateToDisplay = (date) => {
+    const [year, month, day] = date.split('-');
+    return `${day}-${month}-${year}`;
+};
+
+const formatDateForInput = (date) => {
+    const [day, month, year] = date.split('-');
+    return `${year}-${month}-${day}`;
+};
+
 const EditAssessmentForm = ({ isOpen, onClose, formData, onInputChange, onConfirmClick, error }) => {
     if (!isOpen) return null;
+
+    // Convert date to 'yyyy-mm-dd' format for the date input field
+    const formattedDateForInput = formatDateForInput(formData.date);
 
     return (
         <div className="modal-overlay-assessment">
@@ -10,9 +24,9 @@ const EditAssessmentForm = ({ isOpen, onClose, formData, onInputChange, onConfir
                 <div className="close-button-assessment" onClick={onClose}>X</div>
                 <h2>Edit Assessment</h2>
                 <form className="edit-form-assessment">
-                <div className='input-container-assessment'>
+                    <div className='input-container-assessment'>
                         <input
-                        id='disable'
+                            id='disable'
                             type="text"
                             name="name"
                             value={formData.name}
@@ -24,8 +38,12 @@ const EditAssessmentForm = ({ isOpen, onClose, formData, onInputChange, onConfir
                         <input
                             type="date"
                             name="date"
-                            value={formData.date}
-                            onChange={onInputChange}
+                            value={formattedDateForInput} // Use formatted date
+                            onChange={(e) => {
+                                // Convert the date to 'dd-mm-yyyy' format when changing the input value
+                                const newFormattedDate = formatDateToDisplay(e.target.value);
+                                onInputChange({ target: { name: 'date', value: newFormattedDate } });
+                            }}
                             required
                         />
                     </div>

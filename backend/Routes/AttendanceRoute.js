@@ -22,7 +22,7 @@ const excelToCsv = (filePath) => {
       const csvFilePath = `${filePath}.csv`;
       fs.writeFileSync(csvFilePath, csvData);
       resolve(csvFilePath);
-    } catch (error) {
+    } catch (error) {   
       reject(error);
     }
   });

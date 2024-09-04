@@ -39,13 +39,22 @@ function Attendance() {
     const updatedStudent = { ...filteredStudents[index], status };
 
     try {
+      // Update the student status in the backend
       await axios.put(`http://localhost:5000/api/attendances/${updatedStudent._id}`, { status });
 
+      // Update the students state
       const updatedStudents = students.map((student) =>
         student._id === updatedStudent._id ? updatedStudent : student
       );
+
       setStudents(updatedStudents);
-      setFilteredStudents(updatedStudents);
+
+      // Reapply the search filter after updating
+      const filtered = updatedStudents.filter(student =>
+        student.studentId.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      
+      setFilteredStudents(filtered);
       setEditingRow(null);
     } catch (error) {
       console.error('Error updating attendance status:', error);
@@ -141,7 +150,7 @@ function Attendance() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5" className="no-match">No match found</td>
+                  <td colSpan="6" className="no-match">No match found</td>
                 </tr>
               )}
             </tbody>
