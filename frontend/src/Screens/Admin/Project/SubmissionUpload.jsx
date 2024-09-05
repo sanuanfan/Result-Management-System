@@ -1,9 +1,11 @@
 import React, { useState,useRef} from 'react';
-import './SubmissionUpload.css'; // Import the CSS file for styling
+import './SubmissionUpload.css';
+import axios from 'axios';
 
 const SubmissionUpload = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [fileName, setFileName] = useState('');
+  const [file, setFile] = useState(null);
 
    const fileInputRef = useRef(null);
    const handleOnClick = () => {
@@ -19,14 +21,44 @@ const SubmissionUpload = () => {
     setShowPopup(false);
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
-    // Handle form submission logic here
-    setShowPopup(false);
+
+    if (!file) {
+      alert('Please choose a file before submitting.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      // Send a POST request to the backend to upload the file
+      const response = await axios.post('http://localhost:5000/api/submission/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log(response.data); // Handle the response as needed
+      alert('File uploaded successfully!');
+      setFileName(null);
+      setFile(null)
+      
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      alert('Failed to upload file. Please try again.');
+    }
+
+    setShowPopup(false); // Close the popup after submission
   };
+
+
+
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setFileName(file ? file.name : ''); // Set the file name or clear it if no file is selected
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile); 
+    setFileName(selectedFile ? selectedFile.name : ''); 
   };
 
 

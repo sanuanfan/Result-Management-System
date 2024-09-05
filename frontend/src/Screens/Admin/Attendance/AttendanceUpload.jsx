@@ -47,7 +47,7 @@ const AttendanceUpload = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-
+      
       console.log(response.data); // Handle the response as needed
       alert('File uploaded successfully!');
       setFileName(null);

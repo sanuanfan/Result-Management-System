@@ -1,9 +1,25 @@
 import React from 'react';
 import './EditSubmissionForm.css'; // Create a CSS file for styling the edit form
 
+
+// Helper functions to handle date formatting
+const formatDateToDisplay = (date) => {
+    const [year, month, day] = date.split('-');
+    return `${day}-${month}-${year}`;
+};
+
+const formatDateForInput = (date) => {
+    const [day, month, year] = date.split('-');
+    return `${year}-${month}-${day}`;
+};
+
 const EditSubmissionForm = ({ isOpen, onClose, formData, onInputChange, onConfirmClick, error }) => {
     if (!isOpen) return null;
 
+    const formattedDateForInput = formatDateForInput(formData.submissionDate);
+
+
+    
     return (
         <div className="modal-overlay-submission">
             <div className="modal-content-submission">
@@ -32,11 +48,15 @@ const EditSubmissionForm = ({ isOpen, onClose, formData, onInputChange, onConfir
                         />
                     </div>
                     <div className="input-container-submission">
-                        <input
+                    <input
                             type="date"
-                            name="submissionDate"
-                            value={formData.submissionDate}
-                            onChange={onInputChange}
+                            name="date"
+                            value={formattedDateForInput} // Use formatted date
+                            onChange={(e) => {
+                                // Convert the date to 'dd-mm-yyyy' format when changing the input value
+                                const newFormattedDate = formatDateToDisplay(e.target.value);
+                                onInputChange({ target: { name: 'date', value: newFormattedDate } });
+                            }}
                             required
                         />
                     </div>
