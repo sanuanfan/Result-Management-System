@@ -6,6 +6,8 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const User = require('./model/User'); 
 const attendanceRoutes = require('./Routes/AttendanceRoute');
+const linkedInRoutes = require('./Routes/LinkedInRoutes')
+const reviewedRoutes = require('./Routes/ReviewRoutes')
 const assessmentRoutes = require('./Routes/AssessmentRoute');
 const submissionRoutes = require('./Routes/SubmissionRoute')
 
@@ -19,6 +21,8 @@ app.use(express.json());
 
 // Routes
 app.use('/api/attendances', attendanceRoutes);
+app.use('/api/linkedin',linkedInRoutes);
+app.use('/api/review',reviewedRoutes)
 app.use('/api/assessment',assessmentRoutes );
 app.use('/api/submission',submissionRoutes);
 

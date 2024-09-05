@@ -66,7 +66,7 @@ function Attendance() {
     setSearchTerm(value);
 
     // Filter the students based on the search term
-    const filtered = students.filter(student => 
+    const filtered = students.filter(student =>
       student.studentId.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredStudents(filtered);
