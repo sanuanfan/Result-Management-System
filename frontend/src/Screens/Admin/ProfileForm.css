@@ -101,3 +101,15 @@ h2 {
   margin-bottom:8px;
   /* text-align: center; */
 }
+.username-input{
+  display: flex;
+  width: 91%;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  margin-left: 15px;
+  margin-bottom: 10px;
+}
+.username-input input{
+  cursor: not-allowed;
+}
