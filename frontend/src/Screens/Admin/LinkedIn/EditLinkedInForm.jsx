@@ -4,14 +4,24 @@ import './EditLinkedInForm.css';
 const EditLinkedInForm = ({ isOpen, onClose, formData, setFormData, onConfirmClick, error }) => {
     if (!isOpen) return null;
 
-    // Format date to yyyy-MM-dd
-    const formatDate = (date) => {
+    // Format date for input (yyyy-MM-dd)
+    const formatDateForInput = (date) => {
         if (!date) return '';
         const d = new Date(date);
         const year = d.getFullYear();
         const month = (`0${d.getMonth() + 1}`).slice(-2); // Months are zero-based, so add 1
         const day = (`0${d.getDate()}`).slice(-2);
         return `${year}-${month}-${day}`;
+    };
+
+    // Format date for display (dd-mm-yyyy)
+    const formatDateForDisplay = (date) => {
+        if (!date) return 'N/A';
+        const d = new Date(date);
+        const day = (`0${d.getDate()}`).slice(-2);
+        const month = (`0${d.getMonth() + 1}`).slice(-2); // Months are zero-based, so add 1
+        const year = d.getFullYear();
+        return `${day}-${month}-${year}`;
     };
 
     const handleChange = (event) => {
@@ -25,12 +35,12 @@ const EditLinkedInForm = ({ isOpen, onClose, formData, setFormData, onConfirmCli
                 <div className="close-button-linkedin" onClick={onClose}>X</div>
                 <h2>Edit LinkedIn Post</h2>
                 <form className="edit-form-linkedin">
-                <div className="input-container-linkedin">
+                    <div className="input-container-linkedin">
                         <input
                             type="text"
-                            name="Student Name"
+                            name="studentName"
                             value={formData.studentName || ''}
-                            placeholder="Project Title"
+                            placeholder="Student Name"
                             required
                             disabled
                             id='disabled1'
@@ -44,14 +54,15 @@ const EditLinkedInForm = ({ isOpen, onClose, formData, setFormData, onConfirmCli
                             onChange={handleChange}
                             placeholder="Project Title"
                             required
-                          
+                            id='disabled2'
+                            disabled
                         />
                     </div>
                     <div className="input-container-linkedin">
                         <input
                             type="date"
                             name="postDate"
-                            value={formatDate(formData.postDate) || ''}
+                            value={formatDateForInput(formData.postDate) || ''}
                             onChange={handleChange}
                             required
                         />
