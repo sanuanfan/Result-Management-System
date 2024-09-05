@@ -33,6 +33,7 @@ const EditLinkedInForm = ({ isOpen, onClose, formData, setFormData, onConfirmCli
                             placeholder="Project Title"
                             required
                             disabled
+                            id='disabled1'
                         />
                     </div>
                     <div className="input-container-linkedin">
@@ -43,6 +44,7 @@ const EditLinkedInForm = ({ isOpen, onClose, formData, setFormData, onConfirmCli
                             onChange={handleChange}
                             placeholder="Project Title"
                             required
+                          
                         />
                     </div>
                     <div className="input-container-linkedin">

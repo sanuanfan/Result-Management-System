@@ -1,115 +1,172 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavBar from '../Navbar';
-import '../Project/Review.css';
-import EditForm from './EditReview';
-import ReviewUpload from './ReviewUpload';
+import axios from 'axios';
+import '../Project/Review.css'; // Ensure this file exists and styles the page correctly
+import EditForm from './EditReview'; // Ensure this import is correct
+import ReviewUpload from './ReviewUpload'; // Ensure this import is correct
 
 function Review() {
-  const [data, setData] = useState([
-    { id: 1, studentName: 'Alice Johnson', studentId: '1001', projectName: 'AI Chatbot', projectMarks: 85, remarks: 'Excellent work' },
-    { id: 2, studentName: 'Bob Smith', studentId: '1002', projectName: 'Data Visualization Tool', projectMarks: 78, remarks: 'Good effort' },
-    { id: 3, studentName: 'Charlie Brown', studentId: '1003', projectName: 'Web Scraper', projectMarks: 90, remarks: 'Highly impressive' },
-  ]);
-
-  const [editingRow, setEditingRow] = useState(null);
-  const [formData, setFormData] = useState({ projectName: '', projectMarks: '', remarks: '',studentName:'' });
-  const [error, setError] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleEditClick = (row) => {
-    setEditingRow(row);
-    setFormData({
-      projectName: row.projectName,
-      projectMarks: row.projectMarks,
-      remarks: row.remarks,
-      studentName: row.studentName
+    const [data, setData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [editingRow, setEditingRow] = useState(null);
+    const [formData, setFormData] = useState({
+        studentName: '',
+        studentId: '',
+        projectName: '',
+        projectMark: '',
+        remarks: ''
     });
-    setIsModalOpen(true);
-    setError('');
-  };
+    const [error, setError] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    if (name === 'projectMarks') {
-      if (value < 0 || value > 100) {
-        setError('Project Marks must be between 0 and 100.');
-      } else {
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/review');
+                setData(response.data);
+                setFilteredData(response.data);
+            } catch (err) {
+                console.error('Error fetching review data:', err);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const handleSearchChange = (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+
+        const filtered = data.filter(row =>
+            row.studentId.toLowerCase().includes(value.toLowerCase())
+        );
+        setFilteredData(filtered);
+    };
+
+    const handleEditClick = (row) => {
+        setEditingRow(row);
+        setFormData({
+            studentName: row.studentName,
+            studentId: row.studentId,
+            projectName: row.projectName,
+            projectMark: row.projectMark,
+            remarks: row.remarks
+        });
         setError('');
-      }
-    }
-    setFormData({ ...formData, [name]: value });
-  };
+        setIsModalOpen(true);
+    };
 
-  const handleConfirmClick = () => {
-    if (!formData.projectName || !formData.projectMarks || formData.remarks === '') {
-      setError('All fields are required.');
-      return;
-    }
-    if (formData.projectMarks < 0 || formData.projectMarks > 100) {
-      setError('Project Marks must be between 0 and 100.');
-      return;
-    }
+    const handleCloseModal = () => {
+        setEditingRow(null);
+        setError('');
+        setIsModalOpen(false);
+    };
 
-    setData(data.map(row => row.id === editingRow.id ? { ...row, ...formData } : row));
-    setIsModalOpen(false);
-    setEditingRow(null);
-    setError('');
-  };
+    const handleConfirmClick = async () => {
+        const { studentName, projectName, projectMark, remarks } = formData;
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+        if (!studentName || !projectName || !projectMark || !remarks) {
+            setError('All fields are required.');
+            return;
+        }
 
-  return (
-    <div>
-      <NavBar activeSection="review">
-        <ReviewUpload />
-        <div className="review-main">
-          <p>Project Review Marks</p>
-          <div className='search-bar'>
-            <input type="text" placeholder='Search by ID' name='studentId'/>
-            <i className='bx bx-search-alt' id='search-icon'></i>
-          </div>
-          <div className="tab">
-            <table className='review-table'>
-              <thead>
-                <tr>
-                  <th>Student Name</th>
-                  <th>Student Id</th>
-                  <th>Project Name</th>
-                  <th>Project Marks</th>
-                  <th>Remarks</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.map(row => (
-                  <tr key={row.id}>
-                    <td>{row.studentName}</td>
-                    <td>{row.studentId}</td>
-                    <td>{row.projectName}</td>
-                    <td>{row.projectMarks}</td>
-                    <td>{row.remarks}</td>
-                    <td>
-                      <button className='edit-btn' onClick={() => handleEditClick(row)}>Edit</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        if (projectMark < 0 || projectMark > 100) {
+            setError('Project marks must be between 0 and 100.');
+            return;
+        }
+
+        try {
+            const updatedData = {
+                projectName,
+                projectMark,
+                remarks
+            };
+
+            await axios.put(`http://localhost:5000/api/review/${formData.studentId}`, updatedData);
+
+            const updatedDataList = data.map(item =>
+                item.studentId === formData.studentId && item.projectName === formData.projectName
+                    ? { ...item, ...updatedData }
+                    : item
+            );
+
+            setData(updatedDataList);
+            setFilteredData(updatedDataList.filter(row =>
+                row.studentId.toLowerCase().includes(searchTerm.toLowerCase())
+            ));
+            handleCloseModal();
+        } catch (err) {
+            setError('Error updating review data.');
+            console.error('Error updating review data:', err);
+        }
+    };
+
+    return (
+        <div>
+            <NavBar activeSection="review">
+                <ReviewUpload />
+                <div className="review-main">
+                    <p>Project Review Marks</p>
+                    <div className='search-bar'>
+                        <input
+                            type="text"
+                            placeholder='Search by ID'
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                        />
+                        <i className='bx bx-search-alt' id='search-icon'></i>
+                    </div>
+                    <div className="tab">
+                        <table className='review-table'>
+                            <thead>
+                                <tr>
+                                    <th>Sl No</th>
+                                    <th>Student Name</th>
+                                    <th>Student Id</th>
+                                    <th>Project Name</th>
+                                    <th>Project Marks</th>
+                                    <th>Remarks</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredData.length > 0 ? (
+                                    filteredData.map((row, index) => (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{row.studentName}</td>
+                                            <td>{row.studentId}</td>
+                                            <td>{row.projectName}</td>
+                                            <td>{row.projectMark}</td>
+                                            <td>{row.remarks}</td>
+                                            <td>
+                                                <button className='edit-btn' onClick={() => handleEditClick(row)}>Edit</button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="7" className="no-match">No match found</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </NavBar>
+            {editingRow && (
+                <EditForm
+                    isOpen={isModalOpen}
+                    onClose={handleCloseModal}
+                    formData={formData}
+                    setFormData={setFormData}
+                    onConfirmClick={handleConfirmClick}
+                    error={error}
+                />
+            )}
         </div>
-        <EditForm 
-          isOpen={isModalOpen} 
-          onClose={handleCloseModal} 
-          formData={formData} 
-          onInputChange={handleInputChange} 
-          onConfirmClick={handleConfirmClick} 
-          error={error}
-        />
-      </NavBar>
-    </div>
-  );
+    );
 }
 
 export default Review;

@@ -37,14 +37,14 @@ const processLinkedInRecords = async (records) => {
     const existingRecord = await linkedInModel.findOne({
       studentName,
       studentId,
-      projectTitle // Check for duplicate project title
+      // projectTitle // Check for duplicate project title
     });
 
     if (existingRecord) {
       // Update the existing record (merge)
       await linkedInModel.updateOne(
-        { studentName, studentId, projectTitle },
-        { $set: { postDate, postScore, linkedInLink, remarks } }
+        { studentName, studentId },
+        { $set: { postDate, postScore, linkedInLink, remarks , projectTitle} }
       );
     } else {
       // Insert new record
@@ -95,28 +95,27 @@ router.get('/', async (req, res) => {
 
 // Update LinkedIn data
 
-
 router.put('/:studentId', async (req, res) => {
-  const { studentId } = req.params; // The studentId in the URL
-  const {
-    projectTitle,
-    postDate,
-    postScore,
-    linkedInLink,
-    remarks,
-    studentName
-  } = req.body;
+  const { studentId } = req.params;
+  const { projectTitle, postDate, postScore, linkedInLink, remarks, studentName } = req.body;
 
   try {
+    // Check if the document with the same studentId and projectTitle exists
+    const documentToUpdate = await linkedInModel.findOne({
+      studentId: studentId,
+      // projectTitle: projectTitle
+    });
+
+    if (!documentToUpdate) {
+      return res.status(404).json({ message: 'No matching LinkedIn post found for this studentId and projectTitle.' });
+    }
+
+    // Proceed to update the specific record
     const updatedLinkedIn = await linkedInModel.findOneAndUpdate(
-      { studentId: studentId }, // Search by studentId instead of _id
-      { projectTitle, postDate, postScore, linkedInLink, remarks, studentName },
+      { studentId: studentId}, // Use both studentId and projectTitle to find the exact document
+      { postDate, postScore, linkedInLink, remarks, studentName ,projectTitle},
       { new: true }
     );
-
-    if (!updatedLinkedIn) {
-      return res.status(404).json({ message: 'LinkedIn post not found' });
-    }
 
     res.json(updatedLinkedIn);
   } catch (error) {
@@ -124,6 +123,9 @@ router.put('/:studentId', async (req, res) => {
     res.status(500).json({ message: 'Error updating LinkedIn data', error: error.message });
   }
 });
+
+
+
 
 
 module.exports = router;

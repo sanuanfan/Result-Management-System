@@ -1,9 +1,13 @@
-// EditForm.jsx
-import React, { useState } from 'react';
-import './EditReviewForm.css'; // Create a CSS file to style the modal
+import React from 'react';
+import './EditReviewForm.css'; // Ensure this file exists and styles the modal correctly
 
-const EditForm = ({ isOpen, onClose, formData, onInputChange, onConfirmClick, error }) => {
+const EditForm = ({ isOpen, onClose, formData, setFormData, onConfirmClick, error }) => {
     if (!isOpen) return null;
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData(prevData => ({ ...prevData, [name]: value }));
+    };
 
     return (
         <div className="modal-overlay-review">
@@ -11,16 +15,14 @@ const EditForm = ({ isOpen, onClose, formData, onInputChange, onConfirmClick, er
                 <div className="close-button-review" onClick={onClose}>X</div>
                 <h2>Edit Project Review</h2>
                 <form className="edit-form-review">
-                <div className='input-container-review'>
+                    <div className='input-container-review'>
                         <input
                             type="text"
-                            name="name"
+                            name="studentName"
                             value={formData.studentName}
-                            onChange={onInputChange}
-                            placeholder="Project Name"
+                            placeholder="Student Name"
                             disabled
                             id='disable'
-
                         />
                     </div>
                     <div className='input-container-review'>
@@ -28,7 +30,7 @@ const EditForm = ({ isOpen, onClose, formData, onInputChange, onConfirmClick, er
                             type="text"
                             name="projectName"
                             value={formData.projectName}
-                            onChange={onInputChange}
+                            onChange={handleChange}
                             placeholder="Project Name"
                             required
                         />
@@ -36,9 +38,9 @@ const EditForm = ({ isOpen, onClose, formData, onInputChange, onConfirmClick, er
                     <div className='input-container-review'>
                         <input
                             type="number"
-                            name="projectMarks"
-                            value={formData.projectMarks}
-                            onChange={onInputChange}
+                            name="projectMark"
+                            value={formData.projectMark}
+                            onChange={handleChange}
                             placeholder="Project Marks"
                             min="0"
                             max="100"
@@ -50,7 +52,7 @@ const EditForm = ({ isOpen, onClose, formData, onInputChange, onConfirmClick, er
                             type="text"
                             name="remarks"
                             value={formData.remarks}
-                            onChange={onInputChange}
+                            onChange={handleChange}
                             placeholder="Remarks"
                         />
                     </div>

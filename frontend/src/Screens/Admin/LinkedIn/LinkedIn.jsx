@@ -69,51 +69,49 @@ function LinkedIn() {
 
   const handleConfirmClick = async () => {
     const { studentName, projectTitle, postDate, postScore, linkedInLink, remarks } = formData;
-
+  
     if (!studentName || !projectTitle || !postDate || !postScore || !linkedInLink || !remarks) {
       setError('All fields are required.');
       return;
     }
-
+  
     if (postScore < 0 || postScore > 100) {
       setError('Post score must be between 0 and 100.');
       return;
     }
-
+  
     try {
-      // Check for duplicates
-      const duplicates = data.filter(item =>
-        item.studentId === formData.studentId &&
-        item.projectTitle === projectTitle &&
-        item.studentId !== formData.studentId // Exclude the current item being edited
-      );
-
-      if (duplicates.length > 0) {
-        setError('Duplicate entry found for this Student ID and Project Title.');
-        return;
-      }
-
       const updatedData = {
-        ...formData,
-        postDate: new Date(postDate).toISOString()
+        studentName,
+        projectTitle,
+        postDate: new Date(postDate).toISOString(),
+        postScore,
+        linkedInLink,
+        remarks
       };
-
+  
+      // PUT request to update the specific record
       await axios.put(`http://localhost:5000/api/linkedin/${formData.studentId}`, updatedData);
 
-      // Update the data and filteredData states
+      // Update only the specific row in the data list
       const updatedDataList = data.map(item =>
-        item.studentId === formData.studentId ? { ...item, ...updatedData } : item
+        item.studentId === formData.studentId && item.projectTitle === formData.projectTitle
+          ? { ...item, ...updatedData }
+          : item
       );
+  
       setData(updatedDataList);
       setFilteredData(updatedDataList.filter(row =>
         row.studentId.toLowerCase().includes(searchTerm.toLowerCase())
       ));
       handleCloseModal();
     } catch (err) {
-      setError('Error updating LinkedIn post.');
-      console.error('Error updating LinkedIn post:', err);
+      setError('Error updating LinkedIn Data.');
+      console.error('Error updating LinkedIn Data:', err);
     }
   };
+  
+  
 
   return (
     <div>

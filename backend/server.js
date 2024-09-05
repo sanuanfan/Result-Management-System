@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const User = require('./model/User'); 
 const attendanceRoutes = require('./Routes/AttendanceRoute');
 const linkedInRoutes = require('./Routes/LinkedInRoutes')
+const reviewedRoutes = require('./Routes/ReviewRoutes')
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 // Routes
 app.use('/api/attendances', attendanceRoutes);
 app.use('/api/linkedin',linkedInRoutes);
+app.use('/api/review',reviewedRoutes)
 
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
