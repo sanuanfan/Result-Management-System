@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './NavBar.css'; // Import the CSS file for styling
 import ProfileForm from './ProfileForm'; // Import the ProfileForm component
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function NavBar({ children, activeSection }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,21 +66,30 @@ function NavBar({ children, activeSection }) {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleConfirmClick = () => {
-        const { newPassword, confirmPassword } = formData;
-    
-        if (newPassword !== confirmPassword) {
-            setError('Passwords do not match.');
+    const handleConfirmClick = async () => {
+        // Validate passwords
+        if (formData.newPassword !== formData.confirmPassword) {
+            setError('Passwords do not match');
             return;
         }
-    
-        setError('');
-    
-        alert('Password reset successful!');
-    
-        setFormData({ newPassword: '', confirmPassword: '' });
-    
-        handleCloseModal();
+
+        try {
+            const username = 'admin'; // You should replace this with the actual logged-in user's username.
+            const response = await axios.post('http://localhost:5000/change-password', {
+                username,
+                newPassword: formData.newPassword,
+                confirmPassword: formData.confirmPassword
+            });
+
+            if (response.data.message === 'Password updated successfully') {
+                alert('Password changed successfully');
+                setError('');
+                setIsModalOpen(false); // Close modal on success
+            }
+        } catch (error) {
+            console.error('Error changing password:', error);
+            setError('An error occurred while changing the password.');
+        }
     };
     
     

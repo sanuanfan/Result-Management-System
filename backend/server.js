@@ -52,6 +52,38 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// change password
+
+app.post('/change-password', async (req, res) => {
+  const { username, newPassword, confirmPassword } = req.body;
+
+  // Check if the new passwords match
+  if (newPassword !== confirmPassword) {
+      return res.status(400).json({ message: 'Passwords do not match' });
+  }
+
+  try {
+      // Find the user in the database
+      const user = await User.findOne({ username });
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Hash the new password
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+      // Update the password in the database
+      user.password = hashedPassword;
+      await user.save();
+
+      res.json({ message: 'Password updated successfully' });
+  } catch (error) {
+      console.error('Error updating password:', error);
+      res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
 // Connect to MongoDB
 mongoose.connect(process.env.URI)
   .then(() => console.log('Connected to MongoDB'))
