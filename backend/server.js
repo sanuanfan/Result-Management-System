@@ -6,7 +6,8 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const User = require('./model/User'); 
 const attendanceRoutes = require('./Routes/AttendanceRoute');
-const assessmentRoutes = require('./Routes/AssessmentRoute')
+const assessmentRoutes = require('./Routes/AssessmentRoute');
+const submissionRoutes = require('./Routes/SubmissionRoute')
 
 dotenv.config();
 
@@ -19,7 +20,7 @@ app.use(express.json());
 // Routes
 app.use('/api/attendances', attendanceRoutes);
 app.use('/api/assessment',assessmentRoutes );
-
+app.use('/api/submission',submissionRoutes);
 
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
