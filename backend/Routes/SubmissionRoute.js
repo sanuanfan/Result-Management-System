@@ -103,7 +103,7 @@ router.put('/:id', async (req, res) => {
         const updateSubmission = await submissionModel.findByIdAndUpdate(id, {
             studentName: name,
             projectTitle,
-            submitDate,
+            submitDate:new Date(submitDate),
             marks,
             comments
         }, { new: true });

@@ -1,50 +1,11 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavBar from '../Navbar';
 import './Submission.css';
-import EditSubmissionForm from './EditSubissionForm';
+import EditSubmissionForm from './EditSubmissionForm';
 import SubmissionUpload from './SubmissionUpload';
 import axios from 'axios';
 
-function Submission() {
-  const [data, setData] = useState([]);
-  const [editingRow, setEditingRow] = useState(null);
-  const [formData, setFormData] = useState({name:'', projectTitle: '', submissionDate: '', marks: '', comments: '' });
-  const [error, setError] = useState('');
-  // const [searchTerm, setSearchTerm] = useState(''); // State for search input
-
-
- // Fetch assessment data from the backend
- useEffect(() => {
-  const fetchSbmissionData = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/submission');
-      setData(response.data);
-      // setFilteredData(response.data); // Initialize filtered data
-    } catch (error) {
-      console.error('Error fetching assessment data:', error);
-    }
-  };
-
-  fetchSbmissionData();
-}, []);
-
-
-
-
-  // const handleEditClick = (row) => {
-  //   setEditingRow(row);
-  //   setFormData({ 
-  //     name:row.studentName,
-  //     projectTitle: row.projectTitle, 
-  //     submissionDate: row.submissionDate, 
-  //     marks: row.marks, 
-  //     comments: row.comments 
-  //   });
-  //   setError('');
-  // };
-
-
-  // Helper functions to handle date formatting
+// Helper functions to handle date formatting
 const formatDateToDisplay = (date) => {
   const [year, month, day] = date.split('-');
   return `${day}-${month}-${year}`;
@@ -56,47 +17,67 @@ const formatDateForInput = (date) => {
 };
 
 
+
+
+function Submission() {
+  const [data, setData] = useState([]);
+  const [editingRow, setEditingRow] = useState(null);
+  const [formData, setFormData] = useState({ name: '', projectTitle: '', submissionDate: '', marks: '', comments: '' });
+  const [error, setError] = useState('');
+
+  // Fetch submission data from the backend
+  useEffect(() => {
+    const fetchSubmissionData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/submission');
+        setData(response.data);
+      } catch (error) {
+        console.error('Error fetching submission data:', error);
+      }
+    };
+
+    fetchSubmissionData();
+  }, []);
+
+  // Format dates correctly for display and input
   const handleEditClick = (row) => {
     setEditingRow(row);
     // Format the date for input correctly
-    const formattedDate = formatDateToDisplay(new Date(row.submitDate).toISOString().split('T')[0]);
-    setFormData({ 
-      name:row.studentName,
-      projectTitle: row.projectTitle, 
-      submissionDate: formattedDate, 
-      marks: row.marks, 
-      comments: row.comments 
+    const formattedDate = formatDateForInput(row.submitDate);
+        setFormData({ 
+        name: row.studentName,
+        projectTitle: row.projectTitle, 
+        submissionDate: formattedDate, 
+        marks: row.marks, 
+        comments: row.comments 
     });
     setError('');
   };
 
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    
     setFormData({ ...formData, [name]: value });
   };
 
   const handleConfirmClick = async () => {
-    const { projectTitle, date, marks, comments } = formData;
+    const { projectTitle, submissionDate, marks, comments } = formData;
 
     // Validate input
-    if (!projectTitle||!date || !marks === '' || !comments) {
+    if (!projectTitle || !submissionDate || marks === '' || !comments) {
       setError('All fields are required.');
       return;
     }
     if (marks < 0 || marks > 100) {
-      setError('Score must be between 0 and 100.');
+      setError('Marks must be between 0 and 100.');
       return;
     }
-
-    // Format date for API
-    const formattedDateForUpdate = formatDateForInput(date);
 
     try {
         const response = await axios.put(`http://localhost:5000/api/submission/${editingRow._id}`, {
             name: formData.name,
-            projectTitle:formData.projectTitle,
-            date: formattedDateForUpdate,
+            projectTitle: formData.projectTitle,
+            submitDate: submissionDate, // Send the correctly formatted date
             marks: formData.marks,
             comments: formData.comments
         });
@@ -105,8 +86,8 @@ const formatDateForInput = (date) => {
         const updatedData = data.map(row => row._id === editingRow._id 
             ? { 
                 ...row, 
-                projectTitle:formData.projectTitle,
-                date: formattedDateForUpdate,  // Correctly update Date property
+                projectTitle: formData.projectTitle,
+                submitDate: submissionDate,  // Correctly update submitDate property
                 marks: formData.marks,
                 comments: formData.comments
               } 
@@ -114,16 +95,11 @@ const formatDateForInput = (date) => {
         );
         
         setData(updatedData);
-        // Also update the filtered data with the new date
-        // setFilteredData(updatedData.filter(row => 
-        //     row.studentId.toLowerCase().includes(searchTerm.toLowerCase())
-        // ));
-
         setEditingRow(null);
         setError('');
     } catch (error) {
-        console.error('Error updating assessment:', error);
-        setError('Failed to update the assessment.');
+        console.error('Error updating submission:', error);
+        setError('Failed to update the submission.');
     }
   };
 
@@ -156,12 +132,12 @@ const formatDateForInput = (date) => {
                 </tr>
               </thead>
               <tbody>
-                {data.map((row,index) => (
+                {data.map((row, index) => (
                   <tr key={row.studentId || index}>
                     <td>{row.studentName}</td>
                     <td>{row.studentId}</td>
                     <td>{row.projectTitle}</td>
-                    <td>{new Date(row.submitDate).toLocaleDateString()}</td>
+                    <td>{formatDateToDisplay(new Date(row.submitDate).toISOString().split('T')[0])}</td>
                     <td>{row.marks}</td>
                     <td>{row.comments}</td>
                     <td>
