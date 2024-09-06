@@ -74,7 +74,7 @@ function NavBar({ children, activeSection }) {
         }
 
         try {
-            const username = 'admin'; // You should replace this with the actual logged-in user's username.
+            const username = 'Admin'; // You should replace this with the actual logged-in user's username.
             const response = await axios.post('http://localhost:5000/change-password', {
                 username,
                 newPassword: formData.newPassword,

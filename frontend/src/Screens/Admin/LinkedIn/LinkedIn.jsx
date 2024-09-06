@@ -92,7 +92,7 @@ function LinkedIn() {
   
       // PUT request to update the specific record
       await axios.put(`http://localhost:5000/api/linkedin/${formData.studentId}`, updatedData);
-
+  
       // Update only the specific row in the data list
       const updatedDataList = data.map(item =>
         item.studentId === formData.studentId && item.projectTitle === formData.projectTitle
@@ -109,6 +109,17 @@ function LinkedIn() {
       setError('Error updating LinkedIn Data.');
       console.error('Error updating LinkedIn Data:', err);
     }
+  };
+  
+
+  // Custom date formatting function
+  const formatDate = (date) => {
+    if (!date) return 'N/A';
+    const d = new Date(date);
+    const day = (`0${d.getDate()}`).slice(-2);
+    const month = (`0${d.getMonth() + 1}`).slice(-2); // Months are zero-based, so add 1
+    const year = d.getFullYear();
+    return `${day}-${month}-${year}`;
   };
 
   return (
@@ -150,7 +161,7 @@ function LinkedIn() {
                       <td>{row.studentName}</td>
                       <td>{row.studentId}</td>
                       <td>{row.projectTitle}</td>
-                      <td>{new Date(row.postDate).toLocaleDateString()}</td> {/* Display date */}
+                      <td>{formatDate(row.postDate)}</td>
                       <td>{row.postScore}</td>
                       <td>
                         <a href={row.linkedInLink} target="_blank" rel="noopener noreferrer">

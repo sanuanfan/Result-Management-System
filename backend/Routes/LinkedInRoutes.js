@@ -104,7 +104,7 @@ router.put('/:studentId', async (req, res) => {
     // Check if the document with the same studentId and projectTitle exists
     const documentToUpdate = await linkedInModel.findOne({
       studentId: studentId,
-      // projectTitle: projectTitle
+      projectTitle: projectTitle
     });
 
     if (!documentToUpdate) {
@@ -113,8 +113,8 @@ router.put('/:studentId', async (req, res) => {
 
     // Proceed to update the specific record
     const updatedLinkedIn = await linkedInModel.findOneAndUpdate(
-      { studentId: studentId}, // Use both studentId and projectTitle to find the exact document
-      { postDate, postScore, linkedInLink, remarks, studentName ,projectTitle},
+      { studentId: studentId , projectTitle:projectTitle}, // Use both studentId and projectTitle to find the exact document
+      { postDate, postScore, linkedInLink, remarks, studentName },
       { new: true }
     );
 

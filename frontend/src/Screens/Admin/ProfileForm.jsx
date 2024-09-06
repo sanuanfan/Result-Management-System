@@ -26,6 +26,15 @@ const ProfileForm = ({ isOpen, onClose, onConfirmClick, formData, onInputChange,
                 <div className="close-button-profile" onClick={onClose}>X</div>
                 <h2>Change Password</h2>
                 <form onSubmit={handleSubmit}>
+                    <div className='username-input'>
+                        <label >Username: </label>
+                        <input 
+                        type="text"
+                        placeholder='Admin'
+                        value={'Admin'}
+                        disabled
+                         />
+                    </div>
                     <div className="input-container-profile1">
                         <div className="password-input-wrapper">
                             <input
