@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const xlsx = require('xlsx');
 const reviewModel = require('../model/ReviewModel'); // Assuming the model is named ReviewModel
+const LinkedInModel = require('../model/LinkedInModel');
 const router = express.Router();
 
 const upload = multer({ dest: 'uploads/' });
@@ -94,34 +95,32 @@ router.get('/', async (req, res) => {
   // updating 
 
   // Backend API for Review
+
+
+
+  // PUT route to update an assessment by ID
 router.put('/:studentId', async (req, res) => {
-    const { studentId } = req.params;
-    const { projectName, projectMark, remarks } = req.body;
-  
-    try {
-      // Check if the document with the same studentId and projectName exists
-      const documentToUpdate = await reviewModel.findOne({
-        studentId: studentId,
-        // projectName: projectName
-      });
-  
-      if (!documentToUpdate) {
-        return res.status(404).json({ message: 'No matching review found for this studentId and projectName.' });
+  const { id } = req.params;
+  const { projectName, projectMark, remarks,studentName } = req.body;
+
+  try {
+      const updatedAssessment = await reviewModel.findByIdAndUpdate(id, {
+          studentName,
+          projectName,
+          projectMark,
+          remarks
+      }, { new: true });
+
+      if (!updatedAssessment) {
+          return res.status(404).json({ message: 'Assessment not found' });
       }
-  
-      // Proceed to update the specific record
-      const updatedReview = await reviewModel.findOneAndUpdate(
-        { studentId: studentId},
-        { projectMark, remarks, projectName },
-        { new: true }
-      );
-  
-      res.json(updatedReview);
-    } catch (error) {
-      console.error('Error updating review data:', error.message);
-      res.status(500).json({ message: 'Error updating review data', error: error.message });
-    }
-  });
+
+      res.status(200).json(updatedAssessment);
+  } catch (error) {
+      console.error('Error updating assessment:', error); // Log the error
+      res.status(500).json({ message: 'Error updating assessment', error: error.message });
+}
+});
   
   
 
