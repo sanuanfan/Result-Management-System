@@ -1,21 +1,19 @@
 import React from 'react';
-import './EditAssessment.css'; // Create a CSS file to style the modal
+import './EditAssessment.css'; // Ensure this CSS file is created and properly styled
 
-// Helper functions to handle date formatting
-const formatDateToDisplay = (date) => {
-    const [year, month, day] = date.split('-');
-    return `${day}-${month}-${year}`;
-};
-
+// Custom date formatting functions
 const formatDateForInput = (date) => {
-    const [day, month, year] = date.split('-');
+    if (!date) return '';
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = (`0${d.getMonth() + 1}`).slice(-2);
+    const day = (`0${d.getDate()}`).slice(-2);
     return `${year}-${month}-${day}`;
 };
 
 const EditAssessmentForm = ({ isOpen, onClose, formData, onInputChange, onConfirmClick, error }) => {
     if (!isOpen) return null;
 
-    // Convert date to 'yyyy-mm-dd' format for the date input field
     const formattedDateForInput = formatDateForInput(formData.date);
 
     return (
@@ -39,11 +37,7 @@ const EditAssessmentForm = ({ isOpen, onClose, formData, onInputChange, onConfir
                             type="date"
                             name="date"
                             value={formattedDateForInput} // Use formatted date
-                            onChange={(e) => {
-                                // Convert the date to 'dd-mm-yyyy' format when changing the input value
-                                const newFormattedDate = formatDateToDisplay(e.target.value);
-                                onInputChange({ target: { name: 'date', value: newFormattedDate } });
-                            }}
+                            onChange={onInputChange}
                             required
                         />
                     </div>
@@ -69,8 +63,8 @@ const EditAssessmentForm = ({ isOpen, onClose, formData, onInputChange, onConfir
                             required
                         />
                     </div>
-                    {error && <p className='error-message1' style={{ color: 'red', margin: '0px', fontSize: '12px' }}>{error}</p>}
-                    <button type="button" onClick={onConfirmClick}>Confirm</button>
+                    {error && <p className='error-message1' style={{ color: 'red', fontSize: '13px', marginTop: '10px' }}>{error}</p>}
+                    <button type="button" onClick={onConfirmClick} className="confirm-button">Confirm</button>
                 </form>
             </div>
         </div>

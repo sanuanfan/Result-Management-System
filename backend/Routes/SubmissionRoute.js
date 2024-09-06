@@ -15,7 +15,7 @@ const excelToCsv = (filePath) =>{
             const workbook = xlsx.readFile(filePath);
             const sheetName = workbook.SheetNames[0];
             const worksheet = workbook.Sheets[sheetName];
-            const csv = xlsx.utils.sheet_to_csv(worksheet);
+            const csvData = xlsx.utils.sheet_to_csv(worksheet);
 
 
             const csvFilePath = `${filePath}.csv`;
@@ -32,17 +32,18 @@ const excelToCsv = (filePath) =>{
 const processRecords = async (records) =>{
     for(const record of records){
         const { studentName, studentId, projectTitle, submitDate, marks, comments } = record;
+
         const existingRecord = await submissionModel.findOne({
             studentName,
             studentId,
             projectTitle,
-            submitDate,
+           
         });
 
         if(existingRecord){
             await submissionModel.updateOne(
-                {studentName, studentId, projectTitle, submitDate},
-                {$set:{marks:marks, comments:comments}}
+                {studentName, studentId, projectTitle},
+                {$set:{marks:marks, comments:comments,submitDate:submitDate}}
                 
             );
         }else{
@@ -92,6 +93,7 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: 'Error fetching assessments', error });
     }
 });
+
 
 
 // PUT route to update an assessment by ID

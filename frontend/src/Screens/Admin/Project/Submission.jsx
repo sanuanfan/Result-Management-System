@@ -1,50 +1,11 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavBar from '../Navbar';
 import './Submission.css';
-import EditSubmissionForm from './EditSubissionForm';
+import EditSubmissionForm from './EditSubmissionForm';
 import SubmissionUpload from './SubmissionUpload';
 import axios from 'axios';
 
-function Submission() {
-  const [data, setData] = useState([]);
-  const [editingRow, setEditingRow] = useState(null);
-  const [formData, setFormData] = useState({name:'', projectTitle: '', submissionDate: '', marks: '', comments: '' });
-  const [error, setError] = useState('');
-  // const [searchTerm, setSearchTerm] = useState(''); // State for search input
-
-
- // Fetch assessment data from the backend
- useEffect(() => {
-  const fetchSbmissionData = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/submission');
-      setData(response.data);
-      // setFilteredData(response.data); // Initialize filtered data
-    } catch (error) {
-      console.error('Error fetching assessment data:', error);
-    }
-  };
-
-  fetchSbmissionData();
-}, []);
-
-
-
-
-  // const handleEditClick = (row) => {
-  //   setEditingRow(row);
-  //   setFormData({ 
-  //     name:row.studentName,
-  //     projectTitle: row.projectTitle, 
-  //     submissionDate: row.submissionDate, 
-  //     marks: row.marks, 
-  //     comments: row.comments 
-  //   });
-  //   setError('');
-  // };
-
-
-  // Helper functions to handle date formatting
+// Helper functions to handle date formatting
 const formatDateToDisplay = (date) => {
   const [year, month, day] = date.split('-');
   return `${day}-${month}-${year}`;
@@ -55,81 +16,107 @@ const formatDateForInput = (date) => {
   return `${year}-${month}-${day}`;
 };
 
+function Submission() {
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [editingRow, setEditingRow] = useState(null);
+  const [formData, setFormData] = useState({
+    studentName: '',
+    studentId: '',
+    projectTitle: '',
+    submitDate: '',
+    marks: '',
+    comments: '',
+  });
+  const [error, setError] = useState('');
+
+  // Fetch submission data on component mount
+  useEffect(() => {
+    const fetchSubmissionData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/submission');
+        setData(response.data);
+        setFilteredData(response.data); // Initialize filtered data
+      } catch (error) {
+        console.error('Error fetching submission data:', error);
+      }
+    };
+
+    fetchSubmissionData();
+  }, []);
+
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    // Filter the data based on the search term
+    const filtered = data.filter((row) =>
+      row.studentId.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredData(filtered);
+  };
 
   const handleEditClick = (row) => {
     setEditingRow(row);
-    // Format the date for input correctly
-    const formattedDate = formatDateToDisplay(new Date(row.submitDate).toISOString().split('T')[0]);
-    setFormData({ 
-      name:row.studentName,
-      projectTitle: row.projectTitle, 
-      submissionDate: formattedDate, 
-      marks: row.marks, 
-      comments: row.comments 
+    setFormData({
+      studentName: row.studentName,
+      studentId: row.studentId,
+      projectTitle: row.projectTitle,
+      submitDate: new Date(row.submitDate).toISOString().split('T')[0], // Convert to yyyy-MM-dd
+      marks: row.marks,
+      comments: row.comments,
     });
     setError('');
-  };
-
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleConfirmClick = async () => {
-    const { projectTitle, date, marks, comments } = formData;
-
-    // Validate input
-    if (!projectTitle||!date || !marks === '' || !comments) {
-      setError('All fields are required.');
-      return;
-    }
-    if (marks < 0 || marks > 100) {
-      setError('Score must be between 0 and 100.');
-      return;
-    }
-
-    // Format date for API
-    const formattedDateForUpdate = formatDateForInput(date);
-
-    try {
-        const response = await axios.put(`http://localhost:5000/api/submission/${editingRow._id}`, {
-            name: formData.name,
-            projectTitle:formData.projectTitle,
-            date: formattedDateForUpdate,
-            marks: formData.marks,
-            comments: formData.comments
-        });
-
-        // Update the local state with the response data
-        const updatedData = data.map(row => row._id === editingRow._id 
-            ? { 
-                ...row, 
-                projectTitle:formData.projectTitle,
-                date: formattedDateForUpdate,  // Correctly update Date property
-                marks: formData.marks,
-                comments: formData.comments
-              } 
-            : row
-        );
-        
-        setData(updatedData);
-        // Also update the filtered data with the new date
-        // setFilteredData(updatedData.filter(row => 
-        //     row.studentId.toLowerCase().includes(searchTerm.toLowerCase())
-        // ));
-
-        setEditingRow(null);
-        setError('');
-    } catch (error) {
-        console.error('Error updating assessment:', error);
-        setError('Failed to update the assessment.');
-    }
   };
 
   const handleCloseModal = () => {
     setEditingRow(null);
     setError('');
+  };
+
+  const handleConfirmClick = async () => {
+    const { studentName, projectTitle, submitDate, marks, comments } = formData;
+
+    if (!studentName || !projectTitle || !submitDate || marks === '' || !comments) {
+      setError('All fields are required.');
+      return;
+    }
+
+    if (marks < 0 || marks > 100) {
+      setError('Marks must be between 0 and 100.');
+      return;
+    }
+
+    try {
+      const updatedData = {
+        studentName,
+        projectTitle,
+        submitDate, // Already in yyyy-MM-dd format
+        marks,
+        comments,
+      };
+
+      // PUT request to update the specific record
+      await axios.put(`http://localhost:5000/api/submission/${editingRow._id}`, updatedData);
+
+      // Update only the specific row in the data list
+      const updatedDataList = data.map((item) =>
+        item._id === editingRow._id ? { ...item, ...updatedData } : item
+      );
+
+      setData(updatedDataList);
+      setFilteredData(
+        updatedDataList.filter((row) =>
+          row.studentId.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
+      handleCloseModal();
+    } catch (err) {
+      setError('Error updating submission data.');
+      console.error('Error updating submission data:', err);
+    }
   };
 
   return (
@@ -139,15 +126,22 @@ const formatDateForInput = (date) => {
         <div className="submission-main">
           <p>Project Submission Marks</p>
           <div className='search-bar'>
-            <input type="text" placeholder='Search by ID' name='studentId'/>
+            <input
+              type="text"
+              placeholder='Search by ID'
+              name='studentId'
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
             <i className='bx bx-search-alt' id='search-icon'></i>
           </div>
           <div className="tab">
             <table className='submission-table'>
               <thead>
                 <tr>
+                  <th>Sl No</th>
                   <th>Student Name</th>
-                  <th>Student Id</th>
+                  <th>Student ID</th>
                   <th>Project Title</th>
                   <th>Submission Date</th>
                   <th>Marks Awarded</th>
@@ -156,34 +150,42 @@ const formatDateForInput = (date) => {
                 </tr>
               </thead>
               <tbody>
-                {data.map((row,index) => (
-                  <tr key={row.studentId || index}>
-                    <td>{row.studentName}</td>
-                    <td>{row.studentId}</td>
-                    <td>{row.projectTitle}</td>
-                    <td>{new Date(row.submitDate).toLocaleDateString()}</td>
-                    <td>{row.marks}</td>
-                    <td>{row.comments}</td>
-                    <td>
-                      <button className='edit-btn' onClick={() => handleEditClick(row)}>Edit</button>
-                      {editingRow && editingRow.studentId === row.studentId && (
-                        <EditSubmissionForm
-                          isOpen={true}
-                          onClose={handleCloseModal}
-                          formData={formData}
-                          onInputChange={handleInputChange}
-                          onConfirmClick={handleConfirmClick}
-                          error={error}
-                        />
-                      )}
-                    </td>
+                {filteredData.length > 0 ? (
+                  filteredData.map((row, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{row.studentName}</td>
+                      <td>{row.studentId}</td>
+                      <td>{row.projectTitle}</td>
+                      <td>{formatDateToDisplay(new Date(row.submitDate).toISOString().split('T')[0])}</td>
+                      <td>{row.marks}</td>
+                      <td>{row.comments}</td>
+                      <td>
+                        <button className='edit-btn' onClick={() => handleEditClick(row)}>Edit</button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="8" style={{ textAlign: 'center' }}>No match found</td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
         </div>
       </NavBar>
+
+      {editingRow && (
+        <EditSubmissionForm
+          isOpen={true}
+          onClose={handleCloseModal}
+          formData={formData}
+          setFormData={setFormData}
+          onConfirmClick={handleConfirmClick}
+          error={error}
+        />
+      )}
     </div>
   );
 }

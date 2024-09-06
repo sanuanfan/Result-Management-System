@@ -1,39 +1,38 @@
 import React from 'react';
-import './EditSubmissionForm.css'; // Create a CSS file for styling the edit form
+import './EditSubmissionForm.css'; // Ensure you have the correct path to your CSS file
 
-
-// Helper functions to handle date formatting
-const formatDateToDisplay = (date) => {
-    const [year, month, day] = date.split('-');
-    return `${day}-${month}-${year}`;
-};
-
-const formatDateForInput = (date) => {
-    const [day, month, year] = date.split('-');
+// Helper function to format date to yyyy-MM-dd for the date input
+const formatDate = (date) => {
+    if (!date) return '';
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = (`0${d.getMonth() + 1}`).slice(-2); // Months are zero-based, so add 1
+    const day = (`0${d.getDate()}`).slice(-2);
     return `${year}-${month}-${day}`;
 };
 
-const EditSubmissionForm = ({ isOpen, onClose, formData, onInputChange, onConfirmClick, error }) => {
+const EditSubmissionForm = ({ isOpen, onClose, formData, setFormData, onConfirmClick, error }) => {
     if (!isOpen) return null;
 
-    const formattedDateForInput = formatDateForInput(formData.submissionDate);
+    // Handle input changes
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData(prevData => ({ ...prevData, [name]: value }));
+    };
 
-
-    
     return (
         <div className="modal-overlay-submission">
             <div className="modal-content-submission">
                 <div className="close-button-submission" onClick={onClose}>X</div>
                 <h2>Edit Submission</h2>
                 <form className="edit-form-submission">
-                <div className="input-container-submission">
+                    <div className="input-container-submission">
                         <input 
-                        id='disable'
+                            id='disable'
                             type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={onInputChange}
-                            placeholder="Project Title"
+                            name="studentName"
+                            value={formData.studentName || ''}
+                            placeholder="Student Name"
                             disabled
                         />
                     </div>
@@ -41,22 +40,18 @@ const EditSubmissionForm = ({ isOpen, onClose, formData, onInputChange, onConfir
                         <input
                             type="text"
                             name="projectTitle"
-                            value={formData.projectTitle}
-                            onChange={onInputChange}
+                            value={formData.projectTitle || ''}
+                            onChange={handleChange}
                             placeholder="Project Title"
                             required
                         />
                     </div>
                     <div className="input-container-submission">
-                    <input
+                        <input
                             type="date"
-                            name="date"
-                            value={formattedDateForInput} // Use formatted date
-                            onChange={(e) => {
-                                // Convert the date to 'dd-mm-yyyy' format when changing the input value
-                                const newFormattedDate = formatDateToDisplay(e.target.value);
-                                onInputChange({ target: { name: 'date', value: newFormattedDate } });
-                            }}
+                            name="submitDate"  // Ensure this matches your formData key
+                            value={formatDate(formData.submitDate) || ''} // Format date to yyyy-MM-dd
+                            onChange={handleChange}
                             required
                         />
                     </div>
@@ -64,8 +59,8 @@ const EditSubmissionForm = ({ isOpen, onClose, formData, onInputChange, onConfir
                         <input
                             type="number"
                             name="marks"
-                            value={formData.marks}
-                            onChange={onInputChange}
+                            value={formData.marks || ''}
+                            onChange={handleChange}
                             placeholder="Marks Awarded"
                             min="0"
                             max="100"
@@ -76,14 +71,16 @@ const EditSubmissionForm = ({ isOpen, onClose, formData, onInputChange, onConfir
                         <input
                             type='text'
                             name="comments"
-                            value={formData.comments}
-                            onChange={onInputChange}
+                            value={formData.comments || ''}
+                            onChange={handleChange}
                             placeholder="Comments"
                             required
                         />
                     </div>
                     {error && <p className="error-message1" style={{ color: 'red', margin: '0px', fontSize: '12px' }}>{error}</p>}
-                    <button type="button" onClick={onConfirmClick}>Confirm</button>
+                    <div className="button-group-submission">
+                        <button type="button" className="confirm-btn" onClick={onConfirmClick}>Confirm</button>
+                    </div>
                 </form>
             </div>
         </div>
