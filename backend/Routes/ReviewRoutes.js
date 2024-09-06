@@ -30,26 +30,38 @@ const excelToCsv = (filePath) => {
 
 // Function to process and merge/skip duplicates for Review records
 const processReviewRecords = async (records) => {
+  let mismatchFlag = false;
   for (const record of records) {
     const { studentName, studentId, projectName, projectMark, remarks } = record;
+
+    const existingRecordWithSameId = await reviewModel.findOne({studentId})
+
+    if (existingRecordWithSameId && existingRecordWithSameId.studentName !== studentName) {
+      console.log(`Mismatch for studentId: ${studentId}. Name in records: ${existingRecordWithSameId.studentName}, Name in upload: ${studentName}`);
+      // throw new Error(`Mismatch for studentId: ${studentId}. Expected name: ${existingRecordWithSameId.studentName}, but got: ${studentName}`);
+      mismatchFlag = true; // Set the mismatch flag
+      continue;
+    }
 
     // Check for existing records based on studentId and projectName
     const existingRecord = await reviewModel.findOne({
       studentId,
+      studentName,
       projectName // Check for duplicate projectName for the same studentId
     });
 
     if (existingRecord) {
       // If record exists, update it with the new data
       await reviewModel.updateOne(
-        { studentId, projectName },
-        { $set: { studentName, projectMark, remarks } }
+        { studentId, projectName ,studentName},
+        { $set: {  projectMark, remarks } }
       );
     } else {
       // If no duplicate is found, insert the new record
       await reviewModel.create(record);
     }
   }
+  return mismatchFlag;
 };
 
 // Route to upload review data
@@ -68,9 +80,9 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     const records = await csvtojson().fromFile(csvFilePath);
 
     // Process records (merge/insert data)
-    await processReviewRecords(records);
+    const mismatchFlag = await processReviewRecords(records);
 
-    res.status(200).json({ message: 'Review data uploaded and processed successfully' });
+    res.status(200).json({ message: 'Review data uploaded and processed successfully',mismatch: mismatchFlag });
 
   } catch (err) {
     res.status(500).json({ message: 'Error processing file', error: err });
