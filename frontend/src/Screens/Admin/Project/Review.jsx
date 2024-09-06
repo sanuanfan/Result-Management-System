@@ -83,10 +83,10 @@ function Review() {
                 remarks
             };
 
-            await axios.put(`http://localhost:5000/api/review/${formData.studentId}`, updatedData);
+            await axios.put(`http://localhost:5000/api/review/${editingRow._id}`, updatedData);
 
             const updatedDataList = data.map(item =>
-                item.studentId === formData.studentId && item.projectName === formData.projectName
+                item._id === editingRow._id && item.projectName === formData.projectName
                     ? { ...item, ...updatedData }
                     : item
             );

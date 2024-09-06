@@ -94,27 +94,22 @@ router.get('/', async (req, res) => {
   // updating 
 
   // Backend API for Review
-router.put('/:studentId', async (req, res) => {
-    const { studentId } = req.params;
-    const { projectName, projectMark, remarks } = req.body;
+router.put('/:id', async (req, res) => {
+    const { id } = req.params;
+    const { projectName, projectMark, remarks,studentName } = req.body;
   
     try {
       // Check if the document with the same studentId and projectName exists
-      const documentToUpdate = await reviewModel.findOne({
-        studentId: studentId,
-        // projectName: projectName
-      });
+      const updatedReview = await reviewModel.findByIdAndUpdate(id, {
+        studentName,
+        projectMark,
+        projectName,
+        remarks
+    }, { new: true });
   
-      if (!documentToUpdate) {
+      if (!updatedReview) {
         return res.status(404).json({ message: 'No matching review found for this studentId and projectName.' });
       }
-  
-      // Proceed to update the specific record
-      const updatedReview = await reviewModel.findOneAndUpdate(
-        { studentId: studentId},
-        { projectMark, remarks, projectName },
-        { new: true }
-      );
   
       res.json(updatedReview);
     } catch (error) {
