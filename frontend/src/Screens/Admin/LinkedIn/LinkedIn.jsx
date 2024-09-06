@@ -91,11 +91,11 @@ function LinkedIn() {
       };
   
       // PUT request to update the specific record
-      await axios.put(`http://localhost:5000/api/linkedin/${formData.studentId}`, updatedData);
+      await axios.put(`http://localhost:5000/api/linkedin/${editingRow._id}`, updatedData);
   
       // Update only the specific row in the data list
       const updatedDataList = data.map(item =>
-        item.studentId === formData.studentId && item.projectTitle === formData.projectTitle
+        item._id === editingRow._id 
           ? { ...item, ...updatedData }
           : item
       );
