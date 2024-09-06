@@ -93,6 +93,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+
 // Update LinkedIn data
 
 router.put('/:studentId', async (req, res) => {

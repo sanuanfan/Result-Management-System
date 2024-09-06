@@ -54,7 +54,7 @@ function LinkedIn() {
       studentName: row.studentName,
       studentId: row.studentId,
       projectTitle: row.projectTitle,
-      postDate: new Date(row.postDate),
+      postDate: new Date(row.postDate).toISOString().split('T')[0], // Convert to yyyy-MM-dd
       postScore: row.postScore,
       linkedInLink: row.linkedInLink,
       remarks: row.remarks
@@ -84,7 +84,7 @@ function LinkedIn() {
       const updatedData = {
         studentName,
         projectTitle,
-        postDate: new Date(postDate).toISOString(),
+        postDate, // Already in yyyy-MM-dd format
         postScore,
         linkedInLink,
         remarks
@@ -110,8 +110,6 @@ function LinkedIn() {
       console.error('Error updating LinkedIn Data:', err);
     }
   };
-  
-  
 
   return (
     <div>
@@ -152,7 +150,7 @@ function LinkedIn() {
                       <td>{row.studentName}</td>
                       <td>{row.studentId}</td>
                       <td>{row.projectTitle}</td>
-                      <td>{new Date(row.postDate).toLocaleDateString()}</td>
+                      <td>{new Date(row.postDate).toLocaleDateString()}</td> {/* Display date */}
                       <td>{row.postScore}</td>
                       <td>
                         <a href={row.linkedInLink} target="_blank" rel="noopener noreferrer">

@@ -25,12 +25,12 @@ const EditLinkedInForm = ({ isOpen, onClose, formData, setFormData, onConfirmCli
                 <div className="close-button-linkedin" onClick={onClose}>X</div>
                 <h2>Edit LinkedIn Post</h2>
                 <form className="edit-form-linkedin">
-                <div className="input-container-linkedin">
+                    <div className="input-container-linkedin">
                         <input
                             type="text"
-                            name="Student Name"
+                            name="studentName"
                             value={formData.studentName || ''}
-                            placeholder="Project Title"
+                            placeholder="Student Name"
                             required
                             disabled
                             id='disabled1'
@@ -44,7 +44,6 @@ const EditLinkedInForm = ({ isOpen, onClose, formData, setFormData, onConfirmCli
                             onChange={handleChange}
                             placeholder="Project Title"
                             required
-                          
                         />
                     </div>
                     <div className="input-container-linkedin">

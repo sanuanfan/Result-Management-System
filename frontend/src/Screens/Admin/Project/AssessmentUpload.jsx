@@ -48,9 +48,8 @@ const AssessmentUpload = () => {
       alert('File uploaded successfully!');
       setFileName(null);
       setFile(null)
-      
     } catch (error) {
-      console.error('Error uploading file:', error);
+      console.error('Error uploading file:', error.response || error.message || error);
       alert('Failed to upload file. Please try again.');
     }
 
