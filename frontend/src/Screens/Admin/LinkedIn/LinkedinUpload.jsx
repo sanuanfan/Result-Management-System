@@ -31,15 +31,15 @@ const LinkedInUpload = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
+  
     if (!file) {
       alert('Please choose a file before submitting.');
       return;
     }
-
+  
     const formData = new FormData();
     formData.append('file', file);
-
+  
     try {
       // Send a POST request to the backend to upload the LinkedIn data file
       const response = await axios.post('http://localhost:5000/api/linkedin/upload', formData, {
@@ -47,21 +47,29 @@ const LinkedInUpload = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-
-      console.log(response.data); // Handle the response as needed
-      alert('File uploaded successfully!');
+  
+      // Check if there's a mismatch flag in the response data
+      if (response.data.mismatch) {
+        alert('File uploaded successfully, but some mismatched data was discarded.');
+      } else {
+        alert('File uploaded successfully!');
+      }
+  
+      // Clear the file input and state after upload
       setFileName(null);
       setFile(null);
-
+  
     } catch (error) {
       console.error('Error uploading file:', error);
       alert('Failed to upload file. Please try again.');
       setFileName(null);
       setFile(null);
     }
-
-    setShowPopup(false); // Close the popup after submission
+  
+    // Close the popup after submission
+    setShowPopup(false);
   };
+  
 
   return (
     <div className="upload-container">

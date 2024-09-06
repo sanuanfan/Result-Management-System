@@ -46,8 +46,12 @@ const LinkedinUpload = () => {
         },
       });
 
-      console.log(response.data); // Handle the response as needed
-      alert('File uploaded successfully!');
+      if(response.data.mismatch){
+        alert('File uploaded successfully!, but some mismatched data was discarded.');
+
+      } else{
+        alert('File uploaded successfully!');
+      }
       setFileName(null);
       setFile(null);
     } catch (error) {

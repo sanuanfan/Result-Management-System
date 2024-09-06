@@ -30,28 +30,70 @@ const excelToCsv = (filePath) => {
 
 // Function to process and merge/skip duplicates
 const processLinkedInRecords = async (records) => {
+  let mismatchFlag = false;
   for (const record of records) {
     const { studentName, studentId, projectTitle, postDate, postScore, linkedInLink, remarks } = record;
 
-    // Find existing records
+    // Find existing record with the same studentId
+    const existingRecordWithSameId = await linkedInModel.findOne({ studentId });
+
+    // If a record with the same studentId exists but the names don't match, raise an alert
+    if (existingRecordWithSameId && existingRecordWithSameId.studentName !== studentName) {
+      console.log(`Mismatch for studentId: ${studentId}. Name in records: ${existingRecordWithSameId.studentName}, Name in upload: ${studentName}`);
+      // throw new Error(`Mismatch for studentId: ${studentId}. Expected name: ${existingRecordWithSameId.studentName}, but got: ${studentName}`);
+      mismatchFlag = true; // Set the mismatch flag
+      continue;
+    }
+
+    // Find if there's an existing record with the same studentId, studentName, and projectTitle
     const existingRecord = await linkedInModel.findOne({
-      studentName,
       studentId,
-      // projectTitle // Check for duplicate project title
+      studentName,
+      projectTitle
     });
 
     if (existingRecord) {
       // Update the existing record (merge)
       await linkedInModel.updateOne(
-        { studentName, studentId },
-        { $set: { postDate, postScore, linkedInLink, remarks , projectTitle} }
+        { studentId, studentName, projectTitle },
+        { $set: { postDate, postScore, linkedInLink, remarks } }
       );
     } else {
       // Insert new record
       await linkedInModel.create(record);
     }
   }
+  return mismatchFlag;
 };
+
+router.post('/upload', upload.single('file'), async (req, res) => {
+  const filePath = req.file.path;
+  const fileExtension = path.extname(req.file.originalname).toLowerCase();
+  let csvFilePath = filePath;
+
+  try {
+    // Check if the file is an Excel file (based on extension)
+    if (['.xls', '.xlsx'].includes(fileExtension)) {
+      // Convert Excel to CSV
+      csvFilePath = await excelToCsv(filePath);
+    }
+
+    // Convert CSV to JSON
+    const records = await csvtojson().fromFile(csvFilePath);
+
+    // Process and merge/skip duplicates
+    const mismatchFlag = await processLinkedInRecords(records);
+
+    res.status(200).json({ message: 'File uploaded and data processed successfully',mismatch: mismatchFlag  });
+  } catch (err) {
+    res.status(500).json({ message: 'Error processing file', error: err.message });
+  } finally {
+    fs.unlinkSync(filePath); // Delete the uploaded file
+    if (csvFilePath !== filePath) {
+      fs.unlinkSync(csvFilePath); // Delete the temporary CSV file
+    }
+  }
+});
 
 router.post('/upload', upload.single('file'), async (req, res) => {
   const filePath = req.file.path;
@@ -96,27 +138,31 @@ router.get('/', async (req, res) => {
 
 // Update LinkedIn data
 
-router.put('/:studentId', async (req, res) => {
-  const { studentId } = req.params;
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
   const { projectTitle, postDate, postScore, linkedInLink, remarks, studentName } = req.body;
 
   try {
     // Check if the document with the same studentId and projectTitle exists
-    const documentToUpdate = await linkedInModel.findOne({
-      studentId: studentId,
-      projectTitle: projectTitle
-    });
+    const updatedLinkedIn = await linkedInModel.findByIdAndUpdate(id,{
+      studentName,
+      projectTitle,
+      postDate,
+      postScore,
+      linkedInLink,
+      remarks
+    },{ new: true });
 
-    if (!documentToUpdate) {
-      return res.status(404).json({ message: 'No matching LinkedIn post found for this studentId and projectTitle.' });
+    if (!updatedLinkedIn) {
+      return res.status(404).json({ message: 'No matching LinkedIn post found for this studentId.' });
     }
 
     // Proceed to update the specific record
-    const updatedLinkedIn = await linkedInModel.findOneAndUpdate(
-      { studentId: studentId , projectTitle:projectTitle}, // Use both studentId and projectTitle to find the exact document
-      { postDate, postScore, linkedInLink, remarks, studentName },
-      { new: true }
-    );
+    // const updatedLinkedIn = await linkedInModel.findOneAndUpdate(
+    //   { studentId: studentId , projectTitle:projectTitle}, // Use both studentId and projectTitle to find the exact document
+    //   { postDate, postScore, linkedInLink, remarks, studentName },
+    //   
+    // );
 
     res.json(updatedLinkedIn);
   } catch (error) {

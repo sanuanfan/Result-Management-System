@@ -54,8 +54,6 @@ const EditLinkedInForm = ({ isOpen, onClose, formData, setFormData, onConfirmCli
                             onChange={handleChange}
                             placeholder="Project Title"
                             required
-                            id='disabled2'
-                            disabled
                         />
                     </div>
                     <div className="input-container-linkedin">
