@@ -137,15 +137,20 @@ router.get('/', async (req, res) => {
 // PUT route to update an assessment by ID
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
-    const { name, date, assessmentType, score } = req.body;
+    const { name, Date, assessmentType, score } = req.body;
+console.log(name);
+
 
     try {
         const updatedAssessment = await assessmentModel.findByIdAndUpdate(id, {
             studentName: name,
-            Date: date,
+            Date,
             assessmentType,
             score
         }, { new: true });
+console.log(Date);
+console.log(score);
+
 
         if (!updatedAssessment) {
             return res.status(404).json({ message: 'Assessment not found' });

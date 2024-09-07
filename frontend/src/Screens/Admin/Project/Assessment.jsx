@@ -59,7 +59,7 @@ function Assessment() {
     setEditingRow(row);
     setFormData({
       name: row.studentName,
-      date: new Date(row.Date).toISOString().split('T')[0], // Convert to yyyy-MM-dd
+      date: row.Date, // Convert to yyyy-MM-dd
       assessmentType: row.assessmentType,
       score: row.score
     });
