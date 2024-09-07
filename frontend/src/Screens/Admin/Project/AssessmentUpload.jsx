@@ -1,19 +1,17 @@
-import React, { useState,useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import './AssessmentUpload.css'; // Import the CSS file for styling
 import axios from 'axios';
-
 
 const AssessmentUpload = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [fileName, setFileName] = useState('');
   const [file, setFile] = useState(null);
 
+  const fileInputRef = useRef(null);
 
-   const fileInputRef = useRef(null);
-   const handleOnClick = () => {
-        fileInputRef.current.click();
-    };
-   
+  const handleOnClick = () => {
+    fileInputRef.current.click();
+  };
 
   const handleButtonClick = () => {
     setShowPopup(true);
@@ -21,8 +19,8 @@ const AssessmentUpload = () => {
 
   const handleClosePopup = () => {
     setShowPopup(false);
-    setFileName(null);
-    setFile(null)
+    setFileName('');
+    setFile(null);
   };
 
   const handleFormSubmit = async (event) => {
@@ -44,13 +42,22 @@ const AssessmentUpload = () => {
         },
       });
 
-      console.log(response.data); // Handle the response as needed
-      alert('File uploaded successfully!');
-      setFileName(null);
-      setFile(null)
+      // Check if the response status is 200 OK
+        if (response.data.mismatch) {
+          alert('File uploaded successfully, but some mismatched data was discarded.');
+        } else {
+          alert('File uploaded successfully!');
+        }
+     
+      
+      // Reset file input and state after upload
+      setFileName('');
+      setFile(null);
     } catch (error) {
       console.error('Error uploading file:', error.response || error.message || error);
       alert('Failed to upload file. Please try again.');
+      setFileName('');
+      setFile(null);
     }
 
     setShowPopup(false); // Close the popup after submission
@@ -58,11 +65,9 @@ const AssessmentUpload = () => {
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
-    setFile(selectedFile); 
-    setFileName(selectedFile ? selectedFile.name : ''); 
+    setFile(selectedFile);
+    setFileName(selectedFile ? selectedFile.name : '');
   };
-
-
 
   return (
     <div className="upload-container">
@@ -83,6 +88,7 @@ const AssessmentUpload = () => {
                   name="file" 
                   ref={fileInputRef}
                   onChange={handleFileChange}
+                  style={{ display: 'none' }} // Hide the default file input
                 />
                 <button type="button" className="choose-file-button" onClick={handleOnClick}>
                   Choose File

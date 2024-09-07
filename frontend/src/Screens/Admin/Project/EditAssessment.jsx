@@ -1,7 +1,7 @@
 import React from 'react';
 import './EditAssessment.css'; // Ensure this CSS file is created and properly styled
 
-// Custom date formatting functions
+// Format date for input (yyyy-MM-dd)
 const formatDateForInput = (date) => {
     if (!date) return '';
     const d = new Date(date);
@@ -11,10 +11,23 @@ const formatDateForInput = (date) => {
     return `${year}-${month}-${day}`;
 };
 
-const EditAssessmentForm = ({ isOpen, onClose, formData, onInputChange, onConfirmClick, error }) => {
+// Format date for display (dd-mm-yyyy)
+const formatDateForDisplay = (date) => {
+    if (!date) return 'N/A';
+    const d = new Date(date);
+    const day = (`0${d.getDate()}`).slice(-2);
+    const month = (`0${d.getMonth() + 1}`).slice(-2);
+    const year = d.getFullYear();
+    return `${day}-${month}-${year}`;
+};
+
+const EditAssessmentForm = ({ isOpen, onClose, formData, setFormData, onConfirmClick, error }) => {
     if (!isOpen) return null;
 
-    const formattedDateForInput = formatDateForInput(formData.date);
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData(prevData => ({ ...prevData, [name]: value }));
+    };
 
     return (
         <div className="modal-overlay-assessment">
@@ -24,20 +37,21 @@ const EditAssessmentForm = ({ isOpen, onClose, formData, onInputChange, onConfir
                 <form className="edit-form-assessment">
                     <div className='input-container-assessment'>
                         <input
-                            id='disable'
                             type="text"
                             name="name"
-                            value={formData.name}
-                            onChange={onInputChange}
+                            value={formData.name || ''}
+                            placeholder="Name"
+                            required
                             disabled
+                            id='disable'
                         />
                     </div>
                     <div className='input-container-assessment'>
                         <input
                             type="date"
                             name="date"
-                            value={formattedDateForInput} // Use formatted date
-                            onChange={onInputChange}
+                            value={formatDateForInput(formData.date) || ''}
+                            onChange={handleChange}
                             required
                         />
                     </div>
@@ -45,8 +59,8 @@ const EditAssessmentForm = ({ isOpen, onClose, formData, onInputChange, onConfir
                         <input
                             type="text"
                             name="assessmentType"
-                            value={formData.assessmentType}
-                            onChange={onInputChange}
+                            value={formData.assessmentType || ''}
+                            onChange={handleChange}
                             placeholder="Assessment Type"
                             required
                         />
@@ -55,8 +69,8 @@ const EditAssessmentForm = ({ isOpen, onClose, formData, onInputChange, onConfir
                         <input
                             type="number"
                             name="score"
-                            value={formData.score}
-                            onChange={onInputChange}
+                            value={formData.score || ''}
+                            onChange={handleChange}
                             placeholder="Score"
                             min="0"
                             max="100"
@@ -64,7 +78,9 @@ const EditAssessmentForm = ({ isOpen, onClose, formData, onInputChange, onConfir
                         />
                     </div>
                     {error && <p className='error-message1' style={{ color: 'red', fontSize: '13px', marginTop: '10px' }}>{error}</p>}
-                    <button type="button" onClick={onConfirmClick} className="confirm-button">Confirm</button>
+                    <div className="button-group-assessment">
+                        <button type="button" className="confirm-button" onClick={onConfirmClick}>Confirm</button>
+                    </div>
                 </form>
             </div>
         </div>

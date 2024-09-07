@@ -5,32 +5,28 @@ import EditAssessmentForm from './EditAssessment';
 import AssessmentUpload from './AssessmentUpload';
 import axios from 'axios';
 
-// Custom date formatting functions
-const formatDateToDisplay = (date) => {
-    if (!date) return 'N/A';
-    const d = new Date(date);
-    const day = (`0${d.getDate()}`).slice(-2);
-    const month = (`0${d.getMonth() + 1}`).slice(-2);
-    const year = d.getFullYear();
-    return `${day}-${month}-${year}`;
-};
-
-const formatDateForInput = (date) => {
-    if (!date) return '';
-    const d = new Date(date);
-    const year = d.getFullYear();
-    const month = (`0${d.getMonth() + 1}`).slice(-2);
-    const day = (`0${d.getDate()}`).slice(-2);
-    return `${year}-${month}-${day}`;
+// Custom date formatting function
+const formatDate = (date) => {
+  if (!date) return 'N/A';
+  const d = new Date(date);
+  const day = (`0${d.getDate()}`).slice(-2);
+  const month = (`0${d.getMonth() + 1}`).slice(-2); // Months are zero-based, so add 1
+  const year = d.getFullYear();
+  return `${day}-${month}-${year}`;
 };
 
 function Assessment() {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [editingRow, setEditingRow] = useState(null);
-  const [formData, setFormData] = useState({ name: '', date: '', assessmentType: '', score: '' });
-  const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [editingRow, setEditingRow] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    date: '',
+    assessmentType: '',
+    score: ''
+  });
+  const [error, setError] = useState('');
 
   // Fetch assessment data
   useEffect(() => {
@@ -47,34 +43,38 @@ function Assessment() {
     fetchAssessmentData();
   }, []);
 
-  // Filter data based on search term
-  useEffect(() => {
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    // Filter the data based on the search term
     const filtered = data.filter(row =>
-      row.studentId.toLowerCase().includes(searchTerm.toLowerCase())
+      row.studentId.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredData(filtered);
-  }, [searchTerm, data]);
+  };
 
   const handleEditClick = (row) => {
     setEditingRow(row);
     setFormData({
       name: row.studentName,
-      date: formatDateToDisplay(row.Date),
+      date: new Date(row.Date).toISOString().split('T')[0], // Convert to yyyy-MM-dd
       assessmentType: row.assessmentType,
       score: row.score
     });
     setError('');
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevData => ({ ...prevData, [name]: value }));
+  const handleCloseModal = () => {
+    setEditingRow(null);
+    setError('');
   };
 
   const handleConfirmClick = async () => {
-    const { date, assessmentType, score } = formData;
+    const { name, date, assessmentType, score } = formData;
 
-    if (!date || !assessmentType || score === '') {
+    if (!name || !date || !assessmentType || score === '') {
       setError('All fields are required.');
       return;
     }
@@ -84,37 +84,33 @@ function Assessment() {
       return;
     }
 
-    const formattedDateForUpdate = formatDateForInput(date);
-
     try {
-      await axios.put(`http://localhost:5000/api/assessment/${editingRow._id}`, {
-        name: formData.name,
-        date: formattedDateForUpdate,
-        assessmentType: formData.assessmentType,
-        score: formData.score
-      });
+      const updatedData = {
+        studentName: name,
+        Date: date,
+        assessmentType,
+        score
+      };
 
-      const updatedData = data.map(row =>
-        row._id === editingRow._id
-          ? { ...row, Date: formattedDateForUpdate, assessmentType: formData.assessmentType, score: formData.score }
-          : row
+      // PUT request to update the specific record
+      await axios.put(`http://localhost:5000/api/assessment/${editingRow._id}`, updatedData);
+
+      // Update only the specific row in the data list
+      const updatedDataList = data.map(item =>
+        item._id === editingRow._id 
+          ? { ...item, ...updatedData }
+          : item
       );
 
-      setData(updatedData);
-      setFilteredData(updatedData.filter(row =>
+      setData(updatedDataList);
+      setFilteredData(updatedDataList.filter(row =>
         row.studentId.toLowerCase().includes(searchTerm.toLowerCase())
       ));
-      setEditingRow(null);
-      setError('');
+      handleCloseModal();
     } catch (error) {
-      console.error('Error updating assessment:', error);
-      setError('Failed to update the assessment.');
+      setError('Error updating assessment data.');
+      console.error('Error updating assessment data:', error);
     }
-  };
-
-  const handleCloseModal = () => {
-    setEditingRow(null);
-    setError('');
   };
 
   return (
@@ -128,7 +124,7 @@ function Assessment() {
               type="text" 
               placeholder='Search by ID' 
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={handleSearchChange}
             />
             <i className='bx bx-search-alt' id='search-icon'></i>
           </div>
@@ -152,27 +148,17 @@ function Assessment() {
                       <td>{index + 1}</td>
                       <td>{row.studentName}</td>
                       <td>{row.studentId}</td>
-                      <td>{formatDateToDisplay(row.Date)}</td>
+                      <td>{formatDate(row.Date)}</td>
                       <td>{row.assessmentType}</td>
                       <td>{row.score}</td>
                       <td>
                         <button className='edit-btn' onClick={() => handleEditClick(row)}>Edit</button>
-                        {editingRow && editingRow._id === row._id && (
-                          <EditAssessmentForm
-                            isOpen={true}
-                            onClose={handleCloseModal}
-                            formData={formData}
-                            onInputChange={handleInputChange}
-                            onConfirmClick={handleConfirmClick}
-                            error={error}
-                          />
-                        )}
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="7" style={{ textAlign: 'center' }}>No match found</td>
+                    <td colSpan="7" className="no-match">No match found</td>
                   </tr>
                 )}
               </tbody>
@@ -180,6 +166,17 @@ function Assessment() {
           </div>
         </div>
       </NavBar>
+
+      {editingRow && (
+        <EditAssessmentForm
+          isOpen={true}
+          onClose={handleCloseModal}
+          formData={formData}
+          setFormData={setFormData}
+          onConfirmClick={handleConfirmClick}
+          error={error}
+        />
+      )}
     </div>
   );
 }

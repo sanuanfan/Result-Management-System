@@ -95,35 +95,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
   }
 });
 
-router.post('/upload', upload.single('file'), async (req, res) => {
-  const filePath = req.file.path;
-  const fileExtension = path.extname(req.file.originalname).toLowerCase();
-  let csvFilePath = filePath;
 
-  try {
-    // Check if the file is an Excel file (based on extension)
-    if (['.xls', '.xlsx'].includes(fileExtension)) {
-      // Convert Excel to CSV
-      csvFilePath = await excelToCsv(filePath);
-    }
-
-    // Convert CSV to JSON
-    const records = await csvtojson().fromFile(csvFilePath);
-
-    // Process and merge/skip duplicates
-    await processLinkedInRecords(records);
-
-    res.status(200).json({ message: 'File uploaded and data processed successfully' });
-
-  } catch (err) {
-    res.status(500).json({ message: 'Error processing file', error: err });
-  } finally {
-    fs.unlinkSync(filePath); // Delete the uploaded file
-    if (csvFilePath !== filePath) {
-      fs.unlinkSync(csvFilePath); // Delete the temporary CSV file
-    }
-  }
-});
 
 // GET route to fetch all LinkedIn data
 router.get('/', async (req, res) => {

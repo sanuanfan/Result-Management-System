@@ -9,6 +9,7 @@ const router = express.Router();
 
 const upload = multer({ dest: 'uploads/' });
 
+// Utility function to convert Excel to CSV
 const excelToCsv = (filePath) => {
     return new Promise((resolve, reject) => {
         try {
@@ -20,7 +21,6 @@ const excelToCsv = (filePath) => {
             const csvFilePath = `${filePath}.csv`;
             fs.writeFileSync(csvFilePath, csvData);
             resolve(csvFilePath);
-
         } catch (error) {
             console.error('Error converting Excel to CSV:', error); // Log the error
             reject(error);
@@ -28,31 +28,42 @@ const excelToCsv = (filePath) => {
     });
 };
 
+// Function to process and merge/skip duplicates
 const processRecords = async (records) => {
+    let mismatchFlag = false;
     for (const record of records) {
         const { studentName, studentId, Date, assessmentType, score } = record;
 
-        try {
-            const existingRecord = await assessmentModel.findOne({
-                studentName,
-                studentId,
-                Date,
-                assessmentType
-            });
+        // Find existing record with the same studentId
+        const existingRecordWithSameId = await assessmentModel.findOne({ studentId });
 
-            if (existingRecord) {
-                await assessmentModel.updateOne(
-                    { studentName, studentId, Date, assessmentType },
-                    { $set: { score: score } }
-                );
-            } else {
-                await assessmentModel.create(record);
-            }
-        } catch (error) {
-            console.error('Error processing record:', record, error); // Log each error
-            throw error; // Re-throw to be caught by the route handler
+        // If a record with the same studentId exists but the names don't match, raise an alert
+        if (existingRecordWithSameId && existingRecordWithSameId.studentName !== studentName) {
+            console.log(`Mismatch for studentId: ${studentId}. Name in records: ${existingRecordWithSameId.studentName}, Name in upload: ${studentName}`);
+            mismatchFlag = true; // Set the mismatch flag
+            continue;
+        }
+
+        // Find if there's an existing record with the same studentId, studentName, Date, and assessmentType
+        const existingRecord = await assessmentModel.findOne({
+            studentId,
+            studentName,
+            Date,
+            assessmentType
+        });
+
+        if (existingRecord) {
+            // Update the existing record (merge)
+            await assessmentModel.updateOne(
+                { studentId, studentName, Date, assessmentType },
+                { $set: { score } }
+            );
+        } else {
+            // Insert new record
+            await assessmentModel.create(record);
         }
     }
+    return mismatchFlag;
 };
 
 router.post('/upload', upload.single('file'), async (req, res) => {
@@ -71,9 +82,10 @@ router.post('/upload', upload.single('file'), async (req, res) => {
         const records = await csvtojson().fromFile(csvFilePath);
 
         // Process and merge/skip duplicates
-        await processRecords(records);
+        const mismatchFlag = await processRecords(records);
 
-        res.status(200).json({ message: 'File uploaded and data processed successfully' });
+        // Send a successful response
+        res.status(200).json({ message: 'File uploaded and data processed successfully', mismatch: mismatchFlag });
 
     } catch (err) {
         console.error('Error processing file:', err); // Log the error

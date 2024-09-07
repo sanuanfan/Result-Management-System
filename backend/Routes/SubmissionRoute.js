@@ -29,28 +29,71 @@ const excelToCsv = (filePath) =>{
 
 
 //Check for Existing Records
-const processRecords = async (records) =>{
-    for(const record of records){
-        const { studentName, studentId, projectTitle, submitDate, marks, comments } = record;
+// const processRecords = async (records) =>{
+//     for(const record of records){
+//         const { studentName, studentId, projectTitle, submitDate, marks, comments } = record;
 
-        const existingRecord = await submissionModel.findOne({
-            studentName,
-            studentId,
-            projectTitle,
+//         const existingRecord = await submissionModel.findOne({
+//             studentName,
+//             studentId,
+//             projectTitle,
            
-        });
+//         });
 
-        if(existingRecord){
-            await submissionModel.updateOne(
-                {studentName, studentId, projectTitle},
-                {$set:{marks:marks, comments:comments,submitDate:submitDate}}
+//         if(existingRecord){
+//             await submissionModel.updateOne(
+//                 {studentName, studentId, projectTitle},
+//                 {$set:{marks:marks, comments:comments,submitDate:submitDate}}
                 
-            );
-        }else{
-            await submissionModel.create(record);
-        }
+//             );
+//         }else{
+//             await submissionModel.create(record);
+//         }
+//     }
+// };
+
+
+
+// Function to process and merge/skip duplicates
+const processRecords = async (records) => {
+    let mismatchFlag = false;
+    for (const record of records) {
+        const { studentName, studentId, projectTitle, submitDate, marks, comments } = record;  
+      // Find existing record with the same studentId
+      const existingRecordWithSameId = await submissionModel.findOne({ studentId });
+  
+      // If a record with the same studentId exists but the names don't match, raise an alert
+      if (existingRecordWithSameId && existingRecordWithSameId.studentName !== studentName) {
+        console.log(`Mismatch for studentId: ${studentId}. Name in records: ${existingRecordWithSameId.studentName}, Name in upload: ${studentName}`);
+        // throw new Error(`Mismatch for studentId: ${studentId}. Expected name: ${existingRecordWithSameId.studentName}, but got: ${studentName}`);
+        mismatchFlag = true; // Set the mismatch flag
+        continue;
+      }
+  
+      // Find if there's an existing record with the same studentId, studentName, and projectTitle
+      const existingRecord = await submissionModel.findOne({
+        studentId,
+        studentName,
+        projectTitle
+      });
+  
+      if (existingRecord) {
+        // Update the existing record (merge)
+        await submissionModel.updateOne(
+          { studentId, studentName, projectTitle },
+          { $set: { marks, comments,  submitDate } }
+        );
+      } else {
+        // Insert new record
+        await submissionModel.create(record);
+      }
     }
-};
+    return mismatchFlag;
+  };
+  
+
+
+
 
 
 router.post('/upload', upload.single('file'), async (req, res) => {
@@ -69,9 +112,9 @@ router.post('/upload', upload.single('file'), async (req, res) => {
         const records = await csvtojson().fromFile(csvFilePath);
 
         // Process and merge/skip duplicates
-        await processRecords(records);
+       const mismatchFlag = await processRecords(records);
 
-        res.status(200).json({ message: 'File uploaded and data processed successfully' });
+        res.status(200).json({ message: 'File uploaded and data processed successfully',mismatch: mismatchFlag   });
 
     } catch (err) {
         res.status(500).json({ message: 'Error processing file', error: err });
