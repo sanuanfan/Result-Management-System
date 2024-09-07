@@ -31,8 +31,23 @@ const excelToCsv = (filePath) => {
 // Function to process and merge/skip duplicates
 const processLinkedInRecords = async (records) => {
   let mismatchFlag = false;
+
   for (const record of records) {
     const { studentName, studentId, projectTitle, postDate, postScore, linkedInLink, remarks } = record;
+
+    // Parse the postDate and adjust it to IST
+    const dateObject = new Date(postDate);
+
+    // Converting the time to Indian Standard Time (IST)
+    const offsetIST = 330; // IST is UTC +5:30
+    const ISTDate = new Date(dateObject.getTime() + (offsetIST * 60 * 1000));
+
+    // Format the date in dd-mm-yyyy (for logging/display purposes)
+    const formattedPostDate = `${ISTDate.getDate().toString().padStart(2, '0')}-${(ISTDate.getMonth() + 1).toString().padStart(2, '0')}-${ISTDate.getFullYear()}`;
+    
+    // Log the original and formatted postDate for debugging
+    console.log(`Original postDate: ${postDate}`);
+    console.log(`Formatted Post Date in IST (dd-mm-yyyy): ${formattedPostDate}`);
 
     // Find existing record with the same studentId
     const existingRecordWithSameId = await linkedInModel.findOne({ studentId });
@@ -40,7 +55,6 @@ const processLinkedInRecords = async (records) => {
     // If a record with the same studentId exists but the names don't match, raise an alert
     if (existingRecordWithSameId && existingRecordWithSameId.studentName !== studentName) {
       console.log(`Mismatch for studentId: ${studentId}. Name in records: ${existingRecordWithSameId.studentName}, Name in upload: ${studentName}`);
-      // throw new Error(`Mismatch for studentId: ${studentId}. Expected name: ${existingRecordWithSameId.studentName}, but got: ${studentName}`);
       mismatchFlag = true; // Set the mismatch flag
       continue;
     }
@@ -53,18 +67,30 @@ const processLinkedInRecords = async (records) => {
     });
 
     if (existingRecord) {
-      // Update the existing record (merge)
+      // Update the existing record (merge) and store the ISTDate (as a Date object)
       await linkedInModel.updateOne(
         { studentId, studentName, projectTitle },
-        { $set: { postDate, postScore, linkedInLink, remarks } }
+        { $set: { postDate: ISTDate, postScore, linkedInLink, remarks } }  // Use ISTDate, not formattedPostDate
       );
     } else {
-      // Insert new record
-      await linkedInModel.create(record);
+      // Insert new record and store the ISTDate (as a Date object)
+      await linkedInModel.create({
+        studentName,
+        studentId,
+        projectTitle,
+        postDate: ISTDate,  // Store the ISTDate (Date object), not the formatted string
+        postScore,
+        linkedInLink,
+        remarks
+      });
     }
   }
+
   return mismatchFlag;
 };
+
+
+
 
 router.post('/upload', upload.single('file'), async (req, res) => {
   const filePath = req.file.path;

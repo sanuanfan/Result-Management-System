@@ -54,7 +54,7 @@ function LinkedIn() {
       studentName: row.studentName,
       studentId: row.studentId,
       projectTitle: row.projectTitle,
-      postDate: new Date(row.postDate).toISOString().split('T')[0], // Convert to yyyy-MM-dd
+      postDate: row.postDate, // Convert to yyyy-MM-dd
       postScore: row.postScore,
       linkedInLink: row.linkedInLink,
       remarks: row.remarks

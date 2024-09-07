@@ -31,8 +31,23 @@ const excelToCsv = (filePath) => {
 // Function to process and merge/skip duplicates
 const processRecords = async (records) => {
     let mismatchFlag = false;
+
     for (const record of records) {
-        const { studentName, studentId, Date, assessmentType, score } = record;
+        const { studentName, studentId, Date: originalDate, assessmentType, score } = record;
+
+        // Parse the Date and adjust it to IST
+        const dateObject = new Date(originalDate);
+
+        // Converting the time to Indian Standard Time (IST)
+        const offsetIST = 330; // IST is UTC +5:30
+        const ISTDate = new Date(dateObject.getTime() + (offsetIST * 60 * 1000));
+
+        // Format the date in dd-mm-yyyy (for logging/display purposes)
+        const formattedDate = `${ISTDate.getDate().toString().padStart(2, '0')}-${(ISTDate.getMonth() + 1).toString().padStart(2, '0')}-${ISTDate.getFullYear()}`;
+        
+        // Log the original and formatted Date for debugging
+        console.log(`Original Date: ${originalDate}`);
+        console.log(`Formatted Date in IST (dd-mm-yyyy): ${formattedDate}`);
 
         // Find existing record with the same studentId
         const existingRecordWithSameId = await assessmentModel.findOne({ studentId });
@@ -44,27 +59,35 @@ const processRecords = async (records) => {
             continue;
         }
 
-        // Find if there's an existing record with the same studentId, studentName, Date, and assessmentType
+        // Find if there's an existing record with the same studentId, studentName, ISTDate, and assessmentType
         const existingRecord = await assessmentModel.findOne({
             studentId,
             studentName,
-            Date,
+            Date: ISTDate,
             assessmentType
         });
 
         if (existingRecord) {
             // Update the existing record (merge)
             await assessmentModel.updateOne(
-                { studentId, studentName, Date, assessmentType },
+                { studentId, studentName, Date: ISTDate, assessmentType },
                 { $set: { score } }
             );
         } else {
-            // Insert new record
-            await assessmentModel.create(record);
+            // Insert new record with the IST date
+            await assessmentModel.create({
+                studentName,
+                studentId,
+                Date: ISTDate, // Store the IST date
+                assessmentType,
+                score
+            });
         }
     }
+
     return mismatchFlag;
 };
+
 
 router.post('/upload', upload.single('file'), async (req, res) => {
     const filePath = req.file.path;
