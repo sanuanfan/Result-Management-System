@@ -9,7 +9,8 @@ const attendanceRoutes = require('./Routes/AttendanceRoute');
 const linkedInRoutes = require('./Routes/LinkedInRoutes')
 const reviewedRoutes = require('./Routes/ReviewRoutes')
 const assessmentRoutes = require('./Routes/AssessmentRoute');
-const submissionRoutes = require('./Routes/SubmissionRoute')
+const submissionRoutes = require('./Routes/SubmissionRoute');
+const totalMarksRoute = require('./Routes/TotalMarksRoutes')
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use('/api/linkedin',linkedInRoutes);
 app.use('/api/review',reviewedRoutes)
 app.use('/api/assessment',assessmentRoutes );
 app.use('/api/submission',submissionRoutes);
+app.use('/api/total',totalMarksRoute);
 
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
