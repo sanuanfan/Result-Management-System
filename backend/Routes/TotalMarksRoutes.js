@@ -11,118 +11,108 @@ const LinkedIn = require('../model/LinkedInModel');
 
 // Function to calculate and store total marks for a student
 async function calculateAndStoreTotalMarks(studentId) {
-    console.log('Hello......');
 
 
     try {
-        // 1. Fetch the student's domain name from the Students collection
-        const student = await Student.findOne({ studentId });
-        if (!student) {
-            return { success: false, message: 'Student not found' };
-        }
-
-        
-
-        const domainName = student.domainName;
-
-        const attendanceRecords = await Attendance.find({ studentId });
-        const totalWorkingDays = attendanceRecords.length;
-        const presentDays = attendanceRecords.filter(record => record.status === 'Present').length;
-
-        if (totalWorkingDays === 0) {
-            // Handle case where there are no attendance records
-            return { success: false, message: 'No attendance records found' };
-        }
-
-        const attendancePercentage = (presentDays / totalWorkingDays) * 100;
-        const totalAttendanceMarks = attendancePercentage;
-
-        // 2. Calculate total and average marks from Submission records
-        // const attendanceRecords = await Attendance.find({ studentId });
-        const projectReviewRecords = await ProjectReview.find({ studentId });
-        const assessmentRecords = await Assessment.find({ studentId });
-        const submissionRecords = await Submission.find({ studentId });
-        const linkedinRecords = await LinkedIn.find({ studentId });
-
-        // const totalAttendanceMarks = attendanceRecords.reduce((total, record) => total + record.marks, 0);
-
-        // Assessment Marks - Sum all assessment marks and calculate the average
-        const totalAssessmentMarks = assessmentRecords.reduce((total, record) => total + record.marks, 0);
-        const avgAssessmentMarks = assessmentRecords.length > 0 ? totalAssessmentMarks / assessmentRecords.length : 0;
-        
-
-        // Project Review Marks - Sum all project review marks and calculate the average
-        const totalProjectReviewMarks = projectReviewRecords.reduce((total, record) => total + record.marks, 0);
-        const avgProjectReviewMarks = projectReviewRecords.length > 0 ? totalProjectReviewMarks / projectReviewRecords.length : 0;
-
-        // Submission Marks - Sum all submission marks and calculate the average
-        const totalSubmissionMarks = submissionRecords.reduce((total, record) => total + record.marks, 0);
-        const avgSubmissionMarks = submissionRecords.length > 0 ? totalSubmissionMarks / submissionRecords.length : 0;
-
-        // LinkedIn Marks - Sum all LinkedIn marks and calculate the average
-        const totalLinkedInMarks = linkedinRecords.reduce((total, record) => total + record.marks, 0);
-        const avgLinkedInMarks = linkedinRecords.length > 0 ? totalLinkedInMarks / linkedinRecords.length : 0;
-
-        // Total Project mark is total average of review, submission and linkedin Marks
-
-        const totalProjectMarks= (avgLinkedInMarks + avgSubmissionMarks + avgProjectReviewMarks)/3;
-    
-        // 3. Calculate the final total marks
-        const totalMarks = totalAttendanceMarks +  avgAssessmentMarks + totalProjectMarks;
-        console.log(studentId,domainName, totalMarks, totalAttendanceMarks, totalProjectMarks,totalAssessmentMarks);
 
 
-        // 4. Store the calculated marks along with the domain name in the TotalMarks collection
-        const existingRecord = await TotalMarks.findOne({ studentId });
-        if (existingRecord) {
-            // Update existing record
-            existingRecord.domainName = domainName;
-            existingRecord.totalAttendanceMarks = totalAttendanceMarks;
-            existingRecord.totalAssessmentMarks = avgAssessmentMarks;
-            existingRecord.totalProjectMarks = totalProjectMarks;
-            existingRecord.totalMarks = totalMarks;
-            await existingRecord.save();
-        } else {
-            // Create a new record
-            const newTotalMarks = new TotalMarks({
-                studentId,
-                domainName, // Store the domain name here
-                totalAssessmentMarks: avgAssessmentMarks,
-                totalAttendanceMarks,
-                totalProjectMarks,
-                totalMarks
-            });
-            await newTotalMarks.save();
-
+        const result = await Assessment.aggregate([
+            {
+              $group: {
+                _id: "$studentId", // Group by studentId
+                averageScore: { $avg: "$score" }, // Calculate average score
+                studentName: { $first: "$studentName" } // Include studentName
+              }
+            },
+            {
+              $project: {
+                _id: 0, // Exclude the `_id` field
+                studentId: "$_id", // Renaming the `_id` to studentId
+                studentName: 1,
+                averageScore: 1
+              }
+            }
+          ]);
+      
+        const attendanceResult = await Attendance.aggregate([{
+            $limit:1
             
+        }])
+        if (attendanceResult.length > 0) {
+            const studentId = attendanceResult[0].studentId; // Extract the studentId from the result
+            
+            const allRecordsForStudent = await Attendance.aggregate([
+                {
+                    $match: {
+                        studentId: studentId // Use the extracted studentId to find all related records
+                    }
+                }
+            ]);
+        
+            console.log(allRecordsForStudent.length);
+
+            const RecordsForStudent = await Attendance.aggregate([
+                {
+                  $group: {
+                    _id: "$studentId",
+                    presentCount: {
+                      $sum: {
+                        $cond: [{ $eq: ["$status", "Present"] }, 1, 0]
+                      }
+                    }
+                  }
+                },
+                {
+                  $project: {
+                    _id: 0, // Exclude the _id field if you don't want it in the result
+                    studentId: "$_id",
+                    presentPercentage: { 
+                      $multiply: [
+                        { $divide: ["$presentCount", allRecordsForStudent.length] },
+                        100
+                      ]
+                    } // Calculate (presentCount / 3) * 100
+                  }
+                }
+              ]);
+              
+
+            console.log(RecordsForStudent);
+            
+
+
+        } else {
+            console.log("No records found");
         }
+          
 
 
-        return { success: true, message: 'Marks calculated and stored successfully' };
+          
+  
     } catch (error) {
-        console.error('Error calculating and storing marks:', error);
-        return { success: false, message: 'Error calculating and storing marks' };
+    console.log(error);
+    
     }
 }
 
 // code to store the calculated scores in the Database
 
-router.post('/calculate-total/:studentId', async (req, res) => {
-    const { studentId } = req.params;
+router.get('/calculate-total', async (req, res) => {
+    // const { studentId } = req.params;
 
     console.log('Hello......');
     
 
-    const result = await calculateAndStoreTotalMarks(studentId);
+    const result = await calculateAndStoreTotalMarks();
 
-    console.log(calculateAndStoreTotalMarks(result.studentId));
+    // console.log(calculateAndStoreTotalMarks(result.studentId));
     
 
-    if (result.success) {
-        return res.status(200).json({ message: result.message });
-    } else {
-        return res.status(500).json({ message: result.message });
-    }
+    // if (result.success) {
+    //     return res.status(200).json({ message: result.message });
+    // } else {
+    //     return res.status(500).json({ message: result.message });
+    // }
 });
 
 

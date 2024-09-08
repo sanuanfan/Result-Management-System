@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import NavBar from '../Navbar';
 import '../AdminDashboard/AdminDashboard.css';
+import axios from 'axios';
 
 function AdminDashboard() {
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("Hello...");
+        
+        const response = await axios.get('http://localhost:5000/api/total/calculate-total');
+        // setData(response.data);
+        // setFilteredData(response.data); // Initialize filtered data
+      } catch (err) {
+        console.error('Error fetching LinkedIn data:', err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div>
       <NavBar activeSection="dashboard">
