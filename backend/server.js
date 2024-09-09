@@ -11,7 +11,7 @@ const reviewedRoutes = require('./Routes/ReviewRoutes')
 const assessmentRoutes = require('./Routes/AssessmentRoute');
 const submissionRoutes = require('./Routes/SubmissionRoute');
 const totalMarksRoute = require('./Routes/TotalMarksRoutes')
-
+const studentRoutes = require('./Routes/StudentRoute')
 dotenv.config();
 
 const app = express();
@@ -27,6 +27,8 @@ app.use('/api/review',reviewedRoutes)
 app.use('/api/assessment',assessmentRoutes );
 app.use('/api/submission',submissionRoutes);
 app.use('/api/total',totalMarksRoute);
+app.use('/api/student',studentRoutes);
+
 
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;

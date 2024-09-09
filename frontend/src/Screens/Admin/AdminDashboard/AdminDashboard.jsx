@@ -1,9 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavBar from '../Navbar';
 import '../AdminDashboard/AdminDashboard.css';
 import axios from 'axios';
+import StudentUpload from './StudentUpload';
 
 function AdminDashboard() {
+  const [students, setStudents] = useState([]);
+  const [filteredStudents, setFilteredStudents] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,19 +26,57 @@ function AdminDashboard() {
     fetchData();
   }, []);
 
+
+
+  // Fetch dashboard data to the table
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/total');
+        setStudents(response.data);
+        setFilteredStudents(response.data); // Initialize filtered data
+      } catch (error) {
+        console.error('Error fetching attendance data:', error);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
+
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    // Filter the students based on the search term
+    const filtered = students.filter(student =>
+      student.studentId.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredStudents(filtered);
+  };
+
+
   return (
     <div>
       <NavBar activeSection="dashboard">
+        <StudentUpload />
         <div className="main-div">
           <p>List Of Students</p>
           <div className='search-bar'>
-            <input type="text" placeholder='Search by ID' name='studentId'/>
+          <input
+            type="text"
+            placeholder='Search by ID'
+            name='studentId'
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
             <i className='bx bx-search-alt' id='search-icon'></i>
           </div>
           <div className="tab">
             <table className="student-table">
               <thead>
                 <tr>
+                  <th>Sl No</th>
                   <th>Student Name</th>
                   <th>Student ID</th>
                   <th>Domain Name</th>
@@ -44,103 +87,24 @@ function AdminDashboard() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>John Doe</td>
-                  <td>1011</td>
-                  <td>Web Development</td>
-                  <td>90%</td>
-                  <td>90</td>
-                  <td>95</td>
-                  <td>550</td>
+                {filteredStudents.length>0 ?(
+                  filteredStudents.map((student,index)=>(
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{student.studentName}</td>
+                  <td>{student.studentId}</td>
+                  <td>{student.domainName}</td>
+                  <td>{student.totalAttendanceMarks}</td>
+                  <td>{student.totalAssessmentMarks}</td>
+                  <td>{student.totalProjectMarks}</td>
+                  <td>{student.totalMarks}</td>
                 </tr>
-                <tr>
-                  <td>Jane Smith</td>
-                  <td>1012</td>
-                  <td>Data Science</td>
-                  <td>95%</td>
-                  <td>90</td>
-                  <td>95</td>
-                  <td>620</td>
-                </tr>
-                <tr>
-                  <td>Michael Johnson</td>
-                  <td>1013</td>
-                  <td>Mobile App Development</td>
-                  <td>85%</td>
-                  <td>90</td>
-                  <td>95</td>
-                  <td>480</td>
-                </tr><tr>
-                  <td>Michael Johnson</td>
-                  <td>1013</td>
-                  <td>Mobile App Development</td>
-                  <td>85%</td>
-                  <td>90</td>
-                  <td>95</td>
-                  <td>480</td>
-                </tr><tr>
-                  <td>Michael Johnson</td>
-                  <td>1013</td>
-                  <td>Mobile App Development</td>
-                  <td>85%</td>
-                  <td>90</td>
-                  <td>95</td>
-                  <td>480</td>
-                </tr>
-                <tr>
-                  <td>Emily Davis</td>
-                  <td>1014</td>
-                  <td>AI & Machine Learning</td>
-                  <td>92%</td>
-                  <td>90</td>
-                  <td>95</td>
-                  <td>610</td>
-                </tr>
-                <tr>
-                  <td>William Brown</td>
-                  <td>1015</td>
-                  <td>Cloud Computing</td>
-                  <td>88%</td>
-                  <td>90</td>
-                  <td>95</td>
-                  <td>570</td>
-                </tr>
-                <tr>
-                  <td>Linda Wilson</td>
-                  <td>1016</td>
-                  <td>Cybersecurity</td>
-                  <td>93%</td>
-                  <td>90</td>
-                  <td>95</td>
-                  <td>590</td>
-                </tr>
-                <tr>
-                  <td>James Miller</td>
-                  <td>1017</td>
-                  <td>DevOps</td>
-                  <td>87%</td>
-                  <td>90</td>
-                  <td>95</td>
-                  <td>530</td>
-                </tr>
-                <tr>
-                  <td>Olivia Taylor</td>
-                  <td>1018</td>
-                  <td>Blockchain</td>
-                  <td>91%</td>
-                  <td>90</td>
-                  <td>95</td>
-                  <td>600</td>
-                </tr>
-                <tr>
-                  <td>Jane Smith</td>
-                  <td>1012</td>
-                  <td>Data Science</td>
-                  <td>95%</td>
-                  <td>90</td>
-                  <td>95</td>
-                  <td>620</td>
-                </tr>
+                  ))
+                   ):(
+                    <tr>
+                    <td colSpan="6" className="no-match">No match found</td>
+                  </tr>
+                   ) }
               </tbody>
             </table>
           </div>
