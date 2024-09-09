@@ -95,10 +95,8 @@ async function calculateAndStoreTotalMarks(studentId) {
     }
 }
 
-// code to store the calculated scores in the Database
 
 router.get('/calculate-total', async (req, res) => {
-    // const { studentId } = req.params;
 
     console.log('Hello......');
     
