@@ -173,7 +173,7 @@ function HomeStudent() {
           )}
 
           <div className="table-container">
-            <div className="table-left">
+            {/* <div className="table-left"> */}
               <table className="result-table">
                 <thead>
                   <tr>
@@ -218,10 +218,9 @@ function HomeStudent() {
                   })}
                 </tbody>
               </table>
-            </div>
+            {/* </div> */}
           </div>
 
-          <div className="review"></div>
           <div className="mark">
             <h3>Grand Total: {grandTotal}</h3>
           </div>

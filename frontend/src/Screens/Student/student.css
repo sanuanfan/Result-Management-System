@@ -117,7 +117,7 @@ h3 {
     color: white;
     font-size: 20px;
     font-weight: 300;
-    width: 50%;
+    width: 100%;
     display: block;
     margin-left: 10px;
 }
@@ -128,7 +128,13 @@ h3 {
     display: flex;
     align-items: center;
     font-family: 'Lato', sans-serif;
+    width: 80%;
+    overflow-y: scroll;
+    overflow-x: scroll;
 
+}
+.table-container::-webkit-scrollbar{
+    display: none;
 }
 
 .table-container h3 {
@@ -170,7 +176,7 @@ h3 {
 
 .details-student{
     /* background-color: #e75f20; */
-    width: 30%;
+    width: 100%;
     margin-top: 20px;
    
 }
