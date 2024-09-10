@@ -6,6 +6,10 @@ const totalMarksSchema = new mongoose.Schema({
     domainName: { type: String, required: true },
     totalAttendanceMarks: { type: Number, required: true },
     totalAssessmentMarks: { type: Number, required: true },
+    totalReview: { type: Number, required: true },
+    totalSubmission: { type: Number, required: true },
+    totalLinkedin: { type: Number, required: true },
+
     totalProjectMarks: { type: Number, required: true },
     totalMarks: { type: Number, required: true }
 });

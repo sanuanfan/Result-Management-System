@@ -168,6 +168,22 @@ h3 {
     color: #c9c8c8;
 }
 
+.details-student{
+    /* background-color: #e75f20; */
+    width: 30%;
+    margin-top: 20px;
+   
+}
+.details-student p{
+    font-size: 16px;
+    font-family: 'Lato', sans-serif;
+    margin:9px;
+    margin-left: 0;
+
+}
+
+
+
 @media only screen and (max-width:780px) {
 
     .mini-container {

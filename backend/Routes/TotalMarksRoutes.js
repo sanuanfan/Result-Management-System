@@ -164,6 +164,12 @@ async function calculateAndStoreTotalMarks() {
             const attendance = attendanceMap[studentId] || { presentPercentage: 0 };
             const assessment = resultAssessment.find(a => a.studentId === studentId) || { averageScore: 0 };
             const projectScore = (projectScores.find(p => p.studentId === studentId) || { projectScore: 0 }).projectScore;
+            const review = resultReview.find(a => a.studentId === studentId) || { averageScore: 0 };
+            const submission = resultSubmission.find(a => a.studentId === studentId) || { averageScore: 0 };
+            const linkedin = resultLinkedin.find(a => a.studentId === studentId) || { averageScore: 0 };
+
+
+
 
             const totalMarks = {
                 studentName: studentName,
@@ -172,6 +178,9 @@ async function calculateAndStoreTotalMarks() {
                 totalAttendanceMarks: parseFloat(attendance.presentPercentage.toFixed(1)),
                 totalAssessmentMarks: parseFloat(assessment.averageScore.toFixed(1)),
                 totalProjectMarks: parseFloat(projectScore.toFixed(1)),
+                totalReview: parseFloat(review.averageScore.toFixed(1)),
+                totalSubmission: parseFloat(submission.averageScore.toFixed(1)),
+                totalLinkedin: parseFloat(linkedin.averageScore.toFixed(1)),
                 totalMarks: parseFloat(((attendance.presentPercentage + assessment.averageScore + projectScore)/3).toFixed(1))
             };
 
@@ -203,5 +212,26 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Error fetching attendance data', error });
   }
 });
+
+router.get('/search/:studentId',async (req,res)=>{
+    try{
+        const student = await TotalMarks.findOne({studentId :req.params.studentId})
+        if(student){
+            console.log('Fetched Student:', student);
+            res.json(student)
+            
+            
+        }else{
+            res.status(404).json({ message: 'student not found' });
+
+        }
+    }catch(error){
+
+    }
+})
+
+
+
+
 
 module.exports = router;
