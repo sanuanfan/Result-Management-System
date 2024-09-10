@@ -89,3 +89,14 @@
     background: linear-gradient(70deg, #ff5151, rgb(255, 0, 0));
     cursor: pointer;
 }
+
+@media only screen and (max-width: 600px) {
+    .left-container{
+        display: none;
+    }
+    .right-container{
+        width: 100%;
+        padding: 20px;
+    }
+    
+}
