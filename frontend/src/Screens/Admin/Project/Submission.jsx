@@ -35,7 +35,7 @@ function Submission() {
   useEffect(() => {
     const fetchSubmissionData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/submission');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/submission`);
         setData(response.data);
         setFilteredData(response.data); // Initialize filtered data
       } catch (error) {
@@ -99,7 +99,7 @@ function Submission() {
       };
 
       // PUT request to update the specific record
-      await axios.put(`http://localhost:5000/api/submission/${editingRow._id}`, updatedData);
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/submission/${editingRow._id}`, updatedData);
 
       // Update only the specific row in the data list
       const updatedDataList = data.map((item) =>

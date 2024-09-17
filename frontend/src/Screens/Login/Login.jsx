@@ -10,7 +10,7 @@ function Login() {
     e.preventDefault();
     try {
       console.log(username, password);
-      const res = await axios.post('http://localhost:5000/login', { username, password });
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/login`, { username, password });
 
       if (res.data.message === 'success') {
         window.location.href = '/admin/home';

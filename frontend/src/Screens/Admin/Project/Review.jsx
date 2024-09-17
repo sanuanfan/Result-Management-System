@@ -23,7 +23,7 @@ function Review() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/review');
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/review`);
                 setData(response.data);
                 setFilteredData(response.data);
             } catch (err) {
@@ -83,7 +83,7 @@ function Review() {
                 remarks
             };
 
-            await axios.put(`http://localhost:5000/api/review/${editingRow._id}`, updatedData);
+            await axios.put(`${import.meta.env.VITE_API_URL}/api/review/${editingRow._id}`, updatedData);
 
             const updatedDataList = data.map(item =>
                 item._id === editingRow._id && item.projectName === formData.projectName

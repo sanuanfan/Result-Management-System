@@ -75,7 +75,7 @@ function NavBar({ children, activeSection }) {
 
         try {
             const username = 'Admin'; // You should replace this with the actual logged-in user's username.
-            const response = await axios.post('http://localhost:5000/change-password', {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/change-password`, {
                 username,
                 newPassword: formData.newPassword,
                 confirmPassword: formData.confirmPassword

@@ -33,7 +33,7 @@ function HomeStudent() {
 
   const fetchStudentData = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/total/search/${studentId}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/total/search/${studentId}`);
       const studentDetails = response.data;
 
       // Update studentData with the fetched details
