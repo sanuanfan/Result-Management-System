@@ -15,7 +15,7 @@ function Attendance() {
   useEffect(() => {
     const fetchAttendanceData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/attendances');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/attendances`);
         setStudents(response.data);
         setFilteredStudents(response.data); // Initialize filtered data
       } catch (error) {
@@ -40,7 +40,7 @@ function Attendance() {
 
     try {
       // Update the student status in the backend
-      await axios.put(`http://localhost:5000/api/attendances/${updatedStudent._id}`, { status });
+      await axios.put(`${import.meta.env.VITE_API_URL}/attendances/${updatedStudent._id}`, { status });
 
       // Update the students state
       const updatedStudents = students.map((student) =>

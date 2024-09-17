@@ -13,9 +13,7 @@ function AdminDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("Hello...");
-        
-        const response = await axios.get('http://localhost:5000/api/total/calculate-total');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/total/calculate-total`);
         // setData(response.data);
         // setFilteredData(response.data); // Initialize filtered data
       } catch (err) {
@@ -32,7 +30,7 @@ function AdminDashboard() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/total');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/total`);
         setStudents(response.data);
         setFilteredStudents(response.data); // Initialize filtered data
       } catch (error) {
