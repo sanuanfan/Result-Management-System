@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
-import './LinkedInUpload.css'; // Import the CSS file for styling
+import './LinkedinUpload.css'; // Import the CSS file for styling
 
 const LinkedInUpload = () => {
   const [showPopup, setShowPopup] = useState(false);
