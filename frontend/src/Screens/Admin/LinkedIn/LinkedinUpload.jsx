@@ -42,7 +42,7 @@ const LinkedInUpload = () => {
   
     try {
       // Send a POST request to the backend to upload the LinkedIn data file
-      const response = await axios.post('http://localhost:5000/api/linkedin/upload', formData, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/linkedin/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

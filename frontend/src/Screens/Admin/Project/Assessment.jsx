@@ -32,7 +32,7 @@ function Assessment() {
   useEffect(() => {
     const fetchAssessmentData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/assessment');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/assessment`);
         setData(response.data);
         setFilteredData(response.data);
       } catch (error) {
@@ -93,7 +93,7 @@ function Assessment() {
       };
 
       // PUT request to update the specific record
-      await axios.put(`http://localhost:5000/api/assessment/${editingRow._id}`, updatedData);
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/assessment/${editingRow._id}`, updatedData);
 
       // Update only the specific row in the data list
       const updatedDataList = data.map(item =>

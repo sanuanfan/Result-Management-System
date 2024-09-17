@@ -36,7 +36,7 @@ const AssessmentUpload = () => {
 
     try {
       // Send a POST request to the backend to upload the file
-      const response = await axios.post('http://localhost:5000/api/assessment/upload', formData, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/assessment/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

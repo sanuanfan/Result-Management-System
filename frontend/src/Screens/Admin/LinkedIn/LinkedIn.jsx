@@ -25,7 +25,7 @@ function LinkedIn() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/linkedin');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/linkedin`);
         setData(response.data);
         setFilteredData(response.data); // Initialize filtered data
       } catch (err) {
@@ -91,7 +91,7 @@ function LinkedIn() {
       };
   
       // PUT request to update the specific record
-      await axios.put(`http://localhost:5000/api/linkedin/${editingRow._id}`, updatedData);
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/linkedin/${editingRow._id}`, updatedData);
   
       // Update only the specific row in the data list
       const updatedDataList = data.map(item =>
