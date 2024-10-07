@@ -17,7 +17,7 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors({ origin: '*' })); // Adjust the origin for production to specific URLs
+app.use(cors({ origin: ["http://localhost:5173"] })); // Adjust the origin for production to specific URLs
 app.use(express.json());
 
 // Routes
