@@ -32,17 +32,20 @@ app.use('/api/student',studentRoutes);
 
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
+  console.log(req.body);
   console.log('Login data:', { username, password });
 
   try {
-    const user = await User.findOne({ username });
+    let user = await User.findOne({ username });
+    console.log("User data", user);
 
     if (!user) {
       console.log('User not found');
       return res.status(400).json({ message: 'User not found' });
     }
-
-    const match = await bcrypt.compare(password, user.password);
+let passwordString = password.toString()
+    const match = await bcrypt.compare(passwordString, user.password);
+    console.log("Match value",match)
     if (!match) {
       console.log('Incorrect password');
       return res.status(400).json({ message: 'Incorrect password' });
